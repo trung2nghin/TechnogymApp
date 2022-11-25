@@ -1,6 +1,6 @@
+import { StyleSheet, View, StatusBarProps, StatusBar } from 'react-native';
 import React, { FC, memo } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { View, StyleSheet, StatusBarProps, StatusBar } from 'react-native';
 
 import { Colors } from '@src/assets';
 
@@ -11,16 +11,6 @@ interface Props {
   bodyColor?: string;
   statusBarColor?: string;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  center: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 const Container: FC<Props & StatusBarProps> = ({
   children,
@@ -34,26 +24,28 @@ const Container: FC<Props & StatusBarProps> = ({
     <StatusBar
       translucent
       barStyle="light-content"
-      {...statusBarProps}
       backgroundColor={statusBarColor || Colors.black}
+      {...statusBarProps}
     />
-    <SafeAreaView
-      edges={['right', 'left', 'top']}
-      style={{ backgroundColor: statusBarColor || Colors.black }}>
-      {header}
-    </SafeAreaView>
-    <View
-      style={[
-        styles.container,
-        { backgroundColor: bodyColor || Colors.white },
-      ]}>
+    {header ? (
       <SafeAreaView
-        edges={header ? ['right', 'left'] : ['right', 'left', 'top']}
+        edges={['right', 'left', 'top']}
+        style={{ backgroundColor: statusBarColor || Colors.black }}>
+        {header}
+      </SafeAreaView>
+    ) : (
+      <></>
+    )}
+    <View style={[styles.container, { backgroundColor: bodyColor }]}>
+      <SafeAreaView
+        edges={header ? ['right', 'left'] : ['right', 'left']}
         style={styles.container}>
         {children}
       </SafeAreaView>
       {footer ? (
-        <SafeAreaView edges={['right', 'left', 'bottom']}>
+        <SafeAreaView
+          edges={['right', 'left', 'bottom']}
+          style={{ backgroundColor: statusBarColor || Colors.black }}>
           {footer}
         </SafeAreaView>
       ) : null}
@@ -62,3 +54,13 @@ const Container: FC<Props & StatusBarProps> = ({
 );
 
 export default memo<Props & StatusBarProps>(Container);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  center: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
