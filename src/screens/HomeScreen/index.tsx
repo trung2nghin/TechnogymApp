@@ -116,7 +116,7 @@ const HomeScreen: FC<HomeStackNavigationProp> = ({ navigation }) => {
 
   return (
     <Container bodyColor="#FFFFFF">
-      <TouchableOpacity onPress={() => navigation.navigate('SIGNUP')}>
+      <TouchableOpacity>
         <SearchBar height={animatedHeaderHeight} />
       </TouchableOpacity>
       <StatusBar animated />

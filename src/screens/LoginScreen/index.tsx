@@ -1,15 +1,16 @@
 import React, { FC } from 'react';
-import { RootStackNavigationProp } from '@src/navigation/configs';
 import { StyleSheet, View, Text } from 'react-native';
-import { LoginButton } from '../components';
-import { Colors, Metrics } from '@src/assets';
-import { Clips } from '@src/assets';
-import Video from 'react-native-video';
 import LinearGradient from 'react-native-linear-gradient';
 import IoniconsIcons from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { LoginStackNavigationProp } from '@src/navigation/Stacks/login-stack';
+import Video from 'react-native-video';
 
-const LoginScreen: FC<RootStackNavigationProp> = ({ navigation }) => {
+import { LoginButton } from '../components';
+import { Colors, Metrics } from '@src/assets';
+import Clips from '@src/assets/Clips';
+
+const LoginScreen: FC<LoginStackNavigationProp> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Video
@@ -43,7 +44,7 @@ const LoginScreen: FC<RootStackNavigationProp> = ({ navigation }) => {
           navigation={navigation}
           disabled={false}
           icon={false}
-          direction={'LOGININPUT'}
+          direction={'LOGIN_INPUT'}
           loading={false}
         />
         <LoginButton
@@ -53,7 +54,7 @@ const LoginScreen: FC<RootStackNavigationProp> = ({ navigation }) => {
           navigation={navigation}
           disabled={false}
           icon={false}
-          direction={'REGISTERINPUT'}
+          direction={'REGISTER_INPUT'}
           loading={false}
         />
       </View>

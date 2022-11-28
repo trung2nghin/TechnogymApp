@@ -4,12 +4,11 @@ import {
   StackScreenProps,
 } from '@react-navigation/stack';
 
-import { HomeScreen, SignupScreen } from '@src/screens';
+import { HomeScreen } from '@src/screens';
 import { Button } from 'react-native';
 
 export type HomeStackParamList = {
   HOME: undefined;
-  SIGNUP: undefined;
 };
 
 export type HomeStackNavigationProp = StackScreenProps<HomeStackParamList>;
@@ -37,7 +36,6 @@ const HomeStack = () => (
         headerRight: () => <Button title="Inbox" />,
       }}
     />
-    <Stack.Screen component={SignupScreen} name={'SIGNUP'} />
   </Stack.Navigator>
 );
 
