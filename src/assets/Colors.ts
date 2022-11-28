@@ -1,5 +1,7 @@
 export default {
   black: '#000000',
+  transparentBlack: '#00000000',
+  greyBlack: '#00000020',
   neroGrey: '#262626',
   dimGray: '#666666',
   grey: '#808080',
@@ -12,4 +14,6 @@ export default {
   whiteSmoke01: '#F2F2F2',
   whiteSmoke: '#F1F1F1',
   white: '#FFFFFF',
+  red: '#F90004',
+  redTourch: '#F72727'
 };
