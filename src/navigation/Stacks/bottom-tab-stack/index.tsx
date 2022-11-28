@@ -2,17 +2,18 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Button, TouchableOpacity, View } from 'react-native';
+
 import {
   FavoriteScreen,
-  HomeScreen,
   ProfileScreen,
   ShoppingBagScreen,
   ShopScreen,
 } from '@src/screens';
+import HomeStack from '../home-stack';
+import { Colors } from '@src/assets';
 
 export type BottomTabStackParamList = {
-  HOME: undefined;
+  HOME_STACK: undefined;
   SHOP: undefined;
   FAVORITE: undefined;
   SHOPPING_BAG: undefined;
@@ -24,11 +25,111 @@ const Tab = createBottomTabNavigator<BottomTabStackParamList>();
 const BottomTabStack = () => {
   return (
     <Tab.Navigator>
-      <Tab.Screen component={HomeScreen} name="HOME" />
-      <Tab.Screen component={ShopScreen} name="SHOP" />
-      <Tab.Screen component={FavoriteScreen} name="FAVORITE" />
-      <Tab.Screen component={ShoppingBagScreen} name="SHOPPING_BAG" />
-      <Tab.Screen component={ProfileScreen} name="PROFILE" />
+      <Tab.Screen
+        component={HomeStack}
+        name="HOME_STACK"
+        options={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ focused, size }) => (
+            <>
+              {focused ? (
+                <Ionicons name="md-home" size={size} color={Colors.black} />
+              ) : (
+                <Ionicons
+                  name="md-home-outline"
+                  size={size}
+                  color={Colors.black}
+                />
+              )}
+            </>
+          ),
+        }}
+      />
+      <Tab.Screen
+        component={ShopScreen}
+        name="SHOP"
+        options={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ focused, size }) => (
+            <>
+              {focused ? (
+                <Ionicons name="md-search" size={size} color={Colors.black} />
+              ) : (
+                <Ionicons
+                  name="md-search-outline"
+                  size={size}
+                  color={Colors.black}
+                />
+              )}
+            </>
+          ),
+        }}
+      />
+      <Tab.Screen
+        component={FavoriteScreen}
+        name="FAVORITE"
+        options={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ focused, size }) => (
+            <>
+              {focused ? (
+                <Ionicons name="heart" size={size} color={Colors.black} />
+              ) : (
+                <Ionicons
+                  name="heart-outline"
+                  size={size}
+                  color={Colors.black}
+                />
+              )}
+            </>
+          ),
+        }}
+      />
+      <Tab.Screen
+        component={ShoppingBagScreen}
+        name="SHOPPING_BAG"
+        options={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ focused, size }) => (
+            <>
+              {focused ? (
+                <Ionicons name="cart" size={size} color={Colors.black} />
+              ) : (
+                <Ionicons
+                  name="cart-outline"
+                  size={size}
+                  color={Colors.black}
+                />
+              )}
+            </>
+          ),
+        }}
+      />
+      <Tab.Screen
+        component={ProfileScreen}
+        name="PROFILE"
+        options={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ focused, size }) => (
+            <>
+              {focused ? (
+                <Ionicons name="person" size={size} color={Colors.black} />
+              ) : (
+                <Ionicons
+                  name="person-outline"
+                  size={size}
+                  color={Colors.black}
+                />
+              )}
+            </>
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 };

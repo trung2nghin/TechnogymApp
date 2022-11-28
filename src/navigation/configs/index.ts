@@ -16,4 +16,3 @@ export type RootStackParamList = {
 
 export type RootStackNavigationProp = StackScreenProps<RootStackParamList>;
 
-// export type LoginStackNavigationProp = StackScreenProps<LoginStackParamList>;
