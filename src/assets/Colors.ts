@@ -15,5 +15,7 @@ export default {
   whiteSmoke: '#F1F1F1',
   white: '#FFFFFF',
   red: '#F90004',
-  redTourch: '#F72727'
+  redTourch: '#F72727',
+  gainsboro: '#DCDCDC',
+  mediumseagreen: '#3CB371',
 };

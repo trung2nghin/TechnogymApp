@@ -12,13 +12,12 @@ interface ButtonLoginProps {
   textContent: string;
   backgroundColor: string;
   textColor: string;
-  navigation: any; // meo biet de type la gi
   disabled: boolean;
   icon: boolean;
-  submit?: any; // function
   loading: boolean;
-  direction?: string;
   form?: boolean;
+  submit?: any; // type?
+  navigation?: any; // type?
 }
 
 const LoginButton: FC<ButtonLoginProps> = ({
@@ -28,13 +27,12 @@ const LoginButton: FC<ButtonLoginProps> = ({
   navigation,
   disabled,
   icon,
-  direction,
+  loading,
   form,
   submit,
-  loading,
 }) => {
   const hanldeClick = useCallback(() => {
-    form ? submit() : navigation.navigate(direction);
+    form ? submit() : navigation();
   }, []);
 
   return (
@@ -60,7 +58,7 @@ const LoginButton: FC<ButtonLoginProps> = ({
           </Text>
           {icon && (
             <FontAwesomeIcons
-              name="long-arrow-right"
+              name="angle-right"
               size={24}
               style={{ color: textColor }}
             />

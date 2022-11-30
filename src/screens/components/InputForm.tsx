@@ -12,6 +12,7 @@ interface InputFromProps {
   error?: string;
   placeholder: string;
   secureTextEntry: boolean;
+  autofocus?: boolean;
 }
 
 const InputForm: FC<InputFromProps> = ({
@@ -21,12 +22,14 @@ const InputForm: FC<InputFromProps> = ({
   error,
   placeholder,
   secureTextEntry,
+  autofocus,
 }) => {
   return (
     <View
       style={[
         error ? { ...styles.container, marginBottom: 13 } : styles.container,
-      ]}>
+      ]}
+    >
       <Controller
         control={control}
         rules={rules}
@@ -40,7 +43,7 @@ const InputForm: FC<InputFromProps> = ({
               value={`${value}`}
               secureTextEntry={secureTextEntry}
               selectionColor={Colors.dimGray}
-              autoFocus={true}
+              autoFocus={autofocus}
             />
           </>
         )}
