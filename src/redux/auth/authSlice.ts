@@ -5,7 +5,7 @@ import { loginThunk, logoutThunk, registerThunk } from './authThunk';
 
 type LoginState = {
   loading?: boolean;
-  userInfo?: userInfo | null;
+  userInfo: userInfo | null;
   error?: string | null | unknown;
 };
 
@@ -31,7 +31,7 @@ export const authSlice = createSlice({
         state.loading = true;
       })
       .addCase(loginThunk.fulfilled, (state, action) => {
-        state.loading = true;
+        state.loading = false;
         state.userInfo = action.payload;
       })
       .addCase(loginThunk.rejected, (state, action) => {
@@ -42,7 +42,7 @@ export const authSlice = createSlice({
         state.loading = true;
       })
       .addCase(registerThunk.fulfilled, (state, action) => {
-        state.loading = true;
+        state.loading = false;
         state.userInfo = action.payload;
       })
       .addCase(registerThunk.rejected, (state, action) => {
@@ -53,7 +53,7 @@ export const authSlice = createSlice({
         state.loading = true;
       })
       .addCase(logoutThunk.fulfilled, (state, action) => {
-        state.loading = true;
+        state.loading = false;
         state.userInfo = null;
       })
       .addCase(logoutThunk.rejected, (state, action) => {

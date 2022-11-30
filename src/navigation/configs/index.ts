@@ -2,6 +2,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 
 export const Stack = {
   loginStack: 'LOGIN_STACK',
+  signupStack: 'SIGNUP_STACK',
   homeStack: 'HOME_STACK',
   chatStack: 'CHAT_STACK',
   youStack: 'YOU_STACK',

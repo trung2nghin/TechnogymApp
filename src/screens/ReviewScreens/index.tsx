@@ -1,3 +1,4 @@
+import React, { FC } from 'react';
 import {
   StyleSheet,
   Text,
@@ -5,16 +6,14 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import React from 'react';
 import { Colors, Metrics } from '@src/assets';
-import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome';
 import IoniconsIcons from 'react-native-vector-icons/Ionicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const star = [1, 2, 3, 4, 5];
 const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-const ReviewScreen = () => {
+const ReviewScreen: FC = () => {
   const renderItem = ({ item }: { item: any }) => (
     <View style={styles.card}>
       <View style={styles.cardHeader}>
@@ -85,7 +84,7 @@ const ReviewScreen = () => {
         data={data}
         renderItem={renderItem}
         keyExtractor={item => item.toString()}
-        ListFooterComponent={()=><View style={{height: 20}}/>}
+        ListFooterComponent={() => <View style={{ height: 20 }} />}
       />
     </View>
   );

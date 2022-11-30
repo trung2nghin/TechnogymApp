@@ -3,10 +3,11 @@ import {
   createStackNavigator,
   StackScreenProps,
 } from '@react-navigation/stack';
-
-import LoginInputScreen from '@src/screens/LoginInputScreen';
-import RegisterInputScreen from '@src/screens/RegisterInputScreen';
-import WelcomeScreen from '@src/screens/WelcomeScreen';
+import {
+  LoginInputScreen,
+  RegisterInputScreen,
+  WelcomeScreen,
+} from '@src/screens';
 
 export type LoginStackParamList = {
   WELCOME: undefined;
