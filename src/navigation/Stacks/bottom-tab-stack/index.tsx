@@ -11,10 +11,11 @@ import {
 } from '@src/screens';
 import HomeStack from '../home-stack';
 import { Colors } from '@src/assets';
+import ShopStack from '../shop-stack';
 
 export type BottomTabStackParamList = {
   HOME_STACK: undefined;
-  SHOP: undefined;
+  SHOP_STACK: undefined;
   FAVORITE: undefined;
   SHOPPING_BAG: undefined;
   PROFILE: undefined;
@@ -47,8 +48,8 @@ const BottomTabStack = () => {
         }}
       />
       <Tab.Screen
-        component={ShopScreen}
-        name="SHOP"
+        component={ShopStack}
+        name="SHOP_STACK"
         options={{
           headerShown: false,
           tabBarShowLabel: false,

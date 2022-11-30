@@ -1,5 +1,5 @@
 import { Colors } from '@src/assets';
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC, memo, useEffect, useRef } from 'react';
 import {
   Animated,
   StyleSheet,
@@ -27,7 +27,7 @@ const SearchBar: FC<Props> = ({ height }) => {
   );
 };
 
-export default SearchBar;
+export default memo(SearchBar);
 
 const styles = StyleSheet.create({
   viewSearch: {

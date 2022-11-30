@@ -1,6 +1,6 @@
 import { loginType, registerType } from '@src/types/auth-type';
 import { userInfo } from '@src/types/user-type';
-import AxiosClient from '../axiosClient';
+import AxiosClient from '../AxiosClient';
 
 const AuthAPI = {
   async requestLogin(payload: loginType) {

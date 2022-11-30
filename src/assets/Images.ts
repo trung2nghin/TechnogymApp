@@ -10,5 +10,5 @@ export const images = {
   },
   user: {
     avatar: require('./images/avatar.jpg'),
-  }
+  },
 };
