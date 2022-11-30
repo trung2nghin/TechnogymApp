@@ -1,16 +1,15 @@
 import React, { FC } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import IoniconsIcons from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { LoginStackNavigationProp } from '@src/navigation/Stacks/login-stack';
-import Video from 'react-native-video';
-
 import { LoginButton } from '../components';
+import LinearGradient from 'react-native-linear-gradient';
+import IoniconsIcons from 'react-native-vector-icons/Ionicons';
+import Video from 'react-native-video';
 import { Colors, Metrics } from '@src/assets';
 import Clips from '@src/assets/Clips';
 
-const LoginScreen: FC<LoginStackNavigationProp> = ({ navigation }) => {
+const WelcomeScreen: FC<LoginStackNavigationProp> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Video
@@ -41,20 +40,18 @@ const LoginScreen: FC<LoginStackNavigationProp> = ({ navigation }) => {
           textContent={'LOG IN'}
           backgroundColor={Colors.white}
           textColor={Colors.black}
-          navigation={navigation}
+          navigation={() => navigation.navigate('LOGIN_INPUT')}
           disabled={false}
           icon={false}
-          direction={'LOGIN_INPUT'}
           loading={false}
         />
         <LoginButton
           textContent={'JOIN THE CLUB'}
           backgroundColor={Colors.black}
           textColor={Colors.white}
-          navigation={navigation}
+          navigation={() => navigation.navigate('REGISTER_INPUT')}
           disabled={false}
           icon={false}
-          direction={'REGISTER_INPUT'}
           loading={false}
         />
       </View>
@@ -62,7 +59,7 @@ const LoginScreen: FC<LoginStackNavigationProp> = ({ navigation }) => {
   );
 };
 
-export default LoginScreen;
+export default WelcomeScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -76,9 +73,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: Metrics.screen.width / 20,
   },
   textHeader: {
-    fontFamily: 'NotoSans-Medium',
+    fontFamily: 'NotoSans-Bold',
     color: Colors.white,
-    fontSize: 15,
+    fontSize: 13,
+    letterSpacing: 1,
     marginLeft: Metrics.screen.width / 15,
   },
   backgroundVideo: {
