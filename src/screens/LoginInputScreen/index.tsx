@@ -4,12 +4,12 @@ import { useForm } from 'react-hook-form';
 
 import { Colors, Metrics } from '@src/assets';
 import { InputForm, LoginButton, LoginHeader } from '../components';
-import { useAppDispatch } from '@src/hooks/useRedux';
+import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
 import { loginThunk } from '@src/redux/auth/authThunk';
 import { loginType } from '@src/types/auth-type';
 
 const LoginInputScreen: FC<any> = ({ navigation }) => {
-  const [loading, setLoading] = useState(false);
+  const { loading } = useAppSelector(state => state.auth);
 
   const dispatch = useAppDispatch();
 
@@ -26,13 +26,8 @@ const LoginInputScreen: FC<any> = ({ navigation }) => {
 
   const onSubmit = useCallback(
     (data: loginType) => {
-      dispatch(loginThunk(data)), setLoading(true);
+      dispatch(loginThunk(data));
     },
-    // let payload = {
-    //   ...data,
-    //   subject: subjectData,
-    //   id: '',
-    //   avatar: pickImg?.uri,
     [],
   );
 

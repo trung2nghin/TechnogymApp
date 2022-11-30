@@ -12,9 +12,9 @@ interface ButtonLoginProps {
   textContent: string;
   backgroundColor: string;
   textColor: string;
-  disabled: boolean;
+  disabled?: boolean;
   icon: boolean;
-  loading: boolean;
+  loading?: boolean;
   form?: boolean;
   submit?: any; // type?
   navigation?: any; // type?
