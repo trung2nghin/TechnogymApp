@@ -3,22 +3,18 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import {
-  FavoriteScreen,
-  ProfileScreen,
-  ShoppingBagScreen,
-  ShopScreen,
-} from '@src/screens';
+import { ShoppingBagScreen } from '@src/screens';
 import HomeStack from '../home-stack';
 import ShopStack from '../shop-stack';
 import ProfileStack from '../profile-stack';
+import FavoriteStack from '../favorite-stack';
 
 import { Colors } from '@src/assets';
 
 export type BottomTabStackParamList = {
   HOME_STACK: undefined;
   SHOP_STACK: undefined;
-  FAVORITE: undefined;
+  FAVORITE_STACK: undefined;
   SHOPPING_BAG: undefined;
   PROFILE_STACK: undefined;
 };
@@ -71,8 +67,8 @@ const BottomTabStack = () => {
         }}
       />
       <Tab.Screen
-        component={FavoriteScreen}
-        name="FAVORITE"
+        component={FavoriteStack}
+        name="FAVORITE_STACK"
         options={{
           headerShown: false,
           tabBarShowLabel: false,

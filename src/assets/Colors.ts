@@ -12,7 +12,7 @@ export default {
   veryLightGrey: '#CCCCCC',
   gainsboro: '#DCDCDC',
   whiteGainsboro: '#E6E6E6',
-  greyZircon: '#EDEFF0',
+  greyZircon: '#ECEFF1',
   whiteSmoke01: '#F2F2F2',
   whiteSmoke: '#F1F1F1',
   white: '#FFFFFF',
