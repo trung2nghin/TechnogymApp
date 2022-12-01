@@ -1,5 +1,5 @@
 import { loginType, registerType } from '@src/types/auth-type';
-import { userInfo } from '@src/types/user-type';
+import { userInfo } from '@src/types';
 import AxiosClient from '../AxiosClient';
 
 const AuthAPI = {
@@ -17,7 +17,7 @@ const AuthAPI = {
     });
   },
 
-  async requestLogout(payload: userInfo) {
+  async requestLogout(payload: userInfo | null) {
     return await AxiosClient(`auth/logout`, {
       method: 'POST',
       headers: {

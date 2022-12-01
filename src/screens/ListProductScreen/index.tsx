@@ -74,7 +74,7 @@ const ListProductScreen: FC = () => {
           style={[
             index % 2 !== 0
               ? styles.viewItem
-              : { ...styles.viewItem, borderRightWidth: 2 },
+              : { ...styles.viewItem, borderRightWidth: 3 },
           ]}>
           <View style={styles.viewImage}>
             <Image
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     height: Metrics.screen.height / 2.6,
     width: Metrics.screen.width / 2,
     backgroundColor: Colors.greyZircon,
-    borderBottomWidth: 2,
+    borderBottomWidth: 3,
     borderColor: Colors.white,
   },
   viewImage: {

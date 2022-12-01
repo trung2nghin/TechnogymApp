@@ -10,15 +10,17 @@ import {
   ShopScreen,
 } from '@src/screens';
 import HomeStack from '../home-stack';
-import { Colors } from '@src/assets';
 import ShopStack from '../shop-stack';
+import ProfileStack from '../profile-stack';
+
+import { Colors } from '@src/assets';
 
 export type BottomTabStackParamList = {
   HOME_STACK: undefined;
   SHOP_STACK: undefined;
   FAVORITE: undefined;
   SHOPPING_BAG: undefined;
-  PROFILE: undefined;
+  PROFILE_STACK: undefined;
 };
 
 const Tab = createBottomTabNavigator<BottomTabStackParamList>();
@@ -111,8 +113,8 @@ const BottomTabStack = () => {
         }}
       />
       <Tab.Screen
-        component={ProfileScreen}
-        name="PROFILE"
+        component={ProfileStack}
+        name="PROFILE_STACK"
         options={{
           headerShown: false,
           tabBarShowLabel: false,
