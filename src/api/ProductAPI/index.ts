@@ -3,7 +3,7 @@ import { userInfo } from '@src/types';
 import AxiosClient from '../AxiosClient';
 
 const ProductAPI = {
-  async requestGetAllProduct(payload: userInfo) {
+  async requestGetAllProduct(payload: userInfo | null) {
     return await AxiosClient(`product`, {
       method: 'GET',
       headers: {
