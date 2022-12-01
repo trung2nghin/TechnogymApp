@@ -17,3 +17,5 @@ export { default as ListProductScreen } from './ListProductScreen';
 
 /*##### REIVEW #####*/
 export { default as ReviewScreen } from './ReviewScreens';
+export { default as ReviewInputScreen } from './ReviewInputScreen';
+
