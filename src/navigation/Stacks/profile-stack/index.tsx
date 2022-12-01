@@ -4,10 +4,11 @@ import {
   StackScreenProps,
 } from '@react-navigation/stack';
 
-import { ProfileScreen } from '@src/screens';
+import { MyAccountScreen, ProfileScreen } from '@src/screens';
 
 export type ProfileStackParamList = {
   PROFILE: undefined;
+  MY_ACCOUNT: undefined;
 };
 
 export type ProfileStackNavigationProp =
@@ -26,6 +27,20 @@ const ProfileStack = () => (
       options={{
         headerShown: true,
         title: 'PROFILE',
+        headerTitleStyle: {
+          fontFamily: 'NotoSans-Bold',
+        },
+        headerRightContainerStyle: {
+          right: 16,
+        },
+      }}
+    />
+    <Stack.Screen
+      component={MyAccountScreen}
+      name={'MY_ACCOUNT'}
+      options={{
+        headerShown: false,
+        title: '',
         headerTitleStyle: {
           fontFamily: 'NotoSans-Bold',
         },

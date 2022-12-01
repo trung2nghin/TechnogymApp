@@ -14,9 +14,6 @@ export { default as ProductCategoryScreen } from './ProductCategoryScreen';
 export { default as ListProductScreen } from './ListProductScreen';
 // export { default as DetailScreen } from './DetailScreen';
 
-/*##### SHOP STACK #####*/
-export { default as FavoriteScreen } from './FavoriteScreen';
-
 /*##### REIVEW #####*/
 export { default as ReviewScreen } from './ReviewScreens';
 export { default as ReviewInputScreen } from './ReviewInputScreen';

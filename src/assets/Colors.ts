@@ -19,4 +19,5 @@ export default {
   red: '#F90004',
   redTourch: '#F72727',
   mediumseagreen: '#3CB371',
+  lilacWhite: '#DDDCDF',
 };
