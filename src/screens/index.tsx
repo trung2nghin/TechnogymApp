@@ -19,3 +19,5 @@ export { default as FavoriteScreen } from './FavoriteScreen';
 
 /*##### REIVEW #####*/
 export { default as ReviewScreen } from './ReviewScreens';
+export { default as ReviewInputScreen } from './ReviewInputScreen';
+

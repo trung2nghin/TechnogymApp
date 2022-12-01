@@ -5,7 +5,7 @@ import { Controller } from 'react-hook-form';
 import { StyleSheet, Text, View } from 'react-native';
 import { Colors, Metrics } from '@src/assets';
 
-interface InputFromProps {
+interface DescribeFormProps {
   control?: any; // type ?
   rules?: any;
   name: string;
@@ -15,7 +15,7 @@ interface InputFromProps {
   autofocus?: boolean;
 }
 
-const InputForm: FC<InputFromProps> = ({
+const DescribeForm: FC<DescribeFormProps> = ({
   control,
   rules,
   name,
@@ -28,13 +28,13 @@ const InputForm: FC<InputFromProps> = ({
     <View
       style={[
         error ? { ...styles.container, marginBottom: 13 } : styles.container,
-      ]}>
+      ]}
+    >
       <Controller
         control={control}
         rules={rules}
         render={({ field: { onChange, onBlur, value } }) => (
-          <>
-            <Text style={styles.text}>{placeholder}</Text>
+          <View style={styles.card}>
             <TextInput
               style={styles.input}
               onBlur={onBlur}
@@ -43,8 +43,9 @@ const InputForm: FC<InputFromProps> = ({
               secureTextEntry={secureTextEntry}
               selectionColor={Colors.dimGray}
               autoFocus={autofocus}
+              multiline={true}
             />
-          </>
+          </View>
         )}
         name={name}
       />
@@ -53,20 +54,24 @@ const InputForm: FC<InputFromProps> = ({
   );
 };
 
-export default InputForm;
+export default DescribeForm;
 
 const styles = StyleSheet.create({
   container: {
     marginBottom: 30,
   },
+  card: {
+    height: Metrics.screen.height / 7,
+    borderWidth: 1,
+    backgroundColor: Colors.white,
+    width: '100%',
+  },
   input: {
     fontFamily: 'NonoSans-Black',
     fontSize: 13,
     width: '100%',
-    height: Metrics.screen.height / 20,
     backgroundColor: Colors.white,
     padding: 10,
-    borderBottomWidth: 1,
   },
   validationText: {
     fontFamily: 'NonoSans-Black',

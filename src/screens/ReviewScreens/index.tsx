@@ -9,11 +9,12 @@ import {
 import { Colors, Metrics } from '@src/assets';
 import IoniconsIcons from 'react-native-vector-icons/Ionicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { LoginButton } from '../components';
 
 const star = [1, 2, 3, 4, 5];
 const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-const ReviewScreen: FC = () => {
+const ReviewScreen: FC<any> = ({ navigation }) => {
   const renderItem = ({ item }: { item: any }) => (
     <View style={styles.card}>
       <View style={styles.cardHeader}>
@@ -80,6 +81,20 @@ const ReviewScreen: FC = () => {
           />
         </TouchableOpacity>
       </View>
+
+      <View style={styles.reviewInput}>
+        <Text style={styles.reviewInputText}>Tell other what you thought</Text>
+        <LoginButton
+          textContent={'WRITE A REVIEW'}
+          backgroundColor={Colors.black}
+          textColor={Colors.white}
+          // navigation={() => navigation.navigate('LOGIN_INPUT')}
+          disabled={false}
+          icon={false}
+          loading={false}
+        />
+      </View>
+
       <FlatList
         data={data}
         renderItem={renderItem}
@@ -120,9 +135,21 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginRight: 10,
   },
+  reviewInput: {
+    paddingHorizontal: Metrics.screen.width / 16,
+    height: Metrics.screen.height / 6,
+    justifyContent: 'center',
+  },
+  reviewInputText: {
+    textAlign: 'center',
+    marginBottom: Metrics.screen.height / 90,
+    fontFamily: 'NotoSans-Bold',
+    color: Colors.black,
+    fontSize: 16,
+  },
   card: {
     width: '95%',
-    height: Metrics.screen.height / 3.4,
+    height: Metrics.screen.height / 3.1,
     borderColor: Colors.gainsboro,
     borderBottomWidth: 1,
     alignItems: 'center',
@@ -144,18 +171,19 @@ const styles = StyleSheet.create({
     fontSize: 13.5,
   },
   cardBody: {
-    height: Metrics.screen.height / 7,
-    // width: '93%',
+    height: Metrics.screen.height / 6.3,
+    width: '93%',
     borderColor: Colors.gainsboro,
     borderBottomWidth: 1,
   },
   recommend: {
     flexDirection: 'row',
+    height: Metrics.screen.height / 30,
+    alignItems: 'center',
   },
   text01: {
-    fontFamily: 'NotoSans-Medium',
+    fontFamily: 'NotoSans-Bold',
     color: Colors.black,
-    fontWeight: 'bold',
     fontSize: 14,
     marginBottom: Metrics.screen.height / 70,
   },
@@ -173,7 +201,7 @@ const styles = StyleSheet.create({
   },
   cardFooter: {
     width: '93%',
-    height: Metrics.screen.height / 20,
+    height: Metrics.screen.height / 15,
     flexDirection: 'row',
     alignItems: 'center',
   },
