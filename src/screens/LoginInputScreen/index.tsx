@@ -24,17 +24,13 @@ const LoginInputScreen: FC<any> = ({ navigation }) => {
     },
   });
 
-  const onSubmit = useCallback(
-    (data: loginType) => {
-      dispatch(loginThunk(data));
-    },
-    [],
-  );
+  const onSubmit = useCallback((data: loginType) => {
+    dispatch(loginThunk(data));
+  }, []);
 
   return (
     <View style={styles.container}>
       <LoginHeader navigation={navigation} textContent={'SIGN IN'} />
-
       <View style={styles.body}>
         <View style={styles.email}>
           <InputForm

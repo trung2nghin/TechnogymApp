@@ -1,5 +1,5 @@
 import { loginType, registerType } from '@src/types/auth-type';
-import { userInfo } from '@src/types/user-type';
+import { userInfo } from '@src/types';
 import AxiosClient from '../AxiosClient';
 
 const ProductAPI = {

@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   text: {
-    fontFamily: 'NotoSans-Light',
+    fontFamily: 'NotoSans-Regular',
     color: Colors.black,
     fontSize: 12,
   },

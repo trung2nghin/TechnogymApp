@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { userInfo } from '@src/types/user-type';
+import { userInfo } from '@src/types';
 import { loginThunk, logoutThunk, registerThunk } from './authThunk';
 
 type LoginState = {

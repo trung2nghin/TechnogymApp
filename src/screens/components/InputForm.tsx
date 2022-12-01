@@ -28,8 +28,7 @@ const InputForm: FC<InputFromProps> = ({
     <View
       style={[
         error ? { ...styles.container, marginBottom: 13 } : styles.container,
-      ]}
-    >
+      ]}>
       <Controller
         control={control}
         rules={rules}
@@ -62,7 +61,7 @@ const styles = StyleSheet.create({
   },
   input: {
     fontFamily: 'NonoSans-Black',
-    fontSize: 11,
+    fontSize: 13,
     width: '100%',
     height: Metrics.screen.height / 23,
     backgroundColor: Colors.white,
@@ -71,14 +70,14 @@ const styles = StyleSheet.create({
   },
   validationText: {
     fontFamily: 'NonoSans-Black',
-    fontSize: 11,
+    fontSize: 13,
     color: Colors.redTourch,
     marginTop: 3,
     marginLeft: Metrics.screen.width / 40,
   },
   text: {
     fontFamily: 'NotoSans-Bold',
-    fontSize: 12,
+    fontSize: 12.5,
     color: Colors.black,
     marginLeft: Metrics.screen.width / 40,
   },
