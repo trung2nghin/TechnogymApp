@@ -5,6 +5,9 @@ import productReducer from './product/productSlice';
 import categoryProductReducer from './product/categoryProductSlice';
 import recentReducer from './recent/recentSlice';
 import favoriteReducer from './favorite/favoriteSlice';
+import cartReducer from './cart/cartSlice';
+import detailProductReducer from './productDetail/productDetailSlice';
+import commentReducer from './comment/commentSlice';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -12,6 +15,9 @@ const rootReducer = combineReducers({
   category_product: categoryProductReducer,
   favorite: favoriteReducer,
   recent: recentReducer,
+  cart: cartReducer,
+  detailProduct: detailProductReducer,
+  comment: commentReducer,
 });
 
 export default rootReducer;

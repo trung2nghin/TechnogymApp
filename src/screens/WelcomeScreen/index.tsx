@@ -1,17 +1,20 @@
 import React, { FC } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { LoginStackNavigationProp } from '@src/navigation/Stacks/login-stack';
-import { LoginButton } from '../components';
+import BottomSheet from '@gorhom/bottom-sheet';
 import LinearGradient from 'react-native-linear-gradient';
 import IoniconsIcons from 'react-native-vector-icons/Ionicons';
 import Video from 'react-native-video';
-import { Colors, Metrics } from '@src/assets';
-import Clips from '@src/assets/Clips';
+
+import { LoginStackNavigationProp } from '@src/navigation/Stacks/login-stack';
+import { Container, LoginButton } from '../components';
+import { Colors, Metrics, Clips } from '@src/assets';
+
+const ITEM_HEIGHT = Metrics.screen.height * 0.8;
 
 const WelcomeScreen: FC<LoginStackNavigationProp> = ({ navigation }) => {
   return (
-    <View style={styles.container}>
+    <Container header>
       <Video
         source={Clips.sport}
         style={styles.backgroundVideo}
@@ -21,7 +24,6 @@ const WelcomeScreen: FC<LoginStackNavigationProp> = ({ navigation }) => {
         rate={1.0}
         ignoreSilentSwitch={'obey'}
       />
-
       <LinearGradient
         colors={[Colors.black, Colors.transparentBlack]}
         style={styles.gradientHeader}>
@@ -34,8 +36,16 @@ const WelcomeScreen: FC<LoginStackNavigationProp> = ({ navigation }) => {
         </TouchableOpacity>
         <Text style={styles.textHeader}>APP SETTINGS</Text>
       </LinearGradient>
-
-      <View style={styles.footer}>
+      <BottomSheet
+        index={0}
+        backgroundStyle={{ backgroundColor: Colors.white }}
+        snapPoints={[
+          Metrics.screen.height - ITEM_HEIGHT,
+          Metrics.screen.height,
+        ]}>
+        <View style={styles.footer}></View>
+      </BottomSheet>
+      <View style={[styles.footer, styles.viewTrick]}>
         <LoginButton
           textContent={'LOG IN'}
           backgroundColor={Colors.white}
@@ -55,7 +65,7 @@ const WelcomeScreen: FC<LoginStackNavigationProp> = ({ navigation }) => {
           loading={false}
         />
       </View>
-    </View>
+    </Container>
   );
 };
 
@@ -64,7 +74,6 @@ export default WelcomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between',
   },
   gradientHeader: {
     height: Metrics.screen.height / 11,
@@ -88,6 +97,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
   },
+  viewTrick: { top: Metrics.screen.height - Metrics.screen.height / 3.675 },
   footer: {
     paddingHorizontal: Metrics.screen.width / 25,
     justifyContent: 'center',

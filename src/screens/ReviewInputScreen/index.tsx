@@ -1,74 +1,113 @@
 import React, { FC, useCallback } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  KeyboardAvoidingView,
+} from 'react-native';
 import { useForm } from 'react-hook-form';
 
 import { Colors, Metrics } from '@src/assets';
-import { DescribeForm, LoginButton } from '../components';
+import { Container, DescribeForm, Header, LoginButton } from '../components';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { DetailStackParamList } from '@src/navigation/Stacks/detail-stack';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { CommentType } from '@src/types/comment-type';
+import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
+import { postCommentThunk } from '@src/redux/comment/commentThunk';
+
+type ReviewInputScreenProp = StackNavigationProp<
+  DetailStackParamList,
+  'REVIEW_INPUT'
+>;
+type ReviewInputScreenRouteProp = RouteProp<
+  DetailStackParamList,
+  'REVIEW_INPUT'
+>;
 
 const ReviewInputScreen: FC = () => {
+  const navgation = useNavigation<ReviewInputScreenProp>();
+  const route = useRoute<ReviewInputScreenRouteProp>();
+  const user = useAppSelector(state => state.auth.userInfo);
+  const loadingPost = useAppSelector(state => state.comment.loadingPost);
+  const dispatch = useAppDispatch();
+
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      productId: '',
-      userId: '',
-      username: '',
+      productId: route.params.productId,
+      userId: user?.myInfo?._id,
+      username: user?.myInfo?.username,
       desc: '',
     },
   });
 
-  const onSubmit = useCallback(data => {
-    // dispatch(loginThunk(data));
+  const onSubmit = useCallback(async (data: CommentType | any) => {
+    await dispatch(
+      postCommentThunk({
+        user: user,
+        comment: data,
+      }),
+    );
+    navgation.goBack();
   }, []);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}></View>
-      <View style={styles.body}>
-        <View>
-          <Text style={styles.textBody}>
-            Sum up your opinion about this product in one sentence
-          </Text>
-          <DescribeForm
-            control={control}
-            secureTextEntry={false}
-            rules={{
-              maxLength: {
-                value: 20,
-                message: 'Exceeded allowed characters',
-              },
-              required: { value: true, message: 'Required Information' },
-            }}
-            name={'desc'}
-            error={errors?.desc?.message}
-            placeholder={'DESCRIBE'}
-            autofocus={true}
+    <KeyboardAvoidingView style={{ flex: 1, justifyContent: 'space-around' }}>
+      <Container
+        header={
+          <Header
+            bgColor={Colors.white}
+            icon={'chevron-back'}
+            iconSize={24}
+            icColor={Colors.black}
+            textIcon={'REVIEW'}
           />
-        </View>
+        }>
+        <View style={styles.header} />
+        <View style={styles.body}>
+          <View>
+            <Text style={styles.textBody}>
+              Sum up your opinion about this product in one sentence
+            </Text>
+            <DescribeForm
+              control={control}
+              secureTextEntry={false}
+              rules={{
+                required: { value: true, message: 'Required Information' },
+              }}
+              name={'desc'}
+              error={errors?.desc?.message}
+              placeholder={'DESCRIBE'}
+              autofocus={true}
+            />
+          </View>
 
-        <View style={styles.bodyFooter}>
-          <LoginButton
-            textContent={'NEXT'}
-            backgroundColor={Colors.black}
-            textColor={Colors.white}
-            // disabled={loading}
-            icon={false}
-            form={true}
-            // submit={handleSubmit(onSubmit)}
-            // loading={loading}
-          />
+          <View style={styles.bodyFooter}>
+            <LoginButton
+              textContent={'NEXT'}
+              backgroundColor={Colors.black}
+              textColor={Colors.white}
+              disabled={loadingPost}
+              icon={false}
+              form={true}
+              submit={handleSubmit(onSubmit)}
+              loading={loadingPost}
+            />
+          </View>
         </View>
-      </View>
-      <Image
-        style={styles.image}
-        source={{
-          uri:
-            'https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/8c687d94b5654d4bb435a97f00d5a475_9366/Giay_Grand_Court_trang_F36392_01_standard.jpg',
-        }}
-      />
-    </View>
+        <Image
+          style={styles.image}
+          source={{
+            uri: 'https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/8c687d94b5654d4bb435a97f00d5a475_9366/Giay_Grand_Court_trang_F36392_01_standard.jpg',
+          }}
+        />
+      </Container>
+    </KeyboardAvoidingView>
   );
 };
 

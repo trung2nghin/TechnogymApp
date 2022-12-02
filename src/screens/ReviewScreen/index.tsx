@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,16 +6,44 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import { Colors, Metrics } from '@src/assets';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import IoniconsIcons from 'react-native-vector-icons/Ionicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { LoginButton } from '../components';
+
+import { Colors, Metrics } from '@src/assets';
+import { Container, LoginButton } from '../components';
+import { DetailStackParamList } from '@src/navigation/Stacks/detail-stack';
+import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
+import { CommentType } from '@src/types/comment-type';
+import { getProductCommentThunk } from '@src/redux/comment/commentThunk';
 
 const star = [1, 2, 3, 4, 5];
-const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-const ReviewScreen: FC<any> = ({ navigation }) => {
-  const renderItem = ({ item }: { item: any }) => (
+type ReviewScreenProp = StackNavigationProp<DetailStackParamList, 'REVIEW'>;
+type ReviewScreenRouteProp = RouteProp<DetailStackParamList, 'REVIEW'>;
+
+const ReviewScreen: FC = () => {
+  const navigation = useNavigation<ReviewScreenProp>();
+  const route = useRoute<ReviewScreenRouteProp>();
+  const user = useAppSelector(state => state.auth.userInfo);
+  const comment = useAppSelector(state => state.comment.commentData);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(
+      getProductCommentThunk({
+        user: user,
+        productId: route.params.productId,
+      }),
+    );
+  }, []);
+
+  const onNavBack = useCallback(() => {
+    navigation.goBack();
+  }, []);
+
+  const renderItem = ({ item }: { item: CommentType }) => (
     <View style={styles.card}>
       <View style={styles.cardHeader}>
         <View style={styles.starIcon}>
@@ -30,13 +58,9 @@ const ReviewScreen: FC<any> = ({ navigation }) => {
         </View>
         <Text style={styles.textCardHeader}>NOV 28, 2022</Text>
       </View>
-
       <View style={styles.cardBody}>
         <Text style={styles.text01}>SO WORTH IT</Text>
-        <Text style={styles.text02}>
-          So comfortable and just so impressed with these shoes. Look even
-          better in person
-        </Text>
+        <Text style={styles.text02}>{item.desc}</Text>
         <View style={styles.recommend}>
           <IoniconsIcons
             name="ios-checkmark-circle-sharp"
@@ -51,14 +75,14 @@ const ReviewScreen: FC<any> = ({ navigation }) => {
       </View>
 
       <View style={styles.cardFooter}>
-        <Text style={styles.text03}>RYAN</Text>
+        <Text style={styles.text03}>{item.username}</Text>
         <Text style={styles.text04}>VERIFIED PURCHASER</Text>
       </View>
     </View>
   );
 
   return (
-    <View style={styles.container}>
+    <Container header bodyColor={Colors.white}>
       <View style={styles.header}>
         <Text style={styles.textHeader}>435 REVIEWS</Text>
         <View style={styles.starIcon}>
@@ -71,7 +95,7 @@ const ReviewScreen: FC<any> = ({ navigation }) => {
             />
           ))}
         </View>
-        <TouchableOpacity style={styles.closeIcon}>
+        <TouchableOpacity onPress={onNavBack} style={styles.closeIcon}>
           <IoniconsIcons
             name="close-outline"
             size={30}
@@ -88,7 +112,11 @@ const ReviewScreen: FC<any> = ({ navigation }) => {
           textContent={'WRITE A REVIEW'}
           backgroundColor={Colors.black}
           textColor={Colors.white}
-          // navigation={() => navigation.navigate('LOGIN_INPUT')}
+          navigation={() =>
+            navigation.navigate('REVIEW_INPUT', {
+              productId: route.params.productId,
+            })
+          }
           disabled={false}
           icon={false}
           loading={false}
@@ -96,12 +124,12 @@ const ReviewScreen: FC<any> = ({ navigation }) => {
       </View>
 
       <FlatList
-        data={data}
+        data={comment}
         renderItem={renderItem}
-        keyExtractor={item => item.toString()}
+        keyExtractor={item => item._id}
         ListFooterComponent={() => <View style={{ height: 20 }} />}
       />
-    </View>
+    </Container>
   );
 };
 
@@ -198,6 +226,7 @@ const styles = StyleSheet.create({
     color: Colors.black,
     fontSize: 13,
     lineHeight: 18,
+    textTransform: 'uppercase',
   },
   cardFooter: {
     width: '93%',

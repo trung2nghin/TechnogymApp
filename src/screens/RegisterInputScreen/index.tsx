@@ -1,8 +1,9 @@
-import { Colors, Metrics } from '@src/assets';
-import { StyleSheet, View } from 'react-native';
 import React, { FC, useCallback, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { useForm } from 'react-hook-form';
-import { InputForm, LoginButton, LoginHeader } from '../components';
+
+import { Colors, Metrics } from '@src/assets';
+import { Container, InputForm, LoginButton, LoginHeader } from '../components';
 
 const RegisterInputScreen: FC<any> = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
@@ -32,7 +33,7 @@ const RegisterInputScreen: FC<any> = ({ navigation }) => {
   );
 
   return (
-    <View style={styles.container}>
+    <Container header bodyColor={Colors.white}>
       <LoginHeader navigation={navigation} textContent={'REGISTER'} />
 
       <View style={styles.body}>
@@ -96,17 +97,13 @@ const RegisterInputScreen: FC<any> = ({ navigation }) => {
           loading={loading}
         />
       </View>
-    </View>
+    </Container>
   );
 };
 
 export default RegisterInputScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.white,
-  },
   body: {
     paddingHorizontal: Metrics.screen.width / 25,
     flex: 1,
