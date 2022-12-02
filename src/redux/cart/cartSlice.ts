@@ -1,0 +1,35 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Cart, ItemCart } from '@src/types';
+
+const initialState: Cart = [];
+
+export const productSlice = createSlice({
+  name: 'cart',
+  initialState,
+  reducers: {
+    setCart: (state, action: PayloadAction<ItemCart>) => {
+      state = [...state, action.payload];
+      let myState = JSON.parse(JSON.stringify(state));
+      let filterProduct = myState.filter(
+        (val: ItemCart) => val.title === action.payload.title,
+      );
+      let filterExistProduct = myState.filter(
+        (val: ItemCart) => val.title !== action.payload.title,
+      );
+      if (filterProduct.length > 1) {
+        filterProduct[0].quantity = 1 + filterProduct[0].quantity;
+        filterProduct.splice(1, filterProduct.length - 1);
+      }
+      state = [...filterExistProduct, ...filterProduct];
+      return state;
+    },
+    deleteCart(state) {
+      state = [];
+      return state;
+    },
+  },
+});
+
+export const { setCart, deleteCart } = productSlice.actions;
+
+export default productSlice.reducer;

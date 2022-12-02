@@ -1,3 +1,4 @@
+import { Colors } from '@src/assets';
 import React, { FC } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -49,11 +50,11 @@ const styles = StyleSheet.create({
     width: Metrics.screen.width / 2.3,
     marginRight: 6,
     flexDirection: 'row',
-    backgroundColor: '#e6e6e6',
+    backgroundColor: Colors.greyZircon,
   },
   viewProduct: { flex: 1 },
   viewImage: {
-    backgroundColor: '#e6e6e6',
+    backgroundColor: Colors.greyZircon,
     height: '60%',
     width: '100%',
     justifyContent: 'space-around',
@@ -66,24 +67,24 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   viewCost: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Colors.white,
     width: '28%',
     justifyContent: 'center',
     alignItems: 'center',
   },
   txtCost: {
     fontFamily: 'NotoSans-Regular',
-    color: '#000000',
+    color: Colors.black,
   },
   txtTitle: {
     fontFamily: 'NotoSans-SemiBold',
-    color: '#000000',
+    color: Colors.black,
     textTransform: 'uppercase',
     flexWrap: 'wrap',
   },
   txtType: {
     fontFamily: 'NotoSans-Regular',
-    color: '#666666',
+    color: Colors.dimGray,
     fontSize: 12,
     flexWrap: 'wrap',
   },

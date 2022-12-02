@@ -27,6 +27,21 @@ const ProductAPI = {
     });
   },
 
+  async requestDetailGetProduct({
+    user,
+    productId,
+  }: {
+    user: userInfo | null;
+    productId: string;
+  }) {
+    return await AxiosClient(`product/find/${productId}`, {
+      method: 'GET',
+      headers: {
+        token: `Bearer ${user?.accessToken}`,
+      },
+    });
+  },
+
   async requestFavoriteProduct({
     user,
     productID,
