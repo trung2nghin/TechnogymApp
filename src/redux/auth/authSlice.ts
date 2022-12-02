@@ -35,6 +35,7 @@ export const authSlice = createSlice({
         state.userInfo = action.payload;
       })
       .addCase(loginThunk.rejected, (state, action) => {
+        state.loading = false;
         state.error = action.payload;
       });
     builder

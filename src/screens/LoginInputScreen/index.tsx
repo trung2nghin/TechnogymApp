@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { useForm } from 'react-hook-form';
 
 import { Colors, Metrics } from '@src/assets';
-import { InputForm, LoginButton, LoginHeader } from '../components';
+import { Container, InputForm, LoginButton, LoginHeader } from '../components';
 import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
 import { loginThunk } from '@src/redux/auth/authThunk';
 import { loginType } from '@src/types/auth-type';
@@ -29,7 +29,7 @@ const LoginInputScreen: FC<any> = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <Container header bodyColor={Colors.white}>
       <LoginHeader navigation={navigation} textContent={'SIGN IN'} />
       <View style={styles.body}>
         <View style={styles.email}>
@@ -74,17 +74,13 @@ const LoginInputScreen: FC<any> = ({ navigation }) => {
           loading={loading}
         />
       </View>
-    </View>
+    </Container>
   );
 };
 
 export default LoginInputScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.white,
-  },
   body: {
     paddingHorizontal: Metrics.screen.width / 25,
     flex: 1,
