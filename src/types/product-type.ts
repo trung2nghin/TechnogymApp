@@ -22,3 +22,15 @@ export interface CategoryItem {
   apiName: string;
   image: string;
 }
+
+export type ItemCart = {
+  productID: string;
+  categories: Array<string>;
+  title: string;
+  img: string;
+  size: string;
+  price: number;
+  quantity: number;
+};
+
+export type Cart = Array<ItemCart>;

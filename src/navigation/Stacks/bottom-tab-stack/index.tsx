@@ -10,6 +10,7 @@ import ProfileStack from '../profile-stack';
 import FavoriteStack from '../favorite-stack';
 
 import { Colors } from '@src/assets';
+import { useAppSelector } from '@src/hooks/useRedux';
 
 export type BottomTabStackParamList = {
   HOME_STACK: undefined;

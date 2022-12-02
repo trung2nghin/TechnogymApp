@@ -19,6 +19,9 @@ export type ShopStackParamList = {
     name: string;
     itemName: string;
   };
+  DETAIL: {
+    item: any;
+  };
 };
 
 export type ShopStackNavigationProp = StackScreenProps<ShopStackParamList>;

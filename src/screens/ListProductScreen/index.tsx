@@ -7,8 +7,13 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import {
+  CompositeScreenProps,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
+import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -21,16 +26,36 @@ import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
 import { ShopStackParamList } from '@src/navigation/Stacks/shop-stack';
 import { Colors, Metrics } from '@src/assets';
 import { ProductItem } from '@src/types';
+import {
+  RootStackNavigationProp,
+  RootStackParamList,
+} from '@src/navigation/configs';
+import { DetailStackParamList } from '@src/navigation/Stacks/detail-stack';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { BottomTabStackParamList } from '@src/navigation/Stacks/bottom-tab-stack';
 
-type ListProductScreenProp = StackNavigationProp<
-  ShopStackParamList,
-  'LIST_PRODUCT'
+// type ListProductScreenProp = StackNavigationProp<
+//   ShopStackParamList,
+//   'LIST_PRODUCT'
+// >;
+
+export type ListProductScreenProp = CompositeScreenProps<
+  StackScreenProps<ShopStackParamList, 'LIST_PRODUCT'>,
+  StackScreenProps<RootStackParamList, 'DETAIL_STACK'>
+  // CompositeScreenProps<
+  //   BottomTabScreenProps<BottomTabStackParamList>,
+  // CompositeScreenProps<
+  //   StackScreenProps<DetailStackParamList, 'DETAIL'>
+  // >
+  // >
 >;
+
+export type ListProductNavigationProp = ListProductScreenProp['navigation'];
 
 type ListProductScreenRouteProp = RouteProp<ShopStackParamList, 'LIST_PRODUCT'>;
 
 const ListProductScreen: FC = () => {
-  const navigation = useNavigation<ListProductScreenProp>();
+  const navigation = useNavigation<any>();
   const route = useRoute<ListProductScreenRouteProp>();
   const user = useAppSelector(state => state.auth.userInfo);
   const product = useAppSelector(state => state.category_product.product);
@@ -53,11 +78,12 @@ const ListProductScreen: FC = () => {
     [product],
   );
 
-  // const onNavCakeDetail = useCallback((item: any) => {
-  //   navigation.navigate('CAKE_DETAIL', {
-  //     item: item,
-  //   });
-  // }, []);
+  const onNavDetail = useCallback((item: any) => {
+    navigation.navigate('DETAIL_STACK', {
+      screen: 'DETAIL',
+      params: { item: item },
+    });
+  }, []);
 
   const renderItem = ({
     item,
@@ -67,9 +93,7 @@ const ListProductScreen: FC = () => {
     index: number;
   }) => (
     <View>
-      <TouchableWithoutFeedback
-      // onPress={() => onNavCakeDetail(item)}
-      >
+      <TouchableWithoutFeedback onPress={() => onNavDetail(item)}>
         <View
           style={[
             index % 2 !== 0
