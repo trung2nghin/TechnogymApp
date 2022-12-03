@@ -1,5 +1,13 @@
-import React, { FC, useCallback, useEffect } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { FC, useCallback, useEffect, useRef } from 'react';
+import {
+  Animated,
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { StackScreenProps } from '@react-navigation/stack';
 import {
@@ -27,6 +35,9 @@ import { setRecent } from '@src/redux/recent/recentSlice';
 import { getDetailProductThunk } from '@src/redux/productDetail/productDetailThunk';
 import { getAllFavoriteProductThunk } from '@src/redux/favorite/favoriteThunk';
 import { DetailStackParamList } from '@src/navigation/Stacks/detail-stack';
+import { Value } from 'react-native-reanimated';
+import ListImage from './components/ListImage';
+import Loading from '../components/Loading';
 
 export type DetailScreenProp = CompositeScreenProps<
   StackScreenProps<DetailStackParamList, 'DETAIL'>,
@@ -38,6 +49,9 @@ export type DetailScreenNavigationProp = DetailScreenProp['navigation'];
 type DetailScreenRouteProp = RouteProp<DetailStackParamList, 'DETAIL'>;
 
 const ITEM_HEIGHT = Metrics.screen.height * 0.55;
+const DOT_SIZE = 8;
+const DOT_SPACING = 8;
+const DOT_INDICATOR_SIZE = DOT_SIZE + DOT_SPACING;
 
 const DetailScreen: FC = () => {
   const navigation = useNavigation<DetailScreenNavigationProp>();
@@ -47,6 +61,8 @@ const DetailScreen: FC = () => {
   const favorite = useAppSelector(state => state.favorite.product);
   const cart = useAppSelector(state => state.cart);
   const dispatch = useAppDispatch();
+
+  const scrollY = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     const recentView = {
@@ -101,25 +117,21 @@ const DetailScreen: FC = () => {
   const onNavComment = useCallback(() => {
     navigation.navigate('REVIEW', {
       productId: route?.params?.item?._id,
+      img: route?.params?.item?.img,
     });
   }, []);
 
   return (
-    <Container>
-      <Image
-        style={styles.img}
-        source={{
-          uri: route?.params?.item?.img,
-        }}
-      />
+    <Container header>
+      <ListImage image={route?.params?.item?.img} />
       <TouchableOpacity onPress={onNavGoBack} style={styles.btnClose}>
         <Ionicons name={'close'} size={32} color={Colors.black} />
       </TouchableOpacity>
       <BottomSheet
         index={0}
-        backgroundStyle={{ backgroundColor: Colors.white }}
+        backgroundStyle={{ backgroundColor: Colors.white, borderRadius: 0 }}
         snapPoints={[
-          Metrics.screen.height - ITEM_HEIGHT + 12,
+          Metrics.screen.height - ITEM_HEIGHT,
           Metrics.screen.height - 60,
         ]}>
         <BottomSheetScrollView
@@ -132,7 +144,8 @@ const DetailScreen: FC = () => {
                   {route?.params?.item?.title}
                 </Text>
                 <TouchableOpacity onPress={onFavorite}>
-                  {detailProduct?.favorite?.includes(user?.myInfo?._id) ? (
+                  {!!user?.myInfo &&
+                  detailProduct?.favorite?.includes(user?.myInfo?._id) ? (
                     <Ionicons name={'heart'} size={24} color={Colors.black} />
                   ) : (
                     <Ionicons
@@ -180,21 +193,9 @@ const DetailScreen: FC = () => {
             {/* RATING */}
             <View style={[styles.viewRate, { marginTop: 36 }]}>
               <Text style={styles.txtRate}>Ratings & review</Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  width: '76%',
-                  marginTop: 24,
-                }}>
+              <View style={styles.viewRating}>
                 <View style={{ flex: 1 }}>
-                  <Text
-                    style={{
-                      fontFamily: 'NotoSans-MediumItalic',
-                      fontSize: 56,
-                      color: Colors.black,
-                    }}>
-                    4.7
-                  </Text>
+                  <Text style={styles.txt47}>4.7</Text>
                   <RatingStar star={3} />
                   <TouchableOpacity onPress={onNavComment}>
                     <Text style={styles.txtReview}>458 reviews</Text>
@@ -248,21 +249,15 @@ const DetailScreen: FC = () => {
 export default DetailScreen;
 
 const styles = StyleSheet.create({
-  img: {
-    width: '100%',
-    height: ITEM_HEIGHT,
-    marginTop: '10%',
-  },
   btnClose: {
     position: 'absolute',
     width: 32,
     height: 32,
-    top: '8%',
+    top: Metrics.screen.height / 56,
     right: 12,
     alignSelf: 'flex-end',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors.white,
   },
   btmScrollView: {
     backgroundColor: Colors.white,
@@ -359,5 +354,15 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     textDecorationStyle: 'double',
     marginTop: 10,
+  },
+  viewRating: {
+    flexDirection: 'row',
+    width: '76%',
+    marginTop: 24,
+  },
+  txt47: {
+    fontFamily: 'NotoSans-MediumItalic',
+    fontSize: 56,
+    color: Colors.black,
   },
 });

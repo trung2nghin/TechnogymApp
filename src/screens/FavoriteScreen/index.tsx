@@ -1,25 +1,49 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {
+  NavigationContainer,
+  RouteProp,
+  useIsFocused,
+  useNavigation,
+  useScrollToTop,
+} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useIsFocused, useScrollToTop } from '@react-navigation/native';
 
 import { Colors, Metrics } from '../../assets';
 import BackgroundItemView from '../components/BackgroundItemView';
 
-import { RootState } from '../../redux/store';
-import { ProductList as ProductListType } from '@src/types';
-// import { ProductItem as ProductItemType } from '../../domain/product';
+import { ItemCart, ProductList as ProductListType } from '@src/types';
+import { ProductItem as ProductItemType } from '@src/types';
 import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
 import { getAllFavoriteProductThunk } from '@src/redux/favorite/favoriteThunk';
 import { Container, ProductCount, ProductList } from '../components';
 import ProductItem from './components/ProductItem';
 import { getUserIdFavorite } from '@src/redux/favorite/favoriteSlice';
+import ListFooter from './components/ListFooter';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { FavoriteStackParamList } from '@src/navigation/Stacks/favorite-stack';
+import CartButton from './components/CartButton';
 
 const ITEM_HEIGHT = Metrics.screen.height / 5.6;
+
+type FavoriteScreenProp = StackNavigationProp<
+  FavoriteStackParamList,
+  'FAVORITE'
+>;
+
+type FavoriteScreenRouteProp = RouteProp<FavoriteStackParamList, 'FAVORITE'>;
 
 const FavoriteScreen: FC = () => {
   const [products, setProducts] = useState<ProductListType>();
 
+  const navigation = useNavigation<FavoriteScreenProp>();
   const user = useAppSelector(state => state.auth.userInfo);
   // const bag = useSelector<RootState, Bag>(state => state.bag);
   const favorite = useAppSelector(state => state.favorite.product);
@@ -37,6 +61,38 @@ const FavoriteScreen: FC = () => {
     };
     onFetch();
   }, [isFocused]);
+
+  const onNavModal = useCallback((item: ProductItemType) => {
+    navigation.navigate('MODAL', {
+      item: item,
+    });
+  }, []);
+
+  const renderItem = ({ item }: { item: any }) => {
+    return (
+      <View style={styles.renderItemContainer}>
+        <View style={styles.renderItemChildContainer}>
+          <Image source={{ uri: item.img }} style={styles.img} />
+          <View style={styles.viewMain}>
+            <Text style={styles.txtExistTitle}>{item.title}</Text>
+            <BackgroundItemView backgroundColor={Colors.black}>
+              <Text style={{ color: Colors.white }}>${item.price}</Text>
+            </BackgroundItemView>
+            <CartButton textButton="Add to bag" item={item} />
+          </View>
+          <TouchableOpacity
+            onPress={() => onNavModal(item)}
+            style={{ alignSelf: 'center' }}>
+            <Ionicons
+              name={'ellipsis-vertical'}
+              size={24}
+              color={Colors.black}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  };
 
   return (
     <Container bodyColor={Colors.white}>
@@ -69,10 +125,11 @@ const FavoriteScreen: FC = () => {
           <ProductCount productCount={favorite?.length} />
           <FlatList
             data={favorite}
-            renderItem={ProductList}
+            renderItem={renderItem}
             keyExtractor={item => item._id.toString()}
             ref={ref}
             showsVerticalScrollIndicator={false}
+            ListFooterComponent={() => <ListFooter />}
           />
         </View>
       )}
@@ -120,5 +177,38 @@ const styles = StyleSheet.create({
     color: Colors.black,
     textTransform: 'uppercase',
     bottom: 1,
+  },
+  renderItemContainer: {
+    width: Metrics.screen.width,
+    height: ITEM_HEIGHT,
+    backgroundColor: Colors.greyZircon,
+    borderBottomWidth: 1.5,
+    borderBottomColor: Colors.white,
+    justifyContent: 'center',
+    padding: 6,
+  },
+  viewMain: {
+    flex: 1,
+    padding: 10,
+    justifyContent: 'space-between',
+  },
+  renderItemChildContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingRight: 10,
+  },
+  txtExistTitle: {
+    fontFamily: 'NotoSans-SemiBold',
+    fontSize: 14,
+    color: Colors.black,
+    textTransform: 'uppercase',
+    flexWrap: 'wrap',
+    width: '86%',
+    bottom: 4,
+  },
+  img: {
+    height: '100%',
+    width: ITEM_HEIGHT - 12,
   },
 });

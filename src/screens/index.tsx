@@ -12,11 +12,12 @@ export { default as ProfileScreen } from './ProfileScreen';
 export { default as ShopScreen } from './ShopScreen';
 export { default as ProductCategoryScreen } from './ProductCategoryScreen';
 export { default as ListProductScreen } from './ListProductScreen';
-export { default as DetailScreen } from './DetailScreen';
 
 /*##### FAVORITE STACK #####*/
 export { default as FavoriteScreen } from './FavoriteScreen';
+export { default as ModalScreen } from './FavoriteScreen/components/ModalScreen';
 
-/*##### REIVEW #####*/
+/*##### DETAIL STACK #####*/
+export { default as DetailScreen } from './DetailScreen';
 export { default as ReviewScreen } from './ReviewScreen';
 export { default as ReviewInputScreen } from './ReviewInputScreen';

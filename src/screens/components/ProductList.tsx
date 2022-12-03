@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -8,23 +8,25 @@ import { Colors, Metrics } from '@src/assets';
 
 const ITEM_HEIGHT = Metrics.screen.height / 5.6;
 
-const ProductList = ({ item }: { item: any }) => (
-  <View style={styles.renderItemContainer}>
-    <View style={styles.renderItemChildContainer}>
-      <Image source={{ uri: item.img }} style={styles.img} />
-      <View style={styles.viewMain}>
-        <Text style={styles.txtExistTitle}>{item.title}</Text>
-        <BackgroundItemView backgroundColor={Colors.black}>
-          <Text style={{ color: Colors.white }}>${item.price}</Text>
-        </BackgroundItemView>
-        {/* <CartButton textButton="Add to bag" item={item} /> */}
+const ProductList = ({ item }: { item: any }) => {
+  return (
+    <View style={styles.renderItemContainer}>
+      <View style={styles.renderItemChildContainer}>
+        <Image source={{ uri: item.img }} style={styles.img} />
+        <View style={styles.viewMain}>
+          <Text style={styles.txtExistTitle}>{item.title}</Text>
+          <BackgroundItemView backgroundColor={Colors.black}>
+            <Text style={{ color: Colors.white }}>${item.price}</Text>
+          </BackgroundItemView>
+          <CartButton textButton="Add to bag" item={item} />
+        </View>
+        <TouchableOpacity style={{ alignSelf: 'center' }}>
+          <Ionicons name={'ellipsis-vertical'} size={24} color={Colors.black} />
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity style={{ alignSelf: 'center' }}>
-        <Ionicons name={'ellipsis-vertical'} size={24} color={Colors.black} />
-      </TouchableOpacity>
     </View>
-  </View>
-);
+  );
+};
 
 export default ProductList;
 
@@ -50,7 +52,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
   txtExistTitle: {
-    fontFamily: 'NotoSans-Medium',
+    fontFamily: 'NotoSans-SemiBold',
     fontSize: 14,
     color: Colors.black,
     textTransform: 'uppercase',

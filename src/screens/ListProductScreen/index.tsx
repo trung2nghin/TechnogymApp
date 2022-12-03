@@ -10,10 +10,11 @@ import {
 import {
   CompositeScreenProps,
   RouteProp,
+  useIsFocused,
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
-import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
+import { StackScreenProps } from '@react-navigation/stack';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -26,28 +27,11 @@ import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
 import { ShopStackParamList } from '@src/navigation/Stacks/shop-stack';
 import { Colors, Metrics } from '@src/assets';
 import { ProductItem } from '@src/types';
-import {
-  RootStackNavigationProp,
-  RootStackParamList,
-} from '@src/navigation/configs';
-import { DetailStackParamList } from '@src/navigation/Stacks/detail-stack';
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { BottomTabStackParamList } from '@src/navigation/Stacks/bottom-tab-stack';
-
-// type ListProductScreenProp = StackNavigationProp<
-//   ShopStackParamList,
-//   'LIST_PRODUCT'
-// >;
+import { RootStackParamList } from '@src/navigation/configs';
 
 export type ListProductScreenProp = CompositeScreenProps<
   StackScreenProps<ShopStackParamList, 'LIST_PRODUCT'>,
   StackScreenProps<RootStackParamList, 'DETAIL_STACK'>
-  // CompositeScreenProps<
-  //   BottomTabScreenProps<BottomTabStackParamList>,
-  // CompositeScreenProps<
-  //   StackScreenProps<DetailStackParamList, 'DETAIL'>
-  // >
-  // >
 >;
 
 export type ListProductNavigationProp = ListProductScreenProp['navigation'];
@@ -61,10 +45,11 @@ const ListProductScreen: FC = () => {
   const product = useAppSelector(state => state.category_product.product);
   const dispatch = useAppDispatch();
   const categoryName = route.params.name;
+  const focus = useIsFocused();
 
   useEffect(() => {
     dispatch(getProductThunk({ user: user, category: categoryName }));
-  }, []);
+  }, [focus]);
 
   const onFavorite = useCallback(
     async (item: ProductItem) => {
