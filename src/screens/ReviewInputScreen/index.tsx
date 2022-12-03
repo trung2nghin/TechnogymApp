@@ -100,12 +100,7 @@ const ReviewInputScreen: FC = () => {
             />
           </View>
         </View>
-        <Image
-          style={styles.image}
-          source={{
-            uri: 'https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/8c687d94b5654d4bb435a97f00d5a475_9366/Giay_Grand_Court_trang_F36392_01_standard.jpg',
-          }}
-        />
+        <Image style={styles.image} source={{ uri: route.params.img }} />
       </Container>
     </KeyboardAvoidingView>
   );

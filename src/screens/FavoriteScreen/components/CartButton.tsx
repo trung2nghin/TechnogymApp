@@ -4,9 +4,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { favoriteProductThunk } from '@src/redux/product/productThunk';
 import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
-// import { Bag, setBag } from '../../../redux/Bag/BagRedux';
 import BackgroundItemView from '../../components/BackgroundItemView';
 import { Colors } from '@src/assets';
+import { setCart } from '@src/redux/cart/cartSlice';
 
 interface Props {
   textButton?: string;
@@ -15,7 +15,7 @@ interface Props {
 }
 
 const CartButton: FC<Props> = ({ textButton, onPress, item }) => {
-  // const bag = useAppSelector(state => state.bag);
+  const cart = useAppSelector(state => state.cart);
   const user = useAppSelector(state => state.auth.userInfo);
   const dispatch = useAppDispatch();
 
@@ -34,8 +34,8 @@ const CartButton: FC<Props> = ({ textButton, onPress, item }) => {
       user: user,
     };
     dispatch(favoriteProductThunk(payload));
-    // dispatch(setBag(bagState));
-  }, [bag]);
+    dispatch(setCart(bagState));
+  }, [cart]);
 
   return (
     <TouchableWithoutFeedback onPress={item ? onAddToBag : () => null}>
@@ -47,8 +47,8 @@ const CartButton: FC<Props> = ({ textButton, onPress, item }) => {
           <View style={styles.viewBtn}>
             <Text style={styles.txtBg}>{textButton}</Text>
             <Ionicons
-              name={'arrow-forward-outline'}
-              size={24}
+              name={'cart-outline'}
+              size={20}
               color={Colors.black}
             />
           </View>

@@ -12,9 +12,11 @@ export type DetailStackParamList = {
   };
   REVIEW: {
     productId: string;
+    img: string;
   };
   REVIEW_INPUT: {
     productId: string;
+    img: string;
   };
 };
 

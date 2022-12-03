@@ -4,10 +4,14 @@ import {
   StackScreenProps,
 } from '@react-navigation/stack';
 
-import { FavoriteScreen } from '@src/screens';
+import { FavoriteScreen, ModalScreen } from '@src/screens';
+import { ProductItem } from '@src/types';
 
 export type FavoriteStackParamList = {
   FAVORITE: undefined;
+  MODAL: {
+    item: ProductItem;
+  };
 };
 
 export type FavoriteStackNavigationProp =
@@ -33,6 +37,11 @@ const FavoriteStack = () => (
           right: 16,
         },
       }}
+    />
+    <Stack.Screen
+      component={ModalScreen}
+      name="MODAL"
+      options={{ presentation: 'transparentModal', headerShown: false }}
     />
   </Stack.Navigator>
 );

@@ -43,6 +43,13 @@ const ReviewScreen: FC = () => {
     navigation.goBack();
   }, []);
 
+  const onNavReviewInput = useCallback(() => {
+    navigation.navigate('REVIEW_INPUT', {
+      productId: route.params.productId,
+      img: route.params.img,
+    });
+  }, []);
+
   const renderItem = ({ item }: { item: CommentType }) => (
     <View style={styles.card}>
       <View style={styles.cardHeader}>
@@ -112,11 +119,7 @@ const ReviewScreen: FC = () => {
           textContent={'WRITE A REVIEW'}
           backgroundColor={Colors.black}
           textColor={Colors.white}
-          navigation={() =>
-            navigation.navigate('REVIEW_INPUT', {
-              productId: route.params.productId,
-            })
-          }
+          navigation={onNavReviewInput}
           disabled={false}
           icon={false}
           loading={false}

@@ -26,10 +26,11 @@ const styles = StyleSheet.create({
     borderColor: Colors.whiteSmoke,
   },
   txtProduct: {
-    fontSize: 14,
+    fontSize: 12.5,
     fontFamily: 'NotoSans-Regular',
     textTransform: 'uppercase',
     color: Colors.black,
     marginLeft: 20,
+    letterSpacing: 0.75,
   },
 });
