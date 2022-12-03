@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     padding: 10,
     borderBottomWidth: 1,
+    // borderColor: '#DDDCDF',
   },
   validationText: {
     fontFamily: 'NonoSans-Black',

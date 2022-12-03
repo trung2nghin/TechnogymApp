@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useScrollToTop } from '@react-navigation/native';
+import { useNavigation, useScrollToTop } from '@react-navigation/native';
 
 import { logoutThunk } from '@src/redux/auth/authThunk';
 import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
@@ -16,8 +16,16 @@ import { Colors, Metrics, Images } from '@src/assets';
 import { Container } from '../components';
 import { userInfo } from '@src/types';
 import { ProfileDummy } from './ProfileDummy';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { ProfileStackParamList } from '@src/navigation/Stacks/profile-stack';
+
+type ProfileScreenProp = StackNavigationProp<
+  ProfileStackParamList,
+  'MY_ACCOUNT'
+>;
 
 const ProfileScreen: FC = () => {
+  const { navigate } = useNavigation<ProfileScreenProp>();
   var user = useAppSelector(state => state.auth.userInfo);
   const dispatch = useAppDispatch();
   const ref = useRef(null);
@@ -57,6 +65,7 @@ const ProfileScreen: FC = () => {
 
   const renderItem = ({ item, index }: { item: any; index: number }) => (
     <TouchableOpacity
+      onPress={() => navigate(item.navigation)}
       style={[
         index === 0
           ? [styles.btnItem, { borderTopWidth: 1 }]

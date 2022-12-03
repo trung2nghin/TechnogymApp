@@ -20,4 +20,6 @@ export { default as ModalScreen } from './FavoriteScreen/components/ModalScreen'
 /*##### DETAIL STACK #####*/
 export { default as DetailScreen } from './DetailScreen';
 export { default as ReviewScreen } from './ReviewScreen';
+/*##### REIVEW #####*/
+export { default as ReviewScreen } from './ReviewScreens';
 export { default as ReviewInputScreen } from './ReviewInputScreen';
