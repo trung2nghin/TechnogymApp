@@ -10,14 +10,23 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
-import { useScrollToTop } from '@react-navigation/native';
+import {
+  CompositeScreenProps,
+  useNavigation,
+  useScrollToTop,
+} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-import { HomeStackNavigationProp } from '@src/navigation/Stacks/home-stack';
+import {
+  HomeStackNavigationProp,
+  HomeStackParamList,
+} from '@src/navigation/Stacks/home-stack';
 import { Colors, Metrics } from '@src/assets';
 import { HOME_DATA } from './data/HomeData';
 import NextButton from './components/NextButton';
 import { BackgroundItemView, Container, SearchBar } from '../components';
+import { RootStackParamList } from '@src/navigation/configs';
+import { StackScreenProps } from '@react-navigation/stack';
 
 const ITEM_WIDTH = Metrics.screen.width;
 const ITEM_HEIGHT = Metrics.screen.height * 0.8;
@@ -32,9 +41,15 @@ interface DataProps {
   nextBtn: string;
 }
 
-// type HomeScreenProp = StackNavigationProp<HomeStackParamList, 'HOME'>;
+export type HomeScreenProp = CompositeScreenProps<
+  StackScreenProps<HomeStackParamList, 'HOME'>,
+  StackScreenProps<RootStackParamList, 'SEARCH'>
+>;
 
-const HomeScreen: FC<HomeStackNavigationProp> = ({ navigation }) => {
+export type HomeNavigationProp = HomeScreenProp['navigation'];
+
+const HomeScreen: FC = () => {
+  const navigation = useNavigation<HomeNavigationProp>();
   let AnimatedHeaderValue = new Animated.Value(0);
   const ref = useRef(null);
 
@@ -85,7 +100,7 @@ const HomeScreen: FC<HomeStackNavigationProp> = ({ navigation }) => {
 
   return (
     <Container bodyColor="#FFFFFF">
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('SEARCH')}>
         <SearchBar height={animatedHeaderHeight} />
       </TouchableOpacity>
       <StatusBar animated />
