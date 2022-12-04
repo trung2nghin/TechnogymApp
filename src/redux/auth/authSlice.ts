@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { userInfo } from '@src/types';
+import { getUserThunk } from '../user/userThunk';
 import { loginThunk, logoutThunk, registerThunk } from './authThunk';
 
 type LoginState = {
@@ -19,7 +20,6 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    getUser() {},
     setUser(state, action) {
       state = action.payload;
       return state;
@@ -27,13 +27,31 @@ export const authSlice = createSlice({
   },
   extraReducers(builder) {
     builder
+      .addCase(getUserThunk.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(
+        getUserThunk.fulfilled,
+        (state, action: PayloadAction<userInfo>) => {
+          state.loading = false;
+          state.userInfo = action.payload;
+        },
+      )
+      .addCase(getUserThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+    builder
       .addCase(loginThunk.pending, (state, action) => {
         state.loading = true;
       })
-      .addCase(loginThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        state.userInfo = action.payload;
-      })
+      .addCase(
+        loginThunk.fulfilled,
+        (state, action: PayloadAction<userInfo>) => {
+          state.loading = false;
+          state.userInfo = action.payload;
+        },
+      )
       .addCase(loginThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
@@ -42,10 +60,13 @@ export const authSlice = createSlice({
       .addCase(registerThunk.pending, (state, action) => {
         state.loading = true;
       })
-      .addCase(registerThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        state.userInfo = action.payload;
-      })
+      .addCase(
+        registerThunk.fulfilled,
+        (state, action: PayloadAction<userInfo>) => {
+          state.loading = false;
+          state.userInfo = action.payload;
+        },
+      )
       .addCase(registerThunk.rejected, (state, action) => {
         state.error = action.payload;
       });
@@ -63,6 +84,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { getUser, setUser } = authSlice.actions;
+export const { setUser } = authSlice.actions;
 
 export default authSlice.reducer;
