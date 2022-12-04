@@ -7,6 +7,7 @@ import { RootStackParamList } from './configs';
 import LoginStack from './Stacks/login-stack';
 import BottomTabStack from './Stacks/bottom-tab-stack';
 import DetailStack from './Stacks/detail-stack';
+import { SearchScreen } from '@src/screens';
 
 const RootStack = createStackNavigator<RootStackParamList>();
 
@@ -30,6 +31,7 @@ const AppNavigation: FC = () => {
               name={'BOTTOM_TAB_STACK'}
             />
             <RootStack.Screen component={DetailStack} name={'DETAIL_STACK'} />
+            <RootStack.Screen component={SearchScreen} name={'SEARCH'} />
           </>
         )}
       </RootStack.Navigator>

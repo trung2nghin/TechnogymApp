@@ -3,6 +3,7 @@ export default {
   transparentBlack: '#00000000',
   greyBlack: '#00000020',
   neroGrey: '#262626',
+  nightRiderGrey: '#333333',
   dimGray: '#666666',
   grey: '#808080',
   greyGrey: '#7F7F7F',

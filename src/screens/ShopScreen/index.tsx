@@ -9,8 +9,12 @@ import {
   ImageBackground,
   Animated,
 } from 'react-native';
-import { useNavigation, useScrollToTop } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import {
+  CompositeScreenProps,
+  useNavigation,
+  useScrollToTop,
+} from '@react-navigation/native';
+import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { ShopStackParamList } from '@src/navigation/Stacks/shop-stack';
@@ -20,6 +24,7 @@ import ProductItem from './components/ProductItem';
 
 import { categoryData } from './CategoryData';
 import { dummyData1 } from './dummy';
+import { RootStackParamList } from '@src/navigation/configs';
 
 export interface Iitem {
   name: string;
@@ -31,10 +36,15 @@ export interface Iitem {
 }
 [];
 
-type ShopScreenProp = StackNavigationProp<ShopStackParamList, 'SHOP'>;
+export type ShopScreenProp = CompositeScreenProps<
+  StackScreenProps<ShopStackParamList, 'SHOP'>,
+  StackScreenProps<RootStackParamList, 'SEARCH'>
+>;
+
+export type ShopNavigationProp = ShopScreenProp['navigation'];
 
 const ShopScreen: FC = () => {
-  const navigation = useNavigation<ShopScreenProp>();
+  const navigation = useNavigation<ShopNavigationProp>();
   const ref = React.useRef(null);
 
   let AnimatedHeaderValue = new Animated.Value(0);
@@ -51,16 +61,16 @@ const ShopScreen: FC = () => {
     });
   }, []);
 
-  // const onNavSearch = useCallback(() => {
-  //   navigation.navigate('SEARCH');
-  // }, []);
+  const onNavSearch = useCallback(() => {
+    navigation.navigate('SEARCH');
+  }, []);
 
   useScrollToTop(ref);
 
   return (
     <Container bodyColor={Colors.white}>
       {/* Search bar */}
-      <TouchableOpacity>
+      <TouchableOpacity onPress={onNavSearch}>
         <SearchBar height={animatedHeaderHeight} />
       </TouchableOpacity>
       <ScrollView

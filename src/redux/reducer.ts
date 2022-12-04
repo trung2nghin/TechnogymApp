@@ -9,6 +9,7 @@ import cartReducer from './cart/cartSlice';
 import detailProductReducer from './productDetail/productDetailSlice';
 import commentReducer from './comment/commentSlice';
 import userReducer from './user/userSlice';
+import searchReducer from './search/searchSlice';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   cart: cartReducer,
   detailProduct: detailProductReducer,
   comment: commentReducer,
+  search: searchReducer,
 });
 
 export default rootReducer;
