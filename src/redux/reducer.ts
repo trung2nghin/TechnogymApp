@@ -8,9 +8,11 @@ import favoriteReducer from './favorite/favoriteSlice';
 import cartReducer from './cart/cartSlice';
 import detailProductReducer from './productDetail/productDetailSlice';
 import commentReducer from './comment/commentSlice';
+import userReducer from './user/userSlice';
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  user: userReducer,
   product: productReducer,
   category_product: categoryProductReducer,
   favorite: favoriteReducer,

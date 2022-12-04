@@ -5,6 +5,9 @@ type myInfo = {
   admin: boolean;
   createAt: string;
   updatedAt: string;
+  address?: string;
+  gender?: string;
+  password?: string;
   __v: number;
 };
 
