@@ -18,7 +18,7 @@ const SearchList = ({ item, index }: { item: any; index: number }) => (
         style={[
           index % 2 !== 0
             ? styles.viewItem
-            : { ...styles.viewItem, borderRightWidth: 1.5 },
+            : { ...styles.viewItem, borderRightWidth: 2 },
         ]}>
         <View style={styles.viewImage}>
           <Image
@@ -53,9 +53,9 @@ const styles = StyleSheet.create({
   viewItem: {
     height: Metrics.screen.height / 2.6,
     width: Metrics.screen.width / 2,
-    backgroundColor: Colors.white,
-    borderBottomWidth: 1.5,
-    borderColor: Colors.whiteGainsboro,
+    backgroundColor: Colors.greyZircon,
+    borderBottomWidth: 2,
+    borderColor: Colors.white,
   },
   viewImage: {
     height: '64%',

@@ -120,7 +120,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     paddingHorizontal: Metrics.screen.width / 25,
-    justifyContent: 'space-between',
   },
   textBody: {
     width: '100%',
@@ -130,10 +129,10 @@ const styles = StyleSheet.create({
     color: Colors.black,
     fontSize: 20,
     marginTop: Metrics.screen.height / 13,
-    marginBottom: Metrics.screen.height / 20,
+    marginBottom: Metrics.screen.height / 90,
   },
   bodyFooter: {
-    marginBottom: Metrics.screen.height / 40,
+    bottom: Metrics.screen.height / 36
   },
   image: {
     width: 100,
