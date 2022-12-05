@@ -1,5 +1,11 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 import { Container, Header, InputForm, LoginButton } from '../components';
 import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
@@ -7,6 +13,14 @@ import { Colors, Metrics } from '@src/assets';
 import { useForm } from 'react-hook-form';
 import { gender_data } from './gender_data';
 import { getUserThunk, updateUserThunk } from '@src/redux/user/userThunk';
+import { useNavigation } from '@react-navigation/native';
+import { ProfileStackParamList } from '@src/navigation/Stacks/profile-stack';
+import { StackNavigationProp } from '@react-navigation/stack';
+
+type MyAccountScreenProp = StackNavigationProp<
+  ProfileStackParamList,
+  'MY_ACCOUNT'
+>;
 
 const MyAccountScreen: FC = () => {
   const [gender, setGender] = useState('');
@@ -14,7 +28,7 @@ const MyAccountScreen: FC = () => {
   const user = useAppSelector(state => state.auth.userInfo);
   const { userProfile, loading } = useAppSelector(state => state.user);
   const dispatch = useAppDispatch();
-
+  const navigation = useNavigation<MyAccountScreenProp>();
   const {
     control,
     handleSubmit,
@@ -22,7 +36,6 @@ const MyAccountScreen: FC = () => {
   } = useForm({
     defaultValues: {
       username: user?.myInfo?.username,
-      password: '********',
       email: user?.myInfo?.email,
       address: user?.myInfo?.address,
       gender: user?.myInfo?.gender,
@@ -90,20 +103,18 @@ const MyAccountScreen: FC = () => {
             error={errors?.email?.message}
             placeholder={'EMAIL'}
           />
-          <InputForm
-            control={control}
-            secureTextEntry={true}
-            rules={{
-              maxLength: {
-                value: 20,
-                message: 'Exceeded allowed characters',
-              },
-              required: { value: true, message: 'Required Information' },
-            }}
-            name={'password'}
-            error={errors?.password?.message}
-            placeholder={'PASSWORD'}
-          />
+          <TouchableOpacity
+            onPress={() => navigation.navigate('EDIT_PASSWORD')}>
+            <View style={{ marginBottom: 30 }}>
+              <Text style={styles.textPassword}>PASSWORD</Text>
+              <TextInput
+                style={styles.input}
+                placeholder={'*************'}
+                editable={false}
+                selectTextOnFocus={false}
+              />
+            </View>
+          </TouchableOpacity>
           <InputForm
             control={control}
             secureTextEntry={false}
@@ -171,6 +182,21 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   text: {
+    fontFamily: 'NotoSans-Bold',
+    fontSize: 12.5,
+    color: Colors.black,
+    marginLeft: Metrics.screen.width / 40,
+  },
+  input: {
+    fontFamily: 'NonoSans-Black',
+    fontSize: 13,
+    width: '100%',
+    height: Metrics.screen.height / 20,
+    backgroundColor: Colors.white,
+    padding: 10,
+    borderBottomWidth: 1,
+  },
+  textPassword: {
     fontFamily: 'NotoSans-Bold',
     fontSize: 12.5,
     color: Colors.black,
