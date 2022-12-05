@@ -3,6 +3,7 @@ export { default as HeaderBar } from './HeaderBar';
 export { default as Header } from './Header';
 export { default as SearchBar } from './SearchBar';
 export { default as BackgroundItemView } from './BackgroundItemView';
+export { default as Footer } from './Footer';
 export { default as ProductList } from './ProductList';
 export { default as ProductCount } from './ProductCount';
 export { default as LoginButton } from './LoginButton';

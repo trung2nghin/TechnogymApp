@@ -4,8 +4,13 @@ export { default as LoginInputScreen } from './LoginInputScreen';
 export { default as RegisterInputScreen } from './RegisterInputScreen';
 
 /*##### BOTTOM TAB STACK #####*/
+
+/*##### HOME STACK #####*/
 export { default as HomeScreen } from './HomeScreen';
+
+/*##### BAG STACK #####*/
 export { default as ShoppingBagScreen } from './ShoppingBagScreen';
+export { default as ModalPaymentScreen } from './ShoppingBagScreen/components/ModalPayment';
 
 /*##### SHOP STACK #####*/
 export { default as ShopScreen } from './ShopScreen';
