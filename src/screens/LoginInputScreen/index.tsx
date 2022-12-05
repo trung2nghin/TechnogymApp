@@ -1,15 +1,30 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useForm } from 'react-hook-form';
 
+import {
+  Container,
+  CustomeModal,
+  InputForm,
+  LoginButton,
+  LoginHeader,
+} from '../components';
 import { Colors, Metrics } from '@src/assets';
-import { Container, InputForm, LoginButton, LoginHeader } from '../components';
 import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
 import { loginThunk } from '@src/redux/auth/authThunk';
 import { loginType } from '@src/types/auth-type';
+import { setReload } from '@src/redux/auth/authSlice';
 
 const LoginInputScreen: FC<any> = ({ navigation }) => {
-  const { loading } = useAppSelector(state => state.auth);
+  const [modalVisible, setModalVisible] = useState(false);
+  const { loading, error } = useAppSelector(state => state.auth);
+
+  useEffect(() => {
+    dispatch(setReload());
+    if (!!error) {
+      setModalVisible(true);
+    }
+  }, [error]);
 
   const dispatch = useAppDispatch();
 
@@ -63,17 +78,25 @@ const LoginInputScreen: FC<any> = ({ navigation }) => {
             placeholder={'PASSWORD'}
           />
         </View>
-        <LoginButton
-          textContent={'SIGN IN'}
-          backgroundColor={loading ? Colors.greyBlack : Colors.black}
-          textColor={Colors.white}
-          disabled={loading}
-          icon={true}
-          form={true}
-          submit={handleSubmit(onSubmit)}
-          loading={loading}
-        />
+        <View style={styles.btn}>
+          <LoginButton
+            textContent={'SIGN IN'}
+            backgroundColor={loading ? Colors.greyBlack : Colors.black}
+            textColor={Colors.white}
+            disabled={loading}
+            icon={true}
+            form={true}
+            submit={handleSubmit(onSubmit)}
+            loading={loading}
+          />
+        </View>
       </View>
+      <CustomeModal
+        setModalVisible={setModalVisible}
+        modalVisible={modalVisible}
+        title={'Error'}
+        description={'Your username or password is incorrect'}
+      />
     </Container>
   );
 };
@@ -93,5 +116,8 @@ const styles = StyleSheet.create({
   button: {
     height: 'auto',
     marginBottom: Metrics.screen.height / 50,
+  },
+  btn: {
+    marginBottom: Metrics.screen.height / 40,
   },
 });
