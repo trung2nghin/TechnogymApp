@@ -6,7 +6,7 @@ import { favoriteProductThunk } from '@src/redux/product/productThunk';
 import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
 import BackgroundItemView from '../../components/BackgroundItemView';
 import { Colors } from '@src/assets';
-import { setCart } from '@src/redux/cart/cartSlice';
+import { removeItemCart, setCart } from '@src/redux/cart/cartSlice';
 import { getAllFavoriteProductThunk } from '@src/redux/favorite/favoriteThunk';
 import { getUserIdFavorite } from '@src/redux/favorite/favoriteSlice';
 
@@ -41,8 +41,28 @@ const CartButton: FC<Props> = ({ textButton, onPress, item }) => {
     dispatch(getUserIdFavorite(user?.myInfo?._id));
   }, [cart]);
 
+  const onRemoveItemBag = useCallback(async () => {
+    const bagState = {
+      productID: item?._id,
+      categories: item?.categories,
+      title: item?.title,
+      img: item?.img,
+      size: item?.size,
+      price: item?.price,
+      quantity: 1,
+    };
+    const payload = {
+      productID: item._id,
+      user: user,
+    };
+    await dispatch(favoriteProductThunk(payload));
+    dispatch(removeItemCart(bagState));
+    await dispatch(getAllFavoriteProductThunk(user));
+    dispatch(getUserIdFavorite(user?.myInfo?._id));
+  }, [cart]);
+
   return (
-    <TouchableWithoutFeedback onPress={item ? onAddToBag : () => null}>
+    <TouchableWithoutFeedback onPress={item ? onAddToBag : onRemoveItemBag}>
       <View style={styles.viewMainBtn}>
         <BackgroundItemView
           backgroundColor={Colors.white}

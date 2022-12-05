@@ -23,6 +23,10 @@ export const productSlice = createSlice({
       state = [...filterExistProduct, ...filterProduct];
       return state;
     },
+    removeItemCart(state, action: PayloadAction<ItemCart>) {
+      state.filter(e => e.productID !== action.payload.productID);
+      return state;
+    },
     deleteCart(state) {
       state = [];
       return state;
@@ -30,6 +34,6 @@ export const productSlice = createSlice({
   },
 });
 
-export const { setCart, deleteCart } = productSlice.actions;
+export const { setCart, deleteCart, removeItemCart } = productSlice.actions;
 
 export default productSlice.reducer;
