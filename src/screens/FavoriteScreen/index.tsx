@@ -30,6 +30,7 @@ import ListFooter from './components/ListFooter';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { FavoriteStackParamList } from '@src/navigation/Stacks/favorite-stack';
 import CartButton from './components/CartButton';
+import { favoriteProductThunk } from '@src/redux/product/productThunk';
 
 const ITEM_HEIGHT = Metrics.screen.height / 5.6;
 
@@ -45,7 +46,7 @@ const FavoriteScreen: FC = () => {
 
   const navigation = useNavigation<FavoriteScreenProp>();
   const user = useAppSelector(state => state.auth.userInfo);
-  // const bag = useSelector<RootState, Bag>(state => state.bag);
+  const cart = useAppSelector(state => state.cart);
   const favorite = useAppSelector(state => state.favorite.product);
   const recent = useAppSelector(state => state.recent);
   const dispatch = useAppDispatch();
@@ -60,7 +61,7 @@ const FavoriteScreen: FC = () => {
       dispatch(getUserIdFavorite(user?.myInfo?._id));
     };
     onFetch();
-  }, [isFocused]);
+  }, [isFocused, cart]);
 
   const onNavModal = useCallback((item: ProductItemType) => {
     navigation.navigate('MODAL', {

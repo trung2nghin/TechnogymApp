@@ -11,12 +11,13 @@ import FavoriteStack from '../favorite-stack';
 
 import { Colors } from '@src/assets';
 import { useAppSelector } from '@src/hooks/useRedux';
+import CartStack from '../cart-stack';
 
 export type BottomTabStackParamList = {
   HOME_STACK: undefined;
   SHOP_STACK: undefined;
   FAVORITE_STACK: undefined;
-  SHOPPING_BAG: undefined;
+  CART_STACK: undefined;
   PROFILE_STACK: undefined;
 };
 
@@ -89,8 +90,8 @@ const BottomTabStack = () => {
         }}
       />
       <Tab.Screen
-        component={ShoppingBagScreen}
-        name="SHOPPING_BAG"
+        component={CartStack}
+        name="CART_STACK"
         options={{
           headerShown: false,
           tabBarShowLabel: false,

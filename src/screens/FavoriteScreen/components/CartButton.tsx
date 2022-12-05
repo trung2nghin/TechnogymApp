@@ -7,6 +7,8 @@ import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
 import BackgroundItemView from '../../components/BackgroundItemView';
 import { Colors } from '@src/assets';
 import { setCart } from '@src/redux/cart/cartSlice';
+import { getAllFavoriteProductThunk } from '@src/redux/favorite/favoriteThunk';
+import { getUserIdFavorite } from '@src/redux/favorite/favoriteSlice';
 
 interface Props {
   textButton?: string;
@@ -19,7 +21,7 @@ const CartButton: FC<Props> = ({ textButton, onPress, item }) => {
   const user = useAppSelector(state => state.auth.userInfo);
   const dispatch = useAppDispatch();
 
-  const onAddToBag = useCallback(() => {
+  const onAddToBag = useCallback(async () => {
     const bagState = {
       productID: item?._id,
       categories: item?.categories,
@@ -33,8 +35,10 @@ const CartButton: FC<Props> = ({ textButton, onPress, item }) => {
       productID: item._id,
       user: user,
     };
-    dispatch(favoriteProductThunk(payload));
+    await dispatch(favoriteProductThunk(payload));
     dispatch(setCart(bagState));
+    await dispatch(getAllFavoriteProductThunk(user));
+    dispatch(getUserIdFavorite(user?.myInfo?._id));
   }, [cart]);
 
   return (
@@ -46,11 +50,7 @@ const CartButton: FC<Props> = ({ textButton, onPress, item }) => {
           border={1}>
           <View style={styles.viewBtn}>
             <Text style={styles.txtBg}>{textButton}</Text>
-            <Ionicons
-              name={'cart-outline'}
-              size={20}
-              color={Colors.black}
-            />
+            <Ionicons name={'cart-outline'} size={20} color={Colors.black} />
           </View>
         </BackgroundItemView>
       </View>
