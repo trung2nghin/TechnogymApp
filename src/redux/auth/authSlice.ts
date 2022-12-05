@@ -12,7 +12,7 @@ type LoginState = {
 
 const initialState: LoginState = {
   loading: false,
-  userInfo: {},
+  userInfo: null,
   error: null,
 };
 
@@ -20,6 +20,10 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+    setReload(state) {
+      state.error = null;
+      state.userInfo = null
+    },
     setUser(state, action) {
       state = action.payload;
       return state;
@@ -68,6 +72,7 @@ export const authSlice = createSlice({
         },
       )
       .addCase(registerThunk.rejected, (state, action) => {
+        state.loading = false;
         state.error = action.payload;
       });
     builder
@@ -84,6 +89,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setUser } = authSlice.actions;
+export const { setUser, setReload } = authSlice.actions;
 
 export default authSlice.reducer;

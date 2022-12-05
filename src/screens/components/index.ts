@@ -10,3 +10,4 @@ export { default as LoginButton } from './LoginButton';
 export { default as InputForm } from './InputForm';
 export { default as LoginHeader } from './LoginHeader';
 export { default as DescribeForm } from './DescribeForm';
+export { default as CustomeModal } from './CustomeModal'

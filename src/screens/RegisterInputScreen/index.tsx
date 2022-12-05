@@ -1,12 +1,34 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useForm } from 'react-hook-form';
 
 import { Colors, Metrics } from '@src/assets';
-import { Container, InputForm, LoginButton, LoginHeader } from '../components';
+import {
+  Container,
+  CustomeModal,
+  InputForm,
+  LoginButton,
+  LoginHeader,
+} from '../components';
+import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
+import { registerType } from '@src/types';
+import { registerThunk } from '@src/redux/auth/authThunk';
+import { setReload } from '@src/redux/auth/authSlice';
 
 const RegisterInputScreen: FC<any> = ({ navigation }) => {
-  const [loading, setLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const { error, loading, userInfo } = useAppSelector(state => state.auth);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setReload());
+    if (!!error) {
+      setModalVisible(true);
+    }
+    if (!!userInfo) {
+      navigation.pop();
+    }
+  }, [error, userInfo]);
 
   const {
     control,
@@ -14,36 +36,27 @@ const RegisterInputScreen: FC<any> = ({ navigation }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      username: '',
-      email: '',
-      password: '',
+      username: 'testuser1',
+      email: 'testuser1@gmail.com',
+      password: '123456',
     },
   });
 
-  const onSubmit = useCallback(
-    (data: any) => {
-      console.log(data), setLoading(true);
-    },
-    // let payload = {
-    //   ...data,
-    //   subject: subjectData,
-    //   id: '',
-    //   avatar: pickImg?.uri,
-    [],
-  );
+  const onSubmit = useCallback((data: registerType) => {
+    dispatch(registerThunk(data));
+  }, []);
 
   return (
     <Container header bodyColor={Colors.white}>
       <LoginHeader navigation={navigation} textContent={'REGISTER'} />
-
       <View style={styles.body}>
         <View style={styles.email}>
           <InputForm
             control={control}
-            secureTextEntry={true}
+            secureTextEntry={false}
             rules={{
               maxLength: {
-                value: 20,
+                value: 200,
                 message: 'Exceeded allowed characters',
               },
               required: { value: true, message: 'Required Information' },
@@ -58,7 +71,7 @@ const RegisterInputScreen: FC<any> = ({ navigation }) => {
             secureTextEntry={false}
             rules={{
               maxLength: {
-                value: 20,
+                value: 200,
                 message: 'Exceeded allowed characters',
               },
               required: { value: true, message: 'Required Information' },
@@ -86,17 +99,25 @@ const RegisterInputScreen: FC<any> = ({ navigation }) => {
             placeholder={'PASSWORD'}
           />
         </View>
-        <LoginButton
-          textContent={'SIGN UP'}
-          backgroundColor={loading ? Colors.greyBlack : Colors.black}
-          textColor={Colors.white}
-          disabled={loading}
-          icon={true}
-          form={true}
-          submit={handleSubmit(onSubmit)}
-          loading={loading}
-        />
+        <View style={styles.btn}>
+          <LoginButton
+            textContent={'SIGN UP'}
+            backgroundColor={loading ? Colors.greyBlack : Colors.black}
+            textColor={Colors.white}
+            disabled={loading}
+            icon={true}
+            form={true}
+            submit={handleSubmit(onSubmit)}
+            loading={loading}
+          />
+        </View>
       </View>
+      <CustomeModal
+        setModalVisible={setModalVisible}
+        modalVisible={modalVisible}
+        title={'Error'}
+        description={'This email or username already exists'}
+      />
     </Container>
   );
 };
@@ -116,5 +137,8 @@ const styles = StyleSheet.create({
   button: {
     height: 'auto',
     marginBottom: Metrics.screen.height / 50,
+  },
+  btn: {
+    marginBottom: Metrics.screen.height / 40,
   },
 });

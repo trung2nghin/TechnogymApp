@@ -43,7 +43,29 @@ const WelcomeScreen: FC<LoginStackNavigationProp> = ({ navigation }) => {
           Metrics.screen.height - ITEM_HEIGHT,
           Metrics.screen.height,
         ]}>
-        <View style={styles.footer}></View>
+        <View style={styles.bottomSheet}>
+          <View style={styles.textWrap}>
+            <Text style={styles.textHeaderSheet}>MEMBERS GET REWARDED</Text>
+            <Text style={styles.textBodySheet}>
+              Join our adiClub membership programme to earn points, level up and
+              unlock special rewards
+            </Text>
+          </View>
+          <View style={styles.textWrap}>
+            <Text style={styles.textHeaderSheet}>JOIN ADICLUB</Text>
+            <Text style={styles.textBodySheet}>
+              Inside adiClub, there's something for everyone - from acecess to
+              limited edition sneaker drops to special event invitations and
+              more. Join for free and get immediate access to limited edition
+              sneaker drops to special event invitations and more. Join for free
+              and get immediate access to all Level 1 rewards. To unlock new
+              levels and rewards, earn points by making purchases, leaving
+              reviews, sharing photos, running and more. {'\n'}{'\n'}
+              Already a member? Log in to check your status and get points when
+              using the app.
+            </Text>
+          </View>
+        </View>
       </BottomSheet>
       <View style={[styles.footer, styles.viewTrick]}>
         <LoginButton
@@ -106,5 +128,23 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
+  },
+  bottomSheet: {
+    paddingHorizontal: Metrics.screen.width / 20,
+  },
+  textWrap: {
+    marginTop: Metrics.screen.height / 50,
+    marginBottom: Metrics.screen.height / 30,
+  },
+  textHeaderSheet: {
+    fontFamily: 'NotoSans-Bold',
+    color: Colors.black,
+    fontSize: 28,
+  },
+  textBodySheet: {
+    fontFamily: 'NotoSans-Medium',
+    color: Colors.black,
+    fontSize: 13,
+    marginTop: Metrics.screen.height / 90,
   },
 });
