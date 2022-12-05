@@ -24,6 +24,7 @@ export { default as ReviewInputScreen } from './ReviewInputScreen';
 /*##### PROFILE STACK #####*/
 export { default as ProfileScreen } from './ProfileScreen';
 export { default as MyAccountScreen } from './MyAccountScreen';
+export { default as EditPasswordScreen } from './EditPasswordScreen';
 
 /*##### SEARCH  #####*/
 export { default as SearchScreen } from './SearchScreen';

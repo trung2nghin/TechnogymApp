@@ -4,11 +4,16 @@ import {
   StackScreenProps,
 } from '@react-navigation/stack';
 
-import { MyAccountScreen, ProfileScreen } from '@src/screens';
+import {
+  EditPasswordScreen,
+  MyAccountScreen,
+  ProfileScreen,
+} from '@src/screens';
 
 export type ProfileStackParamList = {
   PROFILE: undefined;
   MY_ACCOUNT: undefined;
+  EDIT_PASSWORD: undefined;
 };
 
 export type ProfileStackNavigationProp =
@@ -47,6 +52,13 @@ const ProfileStack = () => (
         headerRightContainerStyle: {
           right: 16,
         },
+      }}
+    />
+    <Stack.Screen
+      component={EditPasswordScreen}
+      name={'EDIT_PASSWORD'}
+      options={{
+        headerShown: false,
       }}
     />
   </Stack.Navigator>
