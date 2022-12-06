@@ -7,7 +7,8 @@ export { default as RegisterInputScreen } from './RegisterInputScreen';
 
 /*##### HOME STACK #####*/
 export { default as HomeScreen } from './HomeScreen';
-
+export { default as NewScreen } from './NewScreen'
+ 
 /*##### BAG STACK #####*/
 export { default as ShoppingBagScreen } from './ShoppingBagScreen';
 export { default as ModalPaymentScreen } from './ShoppingBagScreen/components/ModalPayment';

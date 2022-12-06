@@ -10,6 +10,7 @@ import detailProductReducer from './productDetail/productDetailSlice';
 import commentReducer from './comment/commentSlice';
 import userReducer from './user/userSlice';
 import searchReducer from './search/searchSlice';
+import homeReducer from './home/homeSlice'
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   detailProduct: detailProductReducer,
   comment: commentReducer,
   search: searchReducer,
+  home: homeReducer
 });
 
 export default rootReducer;
