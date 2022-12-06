@@ -3,12 +3,12 @@ import {
   Animated,
   FlatList,
   ImageBackground,
-  ImageSourcePropType,
   StatusBar,
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import {
   CompositeScreenProps,
@@ -17,12 +17,8 @@ import {
 } from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-import {
-  HomeStackNavigationProp,
-  HomeStackParamList,
-} from '@src/navigation/Stacks/home-stack';
+import { HomeStackParamList } from '@src/navigation/Stacks/home-stack';
 import { Colors, Metrics } from '@src/assets';
-import { HOME_DATA } from './data/HomeData';
 import NextButton from './components/NextButton';
 import { BackgroundItemView, Container, SearchBar } from '../components';
 import { RootStackParamList } from '@src/navigation/configs';
@@ -34,18 +30,27 @@ import {
   postConversationThunk,
 } from '@src/redux/chat/chatThunk';
 import ChatAPI from '@src/api/ChatAPI';
+import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
+import { homeThunk } from '@src/redux/home/homeThunk';
+import { setNewDataReload } from '@src/redux/home/homeSlice';
 
 const ITEM_WIDTH = Metrics.screen.width;
 const ITEM_HEIGHT = Metrics.screen.height * 0.8;
 const HEADER_MAX_HEIGHT = 60;
 const HEADER_MIN_HEIGHT = 0;
+
 interface DataProps {
-  id: number;
-  image: ImageSourcePropType;
-  title: string;
-  subTitle: string;
-  desc: string;
-  nextBtn: string;
+  mainImage: string;
+  mainTitle: string;
+  headerImage: string;
+  bodyImage: string;
+  noteImage: string;
+  textHeader: string;
+  textBody01: string;
+  textBody02: string;
+  textBody03: string;
+  textQuote: string;
+  _id: string;
 }
 
 export type HomeScreenProp = CompositeScreenProps<
@@ -65,6 +70,16 @@ const HomeScreen: FC = () => {
 
   let AnimatedHeaderValue = new Animated.Value(0);
   useScrollToTop(ref);
+
+  const ref = useRef(null);
+
+  const { newData, loading } = useAppSelector(state => state.home);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setNewDataReload())
+    dispatch(homeThunk());
+  }, []);
 
   useEffect(() => {
     navigation.setOptions({
@@ -156,11 +171,14 @@ const HomeScreen: FC = () => {
   const renderItem = ({ item }: { item: DataProps; index: number }) => {
     return (
       <View style={styles.viewImg}>
-        <ImageBackground source={item.image} style={styles.image} />
+        <ImageBackground
+          source={{ uri: item.mainImage }}
+          style={styles.image}
+        />
         <View style={styles.topViewBg}>
           <BackgroundItemView backgroundColor={Colors.black}>
             <Text numberOfLines={1} style={[styles.txtBg, styles.txtHeaderBg]}>
-              {item.title}
+              {item.mainTitle}
             </Text>
           </BackgroundItemView>
         </View>
@@ -168,13 +186,18 @@ const HomeScreen: FC = () => {
           <BackgroundItemView backgroundColor={Colors.white}>
             <Text
               style={[styles.txtBg, { fontFamily: 'NotoSans-MediumItalic' }]}>
-              {item.subTitle}
+              {item.textHeader}
             </Text>
           </BackgroundItemView>
           <BackgroundItemView backgroundColor={Colors.white}>
-            <Text style={styles.txtBg01}>{item.desc}</Text>
+            <Text style={styles.txtBg01}>{item.textBody01}</Text>
           </BackgroundItemView>
-          <NextButton textButton={item.nextBtn} />
+          <NextButton
+            textButton={'Learn more'}
+            nav={() => {
+              navigation.navigate('NEW', { item });
+            }}
+          />
         </View>
       </View>
     );
@@ -185,17 +208,21 @@ const HomeScreen: FC = () => {
       <TouchableOpacity onPress={() => navigation.navigate('SEARCH')}>
         <SearchBar height={animatedHeaderHeight} />
       </TouchableOpacity>
+
       <StatusBar animated />
+
+      {loading && <ActivityIndicator size="large"  color={Colors.black} style={styles.loading}/>}
+
       <FlatList
-        data={HOME_DATA}
-        keyExtractor={(_, index) => index.toString()}
+        data={newData}
+        keyExtractor={item => item._id}
         snapToInterval={ITEM_HEIGHT}
-        ref={ref}
+        // ref={ref}
         decelerationRate="normal"
         showsVerticalScrollIndicator={false}
-        bounces={false}
+        // bounces={false}
         renderItem={renderItem}
-        scrollEventThrottle={16}
+        // scrollEventThrottle={16}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: AnimatedHeaderValue } } }],
           { useNativeDriver: false },
@@ -247,5 +274,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: 'NotoSans-Regular',
     color: Colors.black,
+  },
+  loading: {
+    marginTop: Metrics.screen.height /20
   },
 });

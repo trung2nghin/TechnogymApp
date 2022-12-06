@@ -10,6 +10,8 @@ export { default as HomeScreen } from './HomeScreen';
 export { default as ChatListScreen } from './ChatListScreen';
 export { default as ChatScreen } from './ChatScreen';
 
+export { default as NewScreen } from './NewScreen'
+ 
 /*##### BAG STACK #####*/
 export { default as ShoppingBagScreen } from './ShoppingBagScreen';
 export { default as ModalPaymentScreen } from './ShoppingBagScreen/components/ModalPayment';

@@ -4,14 +4,16 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 interface Props {
   textButton?: string;
+  nav: any;
 }
 
-const NextButton: FC<Props> = ({ textButton }) => {
+const NextButton: FC<Props> = ({ textButton, nav }) => {
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        console.log('Learn More');
-      }}>
+        nav();
+      }}
+    >
       <View style={styles.container}>
         <View style={styles.viewVirtual} />
         <View style={styles.viewBtnMain}>

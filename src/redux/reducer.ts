@@ -12,6 +12,7 @@ import userReducer from './user/userSlice';
 import searchReducer from './search/searchSlice';
 import conversationReducer from './chat/chatConversationSlice';
 import messageReducer from './chat/messageSlice';
+import homeReducer from './home/homeSlice'
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -24,8 +25,6 @@ const rootReducer = combineReducers({
   detailProduct: detailProductReducer,
   comment: commentReducer,
   search: searchReducer,
-  conversation: conversationReducer,
-  message: messageReducer,
 });
 
 export default rootReducer;

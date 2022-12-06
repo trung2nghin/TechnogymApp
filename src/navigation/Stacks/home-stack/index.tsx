@@ -5,11 +5,15 @@ import {
   StackScreenProps,
 } from '@react-navigation/stack';
 
+import { HomeScreen, NewScreen } from '@src/screens';
+import { Button } from 'react-native';
+import { homeType } from '@src/types';
 import { ChatListScreen, ChatScreen, HomeScreen } from '@src/screens';
 import { myInfo } from '@src/types';
 
 export type HomeStackParamList = {
   HOME: undefined;
+  NEW: {item: homeType};
   CHAT_LIST: undefined;
   // CHAT: {
   //   user: myInfo;
@@ -24,7 +28,8 @@ const HomeStack = () => (
   <Stack.Navigator
     screenOptions={{
       headerShown: false,
-    }}>
+    }}
+  >
     <Stack.Screen
       component={HomeScreen}
       name={'HOME'}
@@ -51,6 +56,13 @@ const HomeStack = () => (
       name={'CHAT'}
       options={{ headerShown: false }}
     /> */}
+    <Stack.Screen
+      component={NewScreen}
+      name={'NEW'}
+      options={{
+        headerShown: false,
+      }}
+    />
   </Stack.Navigator>
 );
 
