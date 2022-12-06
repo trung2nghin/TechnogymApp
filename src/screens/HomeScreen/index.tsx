@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import {
   Animated,
   FlatList,
@@ -27,6 +27,13 @@ import NextButton from './components/NextButton';
 import { BackgroundItemView, Container, SearchBar } from '../components';
 import { RootStackParamList } from '@src/navigation/configs';
 import { StackScreenProps } from '@react-navigation/stack';
+import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
+import { userInfo } from '@src/types';
+import {
+  getAllChatThunk,
+  postConversationThunk,
+} from '@src/redux/chat/chatThunk';
+import ChatAPI from '@src/api/ChatAPI';
 
 const ITEM_WIDTH = Metrics.screen.width;
 const ITEM_HEIGHT = Metrics.screen.height * 0.8;
@@ -49,9 +56,15 @@ export type HomeScreenProp = CompositeScreenProps<
 export type HomeNavigationProp = HomeScreenProp['navigation'];
 
 const HomeScreen: FC = () => {
-  const navigation = useNavigation<HomeNavigationProp>();
-  let AnimatedHeaderValue = new Animated.Value(0);
+  const [conversationID, setConversationID] = useState<string>('');
   const ref = useRef(null);
+  const user = useAppSelector(state => state.auth.userInfo);
+  const conversation = useAppSelector(state => state.conversation.conversation);
+  const navigation = useNavigation<HomeNavigationProp>();
+  const dispatch = useAppDispatch();
+
+  let AnimatedHeaderValue = new Animated.Value(0);
+  useScrollToTop(ref);
 
   useEffect(() => {
     navigation.setOptions({
@@ -63,13 +76,82 @@ const HomeScreen: FC = () => {
     });
   }, [navigation]);
 
+  useEffect(() => {
+    dispatch(getAllChatThunk({ user }));
+  }, []);
+
   const animatedHeaderHeight = AnimatedHeaderValue.interpolate({
     inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
     outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
     extrapolate: 'clamp',
   });
 
-  useScrollToTop(ref);
+  const onNavChat = useCallback(async () => {
+    if (!!user?.myInfo?.admin) {
+      navigation.navigate('CHAT_LIST');
+    } else if (
+      !!conversation &&
+      conversation?.length === 0 &&
+      !!user?.myInfo?._id &&
+      user?.myInfo?.admin === false
+    ) {
+      const newConversation = {
+        senderId: user?.myInfo?._id,
+        receiverId: '638ba0847fc306f5e82b1074',
+      };
+      const conversationResponse = await ChatAPI.requestPostConversation({
+        user: user,
+        conversation: newConversation,
+      });
+      console.log(conversationResponse.data);
+
+      const sender = {
+        __v: 0,
+        _id: user?.myInfo?._id,
+        username: user?.myInfo?.username,
+        admin: false,
+        conversationId: conversationResponse.data._id,
+        email: user?.myInfo?.email,
+        createdAt: user?.myInfo?.createdAt,
+        updatedAt: user?.myInfo?.updatedAt,
+      };
+      navigation.navigate('CHAT', {
+        user: sender,
+      });
+    } else if (
+      !!conversation &&
+      conversation?.length > 0 &&
+      !!user?.myInfo?._id &&
+      user?.myInfo?.admin === false
+    ) {
+      const conversationResponse = await ChatAPI.requestGetUserConversation({
+        user: user,
+      });
+      const sender = {
+        __v: 0,
+        _id: user?.myInfo?._id,
+        username: user?.myInfo?.username,
+        admin: false,
+        conversationId: conversationResponse?.data?.[0]?._id,
+        email: user?.myInfo?.email,
+        createdAt: user?.myInfo?.createdAt,
+        updatedAt: user?.myInfo?.updatedAt,
+      };
+      navigation.navigate('CHAT', {
+        user: sender,
+      });
+    }
+  }, [conversation]);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={onNavChat}>
+          <AntDesign name="inbox" size={25} color={Colors.black} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
   const renderItem = ({ item }: { item: DataProps; index: number }) => {
     return (
@@ -99,7 +181,7 @@ const HomeScreen: FC = () => {
   };
 
   return (
-    <Container bodyColor="#FFFFFF">
+    <Container bodyColor={Colors.white}>
       <TouchableOpacity onPress={() => navigation.navigate('SEARCH')}>
         <SearchBar height={animatedHeaderHeight} />
       </TouchableOpacity>

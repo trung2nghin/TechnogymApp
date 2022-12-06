@@ -26,7 +26,6 @@ export const userSlice = createSlice({
       })
       .addCase(updateUserThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.userProfile = action.payload;
       })
       .addCase(updateUserThunk.rejected, (state, action) => {
         state.loading = false;

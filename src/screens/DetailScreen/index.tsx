@@ -1,8 +1,6 @@
 import React, { FC, useCallback, useEffect, useRef } from 'react';
 import {
   Animated,
-  FlatList,
-  Image,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -13,7 +11,6 @@ import { StackScreenProps } from '@react-navigation/stack';
 import {
   CompositeScreenProps,
   RouteProp,
-  useIsFocused,
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
@@ -35,13 +32,12 @@ import { setRecent } from '@src/redux/recent/recentSlice';
 import { getDetailProductThunk } from '@src/redux/productDetail/productDetailThunk';
 import { getAllFavoriteProductThunk } from '@src/redux/favorite/favoriteThunk';
 import { DetailStackParamList } from '@src/navigation/Stacks/detail-stack';
-import { Value } from 'react-native-reanimated';
 import ListImage from './components/ListImage';
 import Loading from '../components/Loading';
 
 export type DetailScreenProp = CompositeScreenProps<
   StackScreenProps<DetailStackParamList, 'DETAIL'>,
-  BottomTabScreenProps<BottomTabStackParamList>
+  BottomTabScreenProps<BottomTabStackParamList, 'CART_STACK'>
 >;
 
 export type DetailScreenNavigationProp = DetailScreenProp['navigation'];
@@ -111,7 +107,7 @@ const DetailScreen: FC = () => {
       quantity: 1,
     };
     dispatch(setCart(cartState));
-    navigation.navigate('SHOPPING_BAG');
+    navigation.navigate('CART_STACK');
   }, [cart]);
 
   const onNavComment = useCallback(() => {

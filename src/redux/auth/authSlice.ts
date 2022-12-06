@@ -22,7 +22,7 @@ export const authSlice = createSlice({
   reducers: {
     setReload(state) {
       state.error = null;
-      state.userInfo = null
+      state.userInfo = null;
     },
     setUser(state, action) {
       state = action.payload;
@@ -38,7 +38,10 @@ export const authSlice = createSlice({
         getUserThunk.fulfilled,
         (state, action: PayloadAction<userInfo>) => {
           state.loading = false;
-          state.userInfo = action.payload;
+          state.userInfo = {
+            myInfo: { ...action.payload },
+            accessToken: state.userInfo?.accessToken,
+          };
         },
       )
       .addCase(getUserThunk.rejected, (state, action) => {

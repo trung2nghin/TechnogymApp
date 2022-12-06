@@ -7,6 +7,8 @@ export { default as RegisterInputScreen } from './RegisterInputScreen';
 
 /*##### HOME STACK #####*/
 export { default as HomeScreen } from './HomeScreen';
+export { default as ChatListScreen } from './ChatListScreen';
+export { default as ChatScreen } from './ChatScreen';
 
 /*##### BAG STACK #####*/
 export { default as ShoppingBagScreen } from './ShoppingBagScreen';

@@ -16,6 +16,7 @@ import { getUserThunk, updateUserThunk } from '@src/redux/user/userThunk';
 import { useNavigation } from '@react-navigation/native';
 import { ProfileStackParamList } from '@src/navigation/Stacks/profile-stack';
 import { StackNavigationProp } from '@react-navigation/stack';
+import Loading from '../components/Loading';
 
 type MyAccountScreenProp = StackNavigationProp<
   ProfileStackParamList,
@@ -38,7 +39,6 @@ const MyAccountScreen: FC = () => {
       username: user?.myInfo?.username,
       email: user?.myInfo?.email,
       address: user?.myInfo?.address,
-      gender: user?.myInfo?.gender,
     },
   });
 
@@ -53,13 +53,16 @@ const MyAccountScreen: FC = () => {
   }, []);
 
   const onSubmit = useCallback(
-    (data: any) => {
+    async (data: any) => {
       if (!!user) {
-        dispatch(updateUserThunk({ user: user, info: data }));
-        dispatch(getUserThunk(user));
+        await dispatch(
+          updateUserThunk({ user: user, info: { ...data, gender: gender } }),
+        );
+        await dispatch(getUserThunk(user));
       }
+      navigation.goBack();
     },
-    [user],
+    [user, gender, setGender],
   );
 
   return (
@@ -162,7 +165,7 @@ const MyAccountScreen: FC = () => {
           textContent={'SAVE'}
           backgroundColor={Colors.black}
           textColor={Colors.white}
-          // navigation={() => navigation.navigate('REGISTER_INPUT')}
+          // navigation={() => navigation.goBack()}
           disabled={loading}
           icon={true}
           loading={loading}
