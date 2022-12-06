@@ -30,7 +30,6 @@ import {
   postConversationThunk,
 } from '@src/redux/chat/chatThunk';
 import ChatAPI from '@src/api/ChatAPI';
-import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
 import { homeThunk } from '@src/redux/home/homeThunk';
 import { setNewDataReload } from '@src/redux/home/homeSlice';
 
@@ -62,22 +61,19 @@ export type HomeNavigationProp = HomeScreenProp['navigation'];
 
 const HomeScreen: FC = () => {
   const [conversationID, setConversationID] = useState<string>('');
-  const ref = useRef(null);
   const user = useAppSelector(state => state.auth.userInfo);
   const conversation = useAppSelector(state => state.conversation.conversation);
+  const { newData, loading } = useAppSelector(state => state.home);
   const navigation = useNavigation<HomeNavigationProp>();
   const dispatch = useAppDispatch();
 
   let AnimatedHeaderValue = new Animated.Value(0);
-  useScrollToTop(ref);
-
   const ref = useRef(null);
 
-  const { newData, loading } = useAppSelector(state => state.home);
-  const dispatch = useAppDispatch();
+  useScrollToTop(ref);
 
   useEffect(() => {
-    dispatch(setNewDataReload())
+    dispatch(setNewDataReload());
     dispatch(homeThunk());
   }, []);
 
@@ -211,7 +207,13 @@ const HomeScreen: FC = () => {
 
       <StatusBar animated />
 
-      {loading && <ActivityIndicator size="large"  color={Colors.black} style={styles.loading}/>}
+      {loading && (
+        <ActivityIndicator
+          size="large"
+          color={Colors.black}
+          style={styles.loading}
+        />
+      )}
 
       <FlatList
         data={newData}
@@ -276,6 +278,6 @@ const styles = StyleSheet.create({
     color: Colors.black,
   },
   loading: {
-    marginTop: Metrics.screen.height /20
+    marginTop: Metrics.screen.height / 20,
   },
 });
