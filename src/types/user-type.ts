@@ -1,14 +1,15 @@
-type myInfo = {
+export type myInfo = {
   _id: string;
   username: string;
   email: string;
   admin: boolean;
-  createAt: string;
+  createdAt: string;
   updatedAt: string;
   address?: string;
   gender?: string;
   password?: string;
-  __v: number;
+  conversationId?: string;
+  __v?: number;
 };
 
 export type userInfo = {

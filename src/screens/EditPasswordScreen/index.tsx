@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Container, Header, InputForm, LoginButton } from '../components';
-import { Colors } from '@src/assets';
+import { Colors, Metrics } from '@src/assets';
 
 const EditPassWordScreen: FC = () => {
   const {
@@ -21,6 +21,7 @@ const EditPassWordScreen: FC = () => {
   };
   return (
     <Container
+      bodyColor={Colors.white}
       header={
         <Header
           icon="chevron-back"
@@ -42,7 +43,7 @@ const EditPassWordScreen: FC = () => {
           }}
           name={'password'}
           error={errors?.password?.message}
-          placeholder={'Current Password'}
+          placeholder={'CURRENT PASSWORD'}
         />
         <InputForm
           control={control}
@@ -56,7 +57,7 @@ const EditPassWordScreen: FC = () => {
           }}
           name={'new_password'}
           error={errors?.password?.message}
-          placeholder={'New password'}
+          placeholder={'NEW PASSWORD'}
         />
         <LoginButton
           textContent={'SAVE'}
@@ -76,6 +77,7 @@ const EditPassWordScreen: FC = () => {
 
 const styles = StyleSheet.create({
   wrapper: {
+    marginTop: Metrics.screen.height / 36,
     backgroundColor: Colors.white,
     paddingHorizontal: 24,
   },

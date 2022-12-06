@@ -10,7 +10,7 @@ import { RootStackParamList } from './configs';
 import LoginStack from './Stacks/login-stack';
 import BottomTabStack from './Stacks/bottom-tab-stack';
 import DetailStack from './Stacks/detail-stack';
-import { SearchScreen } from '@src/screens';
+import { ChatScreen, SearchScreen } from '@src/screens';
 import { setUser } from '@src/redux/auth/authSlice';
 
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -65,6 +65,7 @@ const AppNavigation: FC = () => {
             />
             <RootStack.Screen component={DetailStack} name={'DETAIL_STACK'} />
             <RootStack.Screen component={SearchScreen} name={'SEARCH'} />
+            <RootStack.Screen component={ChatScreen} name={'CHAT'} />
           </>
         )}
       </RootStack.Navigator>

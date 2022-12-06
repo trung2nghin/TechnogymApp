@@ -2,13 +2,14 @@ import AxiosClient from '../AxiosClient';
 import { userInfo } from '@src/types';
 
 const UserAPI = {
-  async requestGetUser(payload: userInfo) {
-    return await AxiosClient(`user/find/${payload.myInfo?._id}`, {
+  async requestGetUser({ user, id }: { user?: userInfo; id?: string }) {
+    const response = await AxiosClient(`user/find/${id}`, {
       method: 'GET',
       headers: {
-        token: `Bearer ${payload?.accessToken}`,
+        token: `Bearer ${user?.accessToken}`,
       },
     });
+    return response.data;
   },
 
   async requestUpdateUser({ user, info }: { user: userInfo; info: userInfo }) {

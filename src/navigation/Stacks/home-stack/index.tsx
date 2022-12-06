@@ -1,14 +1,19 @@
 import React from 'react';
+import { Button } from 'react-native';
 import {
   createStackNavigator,
   StackScreenProps,
 } from '@react-navigation/stack';
 
-import { HomeScreen } from '@src/screens';
-import { Button } from 'react-native';
+import { ChatListScreen, ChatScreen, HomeScreen } from '@src/screens';
+import { myInfo } from '@src/types';
 
 export type HomeStackParamList = {
   HOME: undefined;
+  CHAT_LIST: undefined;
+  // CHAT: {
+  //   user: myInfo;
+  // };
 };
 
 export type HomeStackNavigationProp = StackScreenProps<HomeStackParamList>;
@@ -36,6 +41,16 @@ const HomeStack = () => (
         headerRight: () => <Button title="Inbox" />,
       }}
     />
+    <Stack.Screen
+      component={ChatListScreen}
+      name={'CHAT_LIST'}
+      options={{ headerShown: false }}
+    />
+    {/* <Stack.Screen
+      component={ChatScreen}
+      name={'CHAT'}
+      options={{ headerShown: false }}
+    /> */}
   </Stack.Navigator>
 );
 
