@@ -4,7 +4,7 @@ import { getUserOrderThunk, postOrderThunk, putOrderThunk } from './orderThunk';
 
 type OrderState = {
   loading?: boolean;
-  orderData?: Array<Order> | null;
+  orderData: Array<Order> ;
   error?: string | null | unknown;
 };
 

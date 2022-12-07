@@ -1,13 +1,14 @@
-import React, { FC, useCallback, useEffect } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   FlatList,
+  RefreshControl,
 } from 'react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
+import { StackNavigationProp } from '@react-navigation/stack';
 import IoniconsIcons from 'react-native-vector-icons/Ionicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -17,6 +18,7 @@ import { DetailStackParamList } from '@src/navigation/Stacks/detail-stack';
 import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
 import { CommentType } from '@src/types/comment-type';
 import { getProductCommentThunk } from '@src/redux/comment/commentThunk';
+import Loading from '../components/Loading';
 
 const star = [1, 2, 3, 4, 5];
 
@@ -24,10 +26,12 @@ type ReviewScreenProp = StackNavigationProp<DetailStackParamList, 'REVIEW'>;
 type ReviewScreenRouteProp = RouteProp<DetailStackParamList, 'REVIEW'>;
 
 const ReviewScreen: FC = () => {
+  const [refreshing, setRefreshing] = useState(false);
+
   const navigation = useNavigation<ReviewScreenProp>();
   const route = useRoute<ReviewScreenRouteProp>();
   const user = useAppSelector(state => state.auth.userInfo);
-  const comment = useAppSelector(state => state.comment.commentData);
+  const { commentData, loading } = useAppSelector(state => state.comment);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -37,6 +41,17 @@ const ReviewScreen: FC = () => {
         productId: route.params.productId,
       }),
     );
+  }, []);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    dispatch(
+      getProductCommentThunk({
+        user: user,
+        productId: route.params.productId,
+      }),
+    );
+    setRefreshing(false);
   }, []);
 
   const onNavBack = useCallback(() => {
@@ -69,7 +84,11 @@ const ReviewScreen: FC = () => {
       </View>
       <View style={styles.cardBody}>
         <Text style={styles.text01}>SO WORTH IT</Text>
-        <Text style={styles.text02}>{item.desc}</Text>
+        <View style={styles.text02Wrap}>
+          <Text style={styles.text02} numberOfLines={2}>
+            {item.desc}
+          </Text>
+        </View>
         <View style={styles.recommend}>
           <IoniconsIcons
             name="ios-checkmark-circle-sharp"
@@ -93,7 +112,7 @@ const ReviewScreen: FC = () => {
   return (
     <Container header bodyColor={Colors.white}>
       <View style={styles.header}>
-        <Text style={styles.textHeader}>{comment?.length} REVIEWS</Text>
+        <Text style={styles.textHeader}>{commentData?.length} REVIEWS</Text>
         <View style={styles.starIcon}>
           {star.map((e, i) => (
             <Ionicons
@@ -128,12 +147,23 @@ const ReviewScreen: FC = () => {
         />
       </View>
 
-      <FlatList
-        data={comment}
-        renderItem={renderItem}
-        keyExtractor={item => item._id}
-        ListFooterComponent={() => <View style={{ height: 20 }} />}
-      />
+      {loading && (
+        <View style={styles.loading}>
+          <Loading />
+        </View>
+      )}
+
+      {!loading && (
+        <FlatList
+          data={commentData}
+          renderItem={renderItem}
+          keyExtractor={item => item._id}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          ListFooterComponent={() => <View style={{ height: 20 }} />}
+        />
+      )}
     </Container>
   );
 };
@@ -220,11 +250,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: Metrics.screen.height / 70,
   },
+  text02Wrap: {
+    marginBottom: Metrics.screen.height / 70,
+    height: Metrics.screen.height / 20,
+  },
   text02: {
     fontFamily: 'NotoSans-Medium',
     color: Colors.grey,
     fontSize: 13,
-    marginBottom: Metrics.screen.height / 70,
   },
   text03: {
     fontFamily: 'NotoSans-Bold',
@@ -245,5 +278,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginLeft: Metrics.screen.width / 20,
     lineHeight: 24,
+  },
+  loading: {
+    top: Metrics.screen.height / 6,
+    alignSelf: 'center',
   },
 });

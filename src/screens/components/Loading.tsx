@@ -7,7 +7,7 @@ import { Animations, Colors, Metrics } from '@src/assets';
 const Loading: FC = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.txt}>Loading products...</Text>
+      <Text style={styles.txt}>Loading...</Text>
       <Lottie
         source={Animations.loading}
         autoPlay

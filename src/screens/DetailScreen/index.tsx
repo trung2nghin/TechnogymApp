@@ -34,6 +34,7 @@ import { getAllFavoriteProductThunk } from '@src/redux/favorite/favoriteThunk';
 import { DetailStackParamList } from '@src/navigation/Stacks/detail-stack';
 import ListImage from './components/ListImage';
 import Loading from '../components/Loading';
+import { getProductCommentThunk } from '@src/redux/comment/commentThunk';
 
 export type DetailScreenProp = CompositeScreenProps<
   StackScreenProps<DetailStackParamList, 'DETAIL'>,
@@ -60,7 +61,16 @@ const DetailScreen: FC = () => {
 
   const scrollY = useRef(new Animated.Value(0)).current;
 
+  const { commentData } = useAppSelector(state => state.comment);
+
   useEffect(() => {
+    dispatch(
+      getProductCommentThunk({
+        user: user,
+        productId: route?.params?.item?._id,
+      }),
+    );
+
     const recentView = {
       productID: route?.params?.item?._id,
       categories: route?.params?.item?.categories,
@@ -194,7 +204,9 @@ const DetailScreen: FC = () => {
                   <Text style={styles.txt47}>4.7</Text>
                   <RatingStar star={3} />
                   <TouchableOpacity onPress={onNavComment}>
-                    <Text style={styles.txtReview}>458 reviews</Text>
+                    <Text style={styles.txtReview}>
+                      {commentData?.length} REVIEWS
+                    </Text>
                   </TouchableOpacity>
                 </View>
                 <View style={{ flex: 1, left: 16 }}>
