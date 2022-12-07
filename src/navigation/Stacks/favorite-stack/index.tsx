@@ -32,7 +32,7 @@ const FavoriteStack = () => (
       name={'FAVORITE'}
       options={{
         headerShown: true,
-        title: 'WISHLISH',
+        title: 'WISHLIST',
         headerTitleStyle: {
           fontFamily: 'NotoSans-Bold',
           fontSize: 18.5,

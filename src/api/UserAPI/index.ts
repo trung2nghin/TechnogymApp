@@ -9,13 +9,32 @@ const UserAPI = {
         token: `Bearer ${user?.accessToken}`,
       },
     });
-    return response.data;
+    return response;
   },
 
   async requestUpdateUser({ user, info }: { user: userInfo; info: userInfo }) {
     return await AxiosClient(`user/${user.myInfo?._id}`, {
       method: 'PUT',
       data: info,
+      headers: {
+        token: `Bearer ${user?.accessToken}`,
+      },
+    });
+  },
+
+  async requestUpdatePassword({
+    user,
+    payload,
+  }: {
+    user: userInfo | null;
+    payload: {
+      password: string;
+      passwordUpdate: string;
+    };
+  }) {
+    return await AxiosClient(`user/${user?.myInfo?._id}`, {
+      method: 'PATCH',
+      data: payload,
       headers: {
         token: `Bearer ${user?.accessToken}`,
       },

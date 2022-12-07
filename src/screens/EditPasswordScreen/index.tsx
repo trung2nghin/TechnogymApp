@@ -1,11 +1,24 @@
 import { StyleSheet, View } from 'react-native';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Container, Header, InputForm, LoginButton } from '../components';
+import {
+  Container,
+  CustomeModal,
+  Header,
+  InputForm,
+  LoginButton,
+} from '../components';
 import { Colors, Metrics } from '@src/assets';
+import { updatePasswordThunk } from '@src/redux/user/userThunk';
+import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
 
 const EditPassWordScreen: FC = () => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const user = useAppSelector(state => state.auth.userInfo);
+  const { loading, changePassResponse } = useAppSelector(state => state.user);
+  const dispatch = useAppDispatch();
+
   const {
     control,
     handleSubmit,
@@ -13,12 +26,14 @@ const EditPassWordScreen: FC = () => {
   } = useForm({
     defaultValues: {
       password: '',
-      new_password: '',
+      passwordUpdate: '',
     },
   });
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (data: any) => {
+    await dispatch(updatePasswordThunk({ user: user, payload: data }));
+    setModalVisible(true);
   };
+
   return (
     <Container
       bodyColor={Colors.white}
@@ -55,7 +70,7 @@ const EditPassWordScreen: FC = () => {
             },
             required: { value: true, message: 'Required Information' },
           }}
-          name={'new_password'}
+          name={'passwordUpdate'}
           error={errors?.password?.message}
           placeholder={'NEW PASSWORD'}
         />
@@ -71,6 +86,12 @@ const EditPassWordScreen: FC = () => {
           form={true}
         />
       </View>
+      <CustomeModal
+        setModalVisible={setModalVisible}
+        modalVisible={modalVisible}
+        title={'Success'}
+        description={changePassResponse}
+      />
     </Container>
   );
 };

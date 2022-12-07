@@ -60,9 +60,9 @@ const ModalScreen: FC = () => {
         img: route.params.item.img,
         size: route.params.item.size,
         price: route.params.item.price,
-        quantity: route.params.item.quantity,
+        quantity: 1,
       };
-      setCart(cartPayload);
+      dispatch(setCart(cartPayload));
       await dispatch(favoriteProductThunk(payload));
       navigation.goBack();
     } else if (val.id === '2') {
