@@ -25,22 +25,22 @@ const NewScreen: FC<NewScreenProps> = ({ navigation }) => {
         <Image
           style={styles.headerImage}
           source={{
-            uri: data.headerImage,
+            uri: data?.headerImage,
           }}
         />
         <View style={styles.wrap}>
-          <Text style={styles.textHeader}>{data.textHeader}</Text>
-          <Text style={styles.textBody}>{data.textBody01}</Text>
-          <Text style={styles.textBody}>{data.textBody02}</Text>
+          <Text style={styles.textHeader}>{data?.textHeader}</Text>
+          <Text style={styles.textBody}>{data?.textBody01}</Text>
+          <Text style={styles.textBody}>{data?.textBody02}</Text>
           <Image
             style={styles.bodyImage}
             source={{
-              uri: data.bodyImage,
+              uri: data?.bodyImage,
             }}
           />
-          <Text style={styles.imageNote}>{data.noteImage}</Text>
-          <Text style={styles.textQuote}>{`"${data.textQuote}"`}</Text>
-          <Text style={styles.textBody}>{data.textBody03}</Text>
+          <Text style={styles.imageNote}>{data?.noteImage}</Text>
+          <Text style={styles.textQuote}>{`"${data?.textQuote}"`}</Text>
+          <Text style={styles.textBody}>{data?.textBody03}</Text>
         </View>
       </ScrollView>
       <TouchableOpacity

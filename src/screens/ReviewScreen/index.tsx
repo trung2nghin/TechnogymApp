@@ -63,7 +63,9 @@ const ReviewScreen: FC = () => {
             />
           ))}
         </View>
-        <Text style={styles.textCardHeader}>NOV 28, 2022</Text>
+        <Text style={styles.textCardHeader}>
+          {new Date(item?.createdAt).toISOString().split('T')[0]}
+        </Text>
       </View>
       <View style={styles.cardBody}>
         <Text style={styles.text01}>SO WORTH IT</Text>
@@ -77,7 +79,7 @@ const ReviewScreen: FC = () => {
               marginRight: Metrics.screen.width / 80.5,
             }}
           />
-          <Text style={styles.text03}> RECOMMENDS THIS PRODUCT</Text>
+          <Text style={styles.text03}>RECOMMENDS THIS PRODUCT</Text>
         </View>
       </View>
 
@@ -91,7 +93,7 @@ const ReviewScreen: FC = () => {
   return (
     <Container header bodyColor={Colors.white}>
       <View style={styles.header}>
-        <Text style={styles.textHeader}>435 REVIEWS</Text>
+        <Text style={styles.textHeader}>{comment?.length} REVIEWS</Text>
         <View style={styles.starIcon}>
           {star.map((e, i) => (
             <Ionicons
