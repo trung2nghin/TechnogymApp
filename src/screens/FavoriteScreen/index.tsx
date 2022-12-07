@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import {
+  CompositeScreenProps,
   NavigationContainer,
   RouteProp,
   useIsFocused,
@@ -27,24 +28,27 @@ import { Container, ProductCount, ProductList } from '../components';
 import ProductItem from './components/ProductItem';
 import { getUserIdFavorite } from '@src/redux/favorite/favoriteSlice';
 import ListFooter from './components/ListFooter';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import { FavoriteStackParamList } from '@src/navigation/Stacks/favorite-stack';
 import CartButton from './components/CartButton';
 import { favoriteProductThunk } from '@src/redux/product/productThunk';
+import { RootStackParamList } from '@src/navigation';
 
 const ITEM_HEIGHT = Metrics.screen.height / 5.6;
 
-type FavoriteScreenProp = StackNavigationProp<
-  FavoriteStackParamList,
-  'FAVORITE'
+export type FavoriteScreenProp = CompositeScreenProps<
+  StackScreenProps<FavoriteStackParamList, 'FAVORITE'>,
+  StackScreenProps<RootStackParamList, 'DETAIL_STACK'>
 >;
+
+export type FaviroteNavigationProp = FavoriteScreenProp['navigation'];
 
 type FavoriteScreenRouteProp = RouteProp<FavoriteStackParamList, 'FAVORITE'>;
 
 const FavoriteScreen: FC = () => {
   const [products, setProducts] = useState<ProductListType>();
 
-  const navigation = useNavigation<FavoriteScreenProp>();
+  const navigation = useNavigation<FaviroteNavigationProp>();
   const user = useAppSelector(state => state.auth.userInfo);
   const cart = useAppSelector(state => state.cart);
   const favorite = useAppSelector(state => state.favorite.product);
@@ -69,18 +73,29 @@ const FavoriteScreen: FC = () => {
     });
   }, []);
 
+  const onNavDetail = useCallback((item: any) => {
+    navigation.navigate('DETAIL_STACK', {
+      screen: 'DETAIL',
+      params: { item: item },
+    });
+  }, []);
+
   const renderItem = ({ item }: { item: any }) => {
     return (
       <View style={styles.renderItemContainer}>
         <View style={styles.renderItemChildContainer}>
-          <Image source={{ uri: item.img }} style={styles.img} />
-          <View style={styles.viewMain}>
+          <TouchableOpacity onPress={() => onNavDetail(item)}>
+            <Image source={{ uri: item.img }} style={styles.img} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => onNavDetail(item)}
+            style={styles.viewMain}>
             <Text style={styles.txtExistTitle}>{item.title}</Text>
             <BackgroundItemView backgroundColor={Colors.black}>
               <Text style={{ color: Colors.white }}>${item.price}</Text>
             </BackgroundItemView>
             <CartButton textButton="Add to bag" item={item} />
-          </View>
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => onNavModal(item)}
             style={{ alignSelf: 'center' }}>

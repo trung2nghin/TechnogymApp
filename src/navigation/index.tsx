@@ -20,7 +20,7 @@ import { myInfo } from '@src/types';
 export type RootStackParamList = {
   LOGIN_STACK: undefined;
   BOTTOM_TAB_STACK: undefined;
-  DETAIL_STACK: undefined;
+  DETAIL_STACK: any;
   SEARCH: undefined;
   CHAT: {
     user: myInfo;

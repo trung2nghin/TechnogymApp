@@ -21,7 +21,6 @@ import { HomeStackParamList } from '@src/navigation/Stacks/home-stack';
 import { Colors, Metrics } from '@src/assets';
 import NextButton from './components/NextButton';
 import { BackgroundItemView, Container, SearchBar } from '../components';
-import { RootStackParamList } from '@src/navigation/configs';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
 import { userInfo } from '@src/types';
@@ -32,6 +31,7 @@ import {
 import ChatAPI from '@src/api/ChatAPI';
 import { homeThunk } from '@src/redux/home/homeThunk';
 import { setNewDataReload } from '@src/redux/home/homeSlice';
+import { RootStackParamList } from '@src/navigation';
 
 const ITEM_WIDTH = Metrics.screen.width;
 const ITEM_HEIGHT = Metrics.screen.height * 0.8;

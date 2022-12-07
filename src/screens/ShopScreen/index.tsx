@@ -24,7 +24,7 @@ import ProductItem from './components/ProductItem';
 
 import { categoryData } from './CategoryData';
 import { dummyData1 } from './dummy';
-import { RootStackParamList } from '@src/navigation/configs';
+import { RootStackParamList } from '@src/navigation';
 
 export interface Iitem {
   name: string;

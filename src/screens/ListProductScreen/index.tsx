@@ -27,7 +27,7 @@ import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
 import { ShopStackParamList } from '@src/navigation/Stacks/shop-stack';
 import { Colors, Metrics } from '@src/assets';
 import { ProductItem } from '@src/types';
-import { RootStackParamList } from '@src/navigation/configs';
+import { RootStackParamList } from '@src/navigation';
 
 export type ListProductScreenProp = CompositeScreenProps<
   StackScreenProps<ShopStackParamList, 'LIST_PRODUCT'>,
