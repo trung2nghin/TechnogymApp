@@ -13,6 +13,7 @@ import searchReducer from './search/searchSlice';
 import conversationReducer from './chat/chatConversationSlice';
 import messageReducer from './chat/messageSlice';
 import homeReducer from './home/homeSlice';
+import orderReducer from './order/orderSlice';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   conversation: conversationReducer,
   message: messageReducer,
   home: homeReducer,
+  order: orderReducer,
 });
 
 export default rootReducer;

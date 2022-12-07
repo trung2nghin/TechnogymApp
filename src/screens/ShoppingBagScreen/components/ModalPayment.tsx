@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useRef } from 'react';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import {
   Animated,
   Text,
@@ -24,9 +24,11 @@ import { CartStackParamList } from '@src/navigation/Stacks/cart-stack';
 import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
 import { Colors, Metrics } from '@src/assets';
 import { deleteCart } from '@src/redux/cart/cartSlice';
-import { MyCart } from '@src/types';
+import { MyCart, ProductOrder } from '@src/types';
 import PaymentAPI from '@src/api/PaymentAPI';
 import { postCartThunk } from '@src/redux/cart/cartThunk';
+import { postOrderThunk } from '@src/redux/order/orderThunk';
+import { CustomeModal } from '@src/screens/components';
 
 type ModalScreenProp = StackNavigationProp<CartStackParamList, 'MODAL_PAYMENT'>;
 
@@ -36,6 +38,12 @@ type ListProductScreenRouteProp = RouteProp<
 >;
 
 const ModalPayment: FC = () => {
+  const [orderCart, setOrderCart] = useState<MyCart>({
+    userId: '',
+    products: [],
+  });
+  const [listProduct, setListProduct] = useState<Array<ProductOrder>>();
+  const [modalVisible, setModalVisible] = useState(false);
   const { colors } = useTheme();
   const stripe = useStripe();
   const route = useRoute<ListProductScreenRouteProp>();
@@ -52,24 +60,28 @@ const ModalPayment: FC = () => {
       duration: 300,
       useNativeDriver: true,
     }).start();
+
+    const myBag = cart;
+    let products: Array<any> = [];
+    for (const i of myBag) {
+      let { categories, img, price, title, size, ...others } = i;
+      products.push(others);
+    }
+    const myCart: MyCart = {
+      userId: user?.myInfo?._id,
+      products,
+    };
+
+    setListProduct(products);
+    setOrderCart(myCart);
   }, []);
 
   const onPostCart = useCallback(() => {
     try {
       const fetchData = async () => {
-        const myBag = cart;
-        let products: Array<any> = [];
-        for (const i of myBag) {
-          let { categories, img, price, title, size, ...others } = i;
-          products.push(others);
-        }
-        const myCart: MyCart = {
-          userId: user?.myInfo?._id,
-          products,
-        };
         const request = {
           user: user,
-          payload: myCart,
+          payload: orderCart,
         };
         await dispatch(postCartThunk(request));
       };
@@ -77,13 +89,34 @@ const ModalPayment: FC = () => {
     } catch (error) {
       console.log('onPostCart error');
     }
-  }, []);
+  }, [orderCart]);
 
   const Payment = async () => {
     try {
+      const request = {
+        user: user,
+        payload: {
+          userId: user?.myInfo?._id,
+          products: listProduct,
+          amount: route.params.totalPrice,
+          address: user?.myInfo?.address,
+          status: 'Succeeded',
+        },
+      };
+
+      const requestPending = {
+        user: user,
+        payload: {
+          userId: user?.myInfo?._id,
+          products: listProduct,
+          amount: route.params.totalPrice,
+          address: user?.myInfo?.address,
+        },
+      };
+
       const payload = {
         shipping: 'Delivery',
-        address: 'Hanoi',
+        address: user?.myInfo?.address,
         phoneNumber: '0768298951',
         promoCode: 'none',
         totalPrice: route.params.totalPrice,
@@ -98,8 +131,15 @@ const ModalPayment: FC = () => {
       const presentSheet = await stripe.presentPaymentSheet({
         clientSecret,
       });
-      if (presentSheet.error) return Alert.alert(presentSheet.error.message);
-      Alert.alert('Payment complete');
+
+      if (presentSheet.error) {
+        await dispatch(postOrderThunk(requestPending));
+        setModalVisible(true);
+        // return Alert.alert(presentSheet.error.message);
+      } else {
+        await dispatch(postOrderThunk(request));
+        Alert.alert('Payment complete');
+      }
       await onPostCart();
       navigation.goBack();
       dispatch(deleteCart());
@@ -156,6 +196,12 @@ const ModalPayment: FC = () => {
           </TouchableOpacity>
         </Animated.View>
       </StripeProvider>
+      <CustomeModal
+        setModalVisible={setModalVisible}
+        modalVisible={modalVisible}
+        title={'Error'}
+        description={'Payment incomplete'}
+      />
     </SafeAreaView>
   );
 };

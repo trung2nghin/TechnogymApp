@@ -2,16 +2,32 @@ import React, { FC } from 'react';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  StackScreenProps,
+} from '@react-navigation/stack';
 
 import AuthAPI from '@src/api/AuthAPI';
 import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
-import { RootStackParamList } from './configs';
 import LoginStack from './Stacks/login-stack';
 import BottomTabStack from './Stacks/bottom-tab-stack';
 import DetailStack from './Stacks/detail-stack';
 import { ChatScreen, SearchScreen } from '@src/screens';
+
 import { setUser } from '@src/redux/auth/authSlice';
+import { myInfo } from '@src/types';
+
+export type RootStackParamList = {
+  LOGIN_STACK: undefined;
+  BOTTOM_TAB_STACK: undefined;
+  DETAIL_STACK: undefined;
+  SEARCH: undefined;
+  CHAT: {
+    user: myInfo;
+  };
+};
+
+export type RootStackNavigationProp = StackScreenProps<RootStackParamList>;
 
 const RootStack = createStackNavigator<RootStackParamList>();
 
