@@ -39,8 +39,8 @@ const LoginInputScreen: FC<any> = ({ navigation }) => {
     },
   });
 
-  const onSubmit = useCallback((data: loginType) => {
-    dispatch(loginThunk(data));
+  const onSubmit = useCallback(async (data: loginType) => {
+    await dispatch(loginThunk(data));
   }, []);
 
   return (
