@@ -39,8 +39,6 @@ const ModalScreen: FC = () => {
   const dispatch = useAppDispatch();
   const transY = useRef(new Animated.Value(Metrics.screen.height / 2)).current;
 
-  // console.log(favorite);
-
   useEffect(() => {
     Animated.timing(transY, {
       toValue: 0,

@@ -118,7 +118,6 @@ const HomeScreen: FC = () => {
         user: user,
         conversation: newConversation,
       });
-      console.log(conversationResponse.data);
 
       const sender = {
         __v: 0,

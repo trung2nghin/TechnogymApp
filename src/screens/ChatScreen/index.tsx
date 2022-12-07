@@ -132,7 +132,7 @@ const ChatScreen: FC = () => {
       header={
         <Header
           icon="arrow-back-outline"
-          textIcon={route.params.user?.username}
+          textIcon={"MESSAGE"}
           iconSize={24}
           icColor={Colors.black}
         />
