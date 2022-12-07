@@ -5,7 +5,7 @@ import { Order, userInfo } from '@src/types';
 
 export const getUserOrderThunk = createAsyncThunk(
   'userOrder/getUserOrder',
-  async ({ user }: { user: userInfo }, thunkApi) => {
+  async ({ user }: { user: userInfo | null }, thunkApi) => {
     try {
       const response = await OrderAPI.requestGetUserOrder({
         user,

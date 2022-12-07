@@ -4,12 +4,15 @@ import { StyleSheet, Text, View } from 'react-native';
 
 interface Props {
   productCount?: number | string;
+  isOrder?: boolean;
 }
 
-const ProductCount: FC<Props> = ({ productCount }) => {
+const ProductCount: FC<Props> = ({ productCount, isOrder }) => {
   return (
     <View style={styles.viewProduct}>
-      <Text style={styles.txtProduct}>{productCount} product</Text>
+      <Text style={styles.txtProduct}>
+        {productCount} {isOrder ? 'Order' : 'product'}
+      </Text>
     </View>
   );
 };

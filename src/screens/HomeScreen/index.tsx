@@ -32,6 +32,7 @@ import {
 import ChatAPI from '@src/api/ChatAPI';
 import { homeThunk } from '@src/redux/home/homeThunk';
 import { setNewDataReload } from '@src/redux/home/homeSlice';
+import Loading from '../components/Loading';
 
 const ITEM_WIDTH = Metrics.screen.width;
 const ITEM_HEIGHT = Metrics.screen.height * 0.8;
@@ -68,9 +69,12 @@ const HomeScreen: FC = () => {
   const dispatch = useAppDispatch();
 
   let AnimatedHeaderValue = new Animated.Value(0);
+
   const ref = useRef(null);
 
   useScrollToTop(ref);
+
+
 
   useEffect(() => {
     dispatch(setNewDataReload());
@@ -168,25 +172,26 @@ const HomeScreen: FC = () => {
     return (
       <View style={styles.viewImg}>
         <ImageBackground
-          source={{ uri: item.mainImage }}
+          source={{ uri: item?.mainImage }}
           style={styles.image}
         />
         <View style={styles.topViewBg}>
           <BackgroundItemView backgroundColor={Colors.black}>
             <Text numberOfLines={1} style={[styles.txtBg, styles.txtHeaderBg]}>
-              {item.mainTitle}
+              {item?.mainTitle}
             </Text>
           </BackgroundItemView>
         </View>
         <View style={styles.viewBg}>
           <BackgroundItemView backgroundColor={Colors.white}>
             <Text
-              style={[styles.txtBg, { fontFamily: 'NotoSans-MediumItalic' }]}>
-              {item.textHeader}
+              style={[styles.txtBg, { fontFamily: 'NotoSans-MediumItalic' }]}
+            >
+              {item?.textHeader}
             </Text>
           </BackgroundItemView>
           <BackgroundItemView backgroundColor={Colors.white}>
-            <Text style={styles.txtBg01}>{item.textBody01}</Text>
+            <Text style={styles.txtBg01}>{item?.textBody01}</Text>
           </BackgroundItemView>
           <NextButton
             textButton={'Learn more'}
@@ -208,11 +213,9 @@ const HomeScreen: FC = () => {
       <StatusBar animated />
 
       {loading && (
-        <ActivityIndicator
-          size="large"
-          color={Colors.black}
-          style={styles.loading}
-        />
+        <View style={styles.loading}>
+          <Loading />
+        </View>
       )}
 
       <FlatList
@@ -278,6 +281,7 @@ const styles = StyleSheet.create({
     color: Colors.black,
   },
   loading: {
-    marginTop: Metrics.screen.height / 20,
+    top: Metrics.screen.height / 4,
+    alignSelf: 'center',
   },
 });

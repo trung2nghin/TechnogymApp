@@ -7,6 +7,7 @@ import {
 import {
   EditPasswordScreen,
   MyAccountScreen,
+  OrderHistoryScreen,
   ProfileScreen,
 } from '@src/screens';
 
@@ -14,10 +15,12 @@ export type ProfileStackParamList = {
   PROFILE: undefined;
   MY_ACCOUNT: undefined;
   EDIT_PASSWORD: undefined;
+  MY_ORDERS: undefined;
 };
 
-export type ProfileStackNavigationProp =
-  StackScreenProps<ProfileStackParamList>;
+export type ProfileStackNavigationProp = StackScreenProps<
+  ProfileStackParamList
+>;
 
 const Stack = createStackNavigator<ProfileStackParamList>();
 
@@ -25,7 +28,8 @@ const ProfileStack = () => (
   <Stack.Navigator
     screenOptions={{
       headerShown: false,
-    }}>
+    }}
+  >
     <Stack.Screen
       component={ProfileScreen}
       name={'PROFILE'}
@@ -57,6 +61,13 @@ const ProfileStack = () => (
     <Stack.Screen
       component={EditPasswordScreen}
       name={'EDIT_PASSWORD'}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      component={OrderHistoryScreen}
+      name={'MY_ORDERS'}
       options={{
         headerShown: false,
       }}

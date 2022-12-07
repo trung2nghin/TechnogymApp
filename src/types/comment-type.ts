@@ -5,6 +5,7 @@ export interface CommentType {
   productId: string;
   userId: string;
   username: string;
+  createdAt: string;
 }
 
 export type CommentListType = Array<CommentType>;

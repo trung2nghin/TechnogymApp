@@ -53,6 +53,7 @@ const ReviewInputScreen: FC = () => {
         comment: data,
       }),
     );
+
     navgation.goBack();
   }, []);
 
@@ -67,7 +68,8 @@ const ReviewInputScreen: FC = () => {
             icColor={Colors.black}
             textIcon={'REVIEW'}
           />
-        }>
+        }
+      >
         <View style={styles.header} />
         <View style={styles.body}>
           <View>
@@ -132,7 +134,7 @@ const styles = StyleSheet.create({
     marginBottom: Metrics.screen.height / 90,
   },
   bodyFooter: {
-    bottom: Metrics.screen.height / 36
+    bottom: Metrics.screen.height / 36,
   },
   image: {
     width: 100,

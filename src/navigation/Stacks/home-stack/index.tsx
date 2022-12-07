@@ -15,6 +15,7 @@ export type HomeStackParamList = {
   // CHAT: {
   //   user: myInfo;
   // };
+  NEW: {item: homeType};
 };
 
 export type HomeStackNavigationProp = StackScreenProps<HomeStackParamList>;
@@ -25,7 +26,8 @@ const HomeStack = () => (
   <Stack.Navigator
     screenOptions={{
       headerShown: false,
-    }}>
+    }}
+  >
     <Stack.Screen
       component={HomeScreen}
       name={'HOME'}

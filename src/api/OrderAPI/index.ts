@@ -34,8 +34,8 @@ const OrderAPI = {
     });
   },
 
-  async requestGetUserOrder({ user }: { user: userInfo }) {
-    return await AxiosClient(`order/find/${user.myInfo?._id}`, {
+  async requestGetUserOrder({ user }: { user: userInfo  | null}) {
+    return await AxiosClient(`order/find/${user?.myInfo?._id}`, {
       method: 'GET',
       headers: {
         token: `Bearer ${user?.accessToken}`,

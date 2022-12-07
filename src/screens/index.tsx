@@ -9,6 +9,7 @@ export { default as RegisterInputScreen } from './RegisterInputScreen';
 export { default as HomeScreen } from './HomeScreen';
 export { default as ChatListScreen } from './ChatListScreen';
 export { default as ChatScreen } from './ChatScreen';
+export { default as NewScreen } from './NewScreen';
 
 export { default as NewScreen } from './NewScreen'
  
@@ -34,6 +35,7 @@ export { default as ReviewInputScreen } from './ReviewInputScreen';
 export { default as ProfileScreen } from './ProfileScreen';
 export { default as MyAccountScreen } from './MyAccountScreen';
 export { default as EditPasswordScreen } from './EditPasswordScreen';
+export { default as OrderHistoryScreen } from './OrderHistoryScreen';
 
 /*##### SEARCH  #####*/
 export { default as SearchScreen } from './SearchScreen';
