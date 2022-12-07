@@ -31,3 +31,28 @@ export const updateUserThunk = createAsyncThunk(
     }
   },
 );
+
+export const updatePasswordThunk = createAsyncThunk(
+  'updatePassword/patchUpdatePassword',
+  async (
+    {
+      user,
+      payload,
+    }: {
+      user: userInfo | null;
+      payload: {
+        password: string;
+        passwordUpdate: string;
+      };
+    },
+    thunkApi,
+  ) => {
+    try {
+      const response = await UserAPI.requestUpdatePassword({ user, payload });
+      return response.data;
+    } catch (error: any) {
+      const message = error.message;
+      return thunkApi.rejectWithValue(message);
+    }
+  },
+);

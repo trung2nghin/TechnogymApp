@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import {
   CompositeScreenProps,
+  useIsFocused,
   useNavigation,
   useScrollToTop,
 } from '@react-navigation/native';
@@ -61,20 +62,19 @@ export type HomeScreenProp = CompositeScreenProps<
 export type HomeNavigationProp = HomeScreenProp['navigation'];
 
 const HomeScreen: FC = () => {
-  const [conversationID, setConversationID] = useState<string>('');
   const user = useAppSelector(state => state.auth.userInfo);
   const conversation = useAppSelector(state => state.conversation.conversation);
   const { newData, loading } = useAppSelector(state => state.home);
   const navigation = useNavigation<HomeNavigationProp>();
   const dispatch = useAppDispatch();
 
+  const focus = useIsFocused();
+
   let AnimatedHeaderValue = new Animated.Value(0);
 
   const ref = useRef(null);
 
   useScrollToTop(ref);
-
-
 
   useEffect(() => {
     dispatch(setNewDataReload());
@@ -93,7 +93,7 @@ const HomeScreen: FC = () => {
 
   useEffect(() => {
     dispatch(getAllChatThunk({ user }));
-  }, []);
+  }, [focus]);
 
   const animatedHeaderHeight = AnimatedHeaderValue.interpolate({
     inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
@@ -155,7 +155,7 @@ const HomeScreen: FC = () => {
         user: sender,
       });
     }
-  }, [conversation]);
+  }, [conversation, focus]);
 
   useEffect(() => {
     navigation.setOptions({
@@ -184,8 +184,7 @@ const HomeScreen: FC = () => {
         <View style={styles.viewBg}>
           <BackgroundItemView backgroundColor={Colors.white}>
             <Text
-              style={[styles.txtBg, { fontFamily: 'NotoSans-MediumItalic' }]}
-            >
+              style={[styles.txtBg, { fontFamily: 'NotoSans-MediumItalic' }]}>
               {item?.textHeader}
             </Text>
           </BackgroundItemView>

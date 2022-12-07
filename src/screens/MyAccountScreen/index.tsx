@@ -56,11 +56,10 @@ const MyAccountScreen: FC = () => {
     async (data: any) => {
       if (!!user) {
         await dispatch(
-          updateUserThunk({ user: user, info: { ...data, gender: gender } }),
+          updateUserThunk({ user: user, info: { ...data, gender: 'Male' } }),
         );
         await dispatch(getUserThunk(user));
       }
-      navigation.goBack();
     },
     [user, gender, setGender],
   );

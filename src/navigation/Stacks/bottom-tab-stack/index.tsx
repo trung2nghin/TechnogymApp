@@ -143,7 +143,7 @@ export default BottomTabStack;
 
 const styles = StyleSheet.create({
   viewTabBarBtn: {
-    width: '80%',
+    width: '90%',
     height: '100%',
     borderRadius: 4,
     alignItems: 'center',

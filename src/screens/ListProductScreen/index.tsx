@@ -28,6 +28,8 @@ import { ShopStackParamList } from '@src/navigation/Stacks/shop-stack';
 import { Colors, Metrics } from '@src/assets';
 import { ProductItem } from '@src/types';
 import { RootStackParamList } from '@src/navigation';
+import { getAllFavoriteProductThunk } from '@src/redux/favorite/favoriteThunk';
+import { getUserIdFavorite } from '@src/redux/favorite/favoriteSlice';
 
 export type ListProductScreenProp = CompositeScreenProps<
   StackScreenProps<ShopStackParamList, 'LIST_PRODUCT'>,
@@ -59,6 +61,8 @@ const ListProductScreen: FC = () => {
       };
       await dispatch(favoriteProductThunk(payload));
       await dispatch(getProductThunk({ user: user, category: categoryName }));
+      await dispatch(getAllFavoriteProductThunk(user));
+      dispatch(getUserIdFavorite(user?.myInfo?._id));
     },
     [product],
   );

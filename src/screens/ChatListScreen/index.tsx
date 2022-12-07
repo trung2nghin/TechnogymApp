@@ -1,4 +1,10 @@
-import React, { FC, useCallback, useLayoutEffect, useState } from 'react';
+import React, {
+  FC,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -39,7 +45,7 @@ const ChatListScreen: FC = () => {
   const dispatch = useAppDispatch();
   const focus = useIsFocused();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     try {
       const fetchData = async () => {
         await dispatch(getAllChatThunk({ user }));
@@ -56,7 +62,7 @@ const ChatListScreen: FC = () => {
               });
 
               const listChatFriend = {
-                ...getUser,
+                ...getUser.data,
                 conversationId: conversation?.[idx]?._id,
               };
 
@@ -74,6 +80,8 @@ const ChatListScreen: FC = () => {
   }, [focus]);
 
   const onNavChat = useCallback((e: myInfo) => {
+    console.log('e', e);
+
     navigation.navigate('CHAT', {
       user: e,
     });

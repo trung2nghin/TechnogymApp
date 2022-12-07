@@ -34,7 +34,7 @@ const ChatScreen: FC = () => {
   const dispatch = useAppDispatch();
   const socket = useRef<any>();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const fetchMessage = async () => {
       const messageResponse = await ChatAPI.requestGetMessenger({
         user,
@@ -48,7 +48,8 @@ const ChatScreen: FC = () => {
               user,
               id: e?.sender,
             });
-            const deepUser = await JSON.parse(JSON.stringify(getUser));
+
+            const deepUser = await JSON.parse(JSON.stringify(getUser.data));
             const clientUser = {
               name: deepUser?.username,
               _id: e?.sender,
@@ -132,7 +133,7 @@ const ChatScreen: FC = () => {
       header={
         <Header
           icon="arrow-back-outline"
-          textIcon={"MESSAGE"}
+          textIcon={'MESSAGE'}
           iconSize={24}
           icColor={Colors.black}
         />
