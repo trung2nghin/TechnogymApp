@@ -12,6 +12,9 @@ export type FavoriteStackParamList = {
   MODAL: {
     item: ProductItem;
   };
+  DETAIL: {
+    item: any;
+  };
 };
 
 export type FavoriteStackNavigationProp =
@@ -29,9 +32,11 @@ const FavoriteStack = () => (
       name={'FAVORITE'}
       options={{
         headerShown: true,
-        title: 'FAVORITE',
+        title: 'WISHLISH',
         headerTitleStyle: {
           fontFamily: 'NotoSans-Bold',
+          fontSize: 18.5,
+          letterSpacing: 0.75,
         },
         headerRightContainerStyle: {
           right: 16,

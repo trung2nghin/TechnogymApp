@@ -28,7 +28,6 @@ import { MyCart, ProductOrder } from '@src/types';
 import PaymentAPI from '@src/api/PaymentAPI';
 import { postCartThunk } from '@src/redux/cart/cartThunk';
 import { postOrderThunk } from '@src/redux/order/orderThunk';
-import { CustomeModal } from '@src/screens/components';
 
 type ModalScreenProp = StackNavigationProp<CartStackParamList, 'MODAL_PAYMENT'>;
 
@@ -135,10 +134,14 @@ const ModalPayment: FC = () => {
       if (presentSheet.error) {
         await dispatch(postOrderThunk(requestPending));
         setModalVisible(true);
-        // return Alert.alert(presentSheet.error.message);
+        return Alert.alert('Cancel payment', presentSheet.error.message, [
+          { text: 'Ok' },
+        ]);
       } else {
         await dispatch(postOrderThunk(request));
-        Alert.alert('Payment complete');
+        Alert.alert('Payment complete', 'Please check you order', [
+          { text: 'Ok' },
+        ]);
       }
       await onPostCart();
       navigation.goBack();
@@ -196,12 +199,6 @@ const ModalPayment: FC = () => {
           </TouchableOpacity>
         </Animated.View>
       </StripeProvider>
-      <CustomeModal
-        setModalVisible={setModalVisible}
-        modalVisible={modalVisible}
-        title={'Error'}
-        description={'Payment incomplete'}
-      />
     </SafeAreaView>
   );
 };

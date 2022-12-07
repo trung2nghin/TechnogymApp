@@ -21,7 +21,7 @@ import { HomeStackParamList } from '@src/navigation/Stacks/home-stack';
 import { Conversation, myInfo } from '@src/types';
 import { getAllChatThunk } from '@src/redux/chat/chatThunk';
 import UserAPI from '@src/api/UserAPI';
-import { RootStackParamList } from '@src/navigation/configs';
+import { RootStackParamList } from '@src/navigation';
 
 export type ChatListScreenProp = CompositeScreenProps<
   StackScreenProps<HomeStackParamList, 'CHAT_LIST'>,

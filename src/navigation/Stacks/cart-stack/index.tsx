@@ -30,6 +30,8 @@ const CartStack = () => (
         title: 'SHOPPING BAG',
         headerTitleStyle: {
           fontFamily: 'NotoSans-Bold',
+          fontSize: 18.5,
+          letterSpacing: 0.75,
         },
         headerRightContainerStyle: {
           right: 16,

@@ -19,7 +19,7 @@ import SlackMessage from './components/MessageCard';
 import { IMessage } from '@src/types';
 import { Colors } from '@src/assets';
 import ChatAPI from '@src/api/ChatAPI';
-import { RootStackParamList } from '@src/navigation/configs';
+import { RootStackParamList } from '@src/navigation';
 
 type ListProductScreenRouteProp = RouteProp<RootStackParamList, 'CHAT'>;
 

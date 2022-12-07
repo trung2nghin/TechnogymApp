@@ -31,9 +31,11 @@ const HomeStack = () => (
       name={'HOME'}
       options={{
         headerShown: true,
-        title: 'HOME',
+        title: 'DROPS',
         headerTitleStyle: {
           fontFamily: 'NotoSans-Bold',
+          fontSize: 18.5,
+          letterSpacing: 0.75,
         },
         headerRightContainerStyle: {
           right: 16,
