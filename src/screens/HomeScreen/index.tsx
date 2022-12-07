@@ -8,7 +8,7 @@ import {
   Text,
   View,
   TouchableOpacity,
-  ActivityIndicator,
+  RefreshControl
 } from 'react-native';
 import {
   CompositeScreenProps,
@@ -24,10 +24,8 @@ import NextButton from './components/NextButton';
 import { BackgroundItemView, Container, SearchBar } from '../components';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
-import { userInfo } from '@src/types';
 import {
   getAllChatThunk,
-  postConversationThunk,
 } from '@src/redux/chat/chatThunk';
 import ChatAPI from '@src/api/ChatAPI';
 import { homeThunk } from '@src/redux/home/homeThunk';
@@ -62,6 +60,7 @@ export type HomeScreenProp = CompositeScreenProps<
 export type HomeNavigationProp = HomeScreenProp['navigation'];
 
 const HomeScreen: FC = () => {
+  const [refreshing, setRefreshing] = useState(false);
   const user = useAppSelector(state => state.auth.userInfo);
   const conversation = useAppSelector(state => state.conversation.conversation);
   const { newData, loading } = useAppSelector(state => state.home);
@@ -81,6 +80,14 @@ const HomeScreen: FC = () => {
     dispatch(homeThunk());
   }, []);
 
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    dispatch(setNewDataReload());
+    dispatch(homeThunk());
+    setRefreshing(false);
+  }, []);
+
+
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -90,7 +97,7 @@ const HomeScreen: FC = () => {
       ),
     });
   }, [navigation]);
-
+  
   useEffect(() => {
     dispatch(getAllChatThunk({ user }));
   }, [focus]);
@@ -230,6 +237,9 @@ const HomeScreen: FC = () => {
           [{ nativeEvent: { contentOffset: { y: AnimatedHeaderValue } } }],
           { useNativeDriver: false },
         )}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
     </Container>
   );

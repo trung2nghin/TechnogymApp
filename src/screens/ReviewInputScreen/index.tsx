@@ -15,7 +15,8 @@ import { DetailStackParamList } from '@src/navigation/Stacks/detail-stack';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { CommentType } from '@src/types/comment-type';
 import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
-import { postCommentThunk } from '@src/redux/comment/commentThunk';
+import { getProductCommentThunk, postCommentThunk } from '@src/redux/comment/commentThunk';
+import { setCommentReload } from '@src/redux/comment/commentSlice';
 
 type ReviewInputScreenProp = StackNavigationProp<
   DetailStackParamList,
@@ -47,12 +48,18 @@ const ReviewInputScreen: FC = () => {
   });
 
   const onSubmit = useCallback(async (data: CommentType | any) => {
+    
     await dispatch(
       postCommentThunk({
         user: user,
         comment: data,
       }),
     );
+    dispatch(setCommentReload())
+    dispatch(getProductCommentThunk({
+      user :user,
+      productId: route.params.productId,
+    }))
 
     navgation.goBack();
   }, []);

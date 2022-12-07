@@ -20,7 +20,11 @@ const initialState: CommentState = {
 export const commentSlice = createSlice({
   name: 'comment',
   initialState,
-  reducers: {},
+  reducers: {
+    setCommentReload (state) {
+      state.commentData = []
+    }
+  },
   extraReducers(builder) {
     builder
       .addCase(getProductCommentThunk.pending, (state, action) => {
@@ -51,6 +55,6 @@ export const commentSlice = createSlice({
   },
 });
 
-export const {} = commentSlice.actions;
+export const {setCommentReload} = commentSlice.actions;
 
 export default commentSlice.reducer;
