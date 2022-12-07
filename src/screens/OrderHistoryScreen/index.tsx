@@ -15,6 +15,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
 import { getUserOrderThunk } from '@src/redux/order/orderThunk';
 
+
+const ITEM_HEIGHT = Metrics.screen.height / 5.6;
+
+
 const OrderHistoryScreen = () => {
   const user = useAppSelector(state => state.auth.userInfo);
   const order = useAppSelector(state => state.order.orderData);
@@ -29,7 +33,7 @@ const OrderHistoryScreen = () => {
       <View style={styles.card}>
         <View style={styles.item}>
           <Text style={styles.text01} numberOfLines={1}>
-            {item?._id}
+            ALN{item?._id}
           </Text>
           <View style={styles.wrap}>
             <Text style={styles.text03}>
@@ -135,8 +139,9 @@ const styles = StyleSheet.create({
   },
   card: {
     width: Metrics.screen.width,
-    height: Metrics.screen.height / 5,
-    backgroundColor: Colors.greyZircon,
+    height: ITEM_HEIGHT,
+    borderBottomWidth: 1,
+    borderColor: Colors.greyZircon,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 2,
@@ -162,7 +167,7 @@ const styles = StyleSheet.create({
   text03: {
     color: Colors.black,
     fontSize: 16,
-    fontFamily: 'NotoSans-Medium',
+    fontFamily: 'NotoSans-SemiBold',
   },
   text04: {
     color: Colors.black,
@@ -171,12 +176,12 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   btn: {
-    width: Metrics.screen.width / 3,
+    width: '40%',
     height: Metrics.screen.height / 22,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: Metrics.screen.width / 90,
+    paddingHorizontal: Metrics.screen.width / 60,
     borderWidth: 1.5,
     alignSelf: 'flex-start',
     backgroundColor: Colors.white,
