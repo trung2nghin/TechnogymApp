@@ -28,6 +28,7 @@ import { MyCart, ProductOrder } from '@src/types';
 import PaymentAPI from '@src/api/PaymentAPI';
 import { postCartThunk } from '@src/redux/cart/cartThunk';
 import { postOrderThunk } from '@src/redux/order/orderThunk';
+import Toast from 'react-native-toast-message';
 
 type ModalScreenProp = StackNavigationProp<CartStackParamList, 'MODAL_PAYMENT'>;
 
@@ -126,7 +127,12 @@ const ModalPayment: FC = () => {
         paymentIntentClientSecret: clientSecret,
         merchantDisplayName: 'Merchant Name',
       });
-      if (initSheet.error) return Alert.alert(initSheet.error.message);
+      if (initSheet.error)
+        return Toast.show({
+          type: 'error',
+          text1: 'Notification',
+          text2: initSheet.error.message,
+        });
       const presentSheet = await stripe.presentPaymentSheet({
         clientSecret,
       });
@@ -134,14 +140,18 @@ const ModalPayment: FC = () => {
       if (presentSheet.error) {
         await dispatch(postOrderThunk(requestPending));
         setModalVisible(true);
-        return Alert.alert('Cancel payment', presentSheet.error.message, [
-          { text: 'Ok' },
-        ]);
+        return Toast.show({
+          type: 'error',
+          text1: 'Notification',
+          text2: presentSheet.error.message,
+        });
       } else {
         await dispatch(postOrderThunk(request));
-        Alert.alert('Payment complete', 'Please check you order', [
-          { text: 'Ok' },
-        ]);
+        Toast.show({
+          type: 'success',
+          text1: 'Payment complete',
+          text2: 'Please check your order',
+        });
       }
       await onPostCart();
       navigation.goBack();

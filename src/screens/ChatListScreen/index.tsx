@@ -70,7 +70,7 @@ const ChatListScreen: FC = () => {
             }),
           );
 
-          setGroupChat(userList);
+          setGroupChat(userList.reverse());
         }
       };
       fetchData();
@@ -80,8 +80,6 @@ const ChatListScreen: FC = () => {
   }, [focus]);
 
   const onNavChat = useCallback((e: myInfo) => {
-    console.log('e', e);
-
     navigation.navigate('CHAT', {
       user: e,
     });
@@ -94,7 +92,7 @@ const ChatListScreen: FC = () => {
         <View style={styles.mainCard}>
           <View style={styles.infoView}>
             <Text style={styles.usernameTxt}>{item?.username}</Text>
-            <Text style={styles.msgtimeTxt}>4 mins</Text>
+            <Text style={styles.msgtimeTxt}>1 day ago</Text>
           </View>
           <Text style={styles.msgTxt}>Hello</Text>
         </View>

@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -25,6 +25,9 @@ import ProductItem from './components/ProductItem';
 import { categoryData } from './CategoryData';
 import { dummyData1 } from './dummy';
 import { RootStackParamList } from '@src/navigation';
+import ProductAPI from '@src/api/ProductAPI';
+import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
+import { getAllNewProductThunk } from '@src/redux/product/productThunk';
 
 export interface Iitem {
   name: string;
@@ -45,6 +48,9 @@ export type ShopNavigationProp = ShopScreenProp['navigation'];
 
 const ShopScreen: FC = () => {
   const navigation = useNavigation<ShopNavigationProp>();
+  const user = useAppSelector(state => state.auth.userInfo);
+  const newProduct = useAppSelector(state => state.product_new.productNew);
+  const dispatch = useAppDispatch();
   const ref = React.useRef(null);
 
   let AnimatedHeaderValue = new Animated.Value(0);
@@ -54,6 +60,11 @@ const ShopScreen: FC = () => {
     outputRange: [60, 0],
     extrapolate: 'clamp',
   });
+
+  useEffect(() => {
+    dispatch(getAllNewProductThunk(user));
+    return () => {};
+  }, []);
 
   const onNavProductCategory = useCallback((item: Iitem): void => {
     navigation.navigate('PRODUCT_CATEGORY', {
@@ -88,19 +99,19 @@ const ShopScreen: FC = () => {
             resizeMode="cover"
             style={{ flex: 1 }}
             source={{
-              uri: 'https://brand.assets.adidas.com/image/upload/f_auto,q_auto,fl_lossy/if_w_gt_1920,w_1920/viVN/Images/football-fw22-worldcup-brandcampaign-launch-glp-kickoff-masthead-d_tcm337-961931.jpg',
+              uri: 'https://www.tljus.com/wp-content/uploads/2019/11/home_topBanner.jpg"',
             }}
           />
           <View style={styles.viewBg}>
             <BackgroundItemView width={'10%'} backgroundColor={Colors.white}>
               <Ionicons name={'arrow-forward'} size={20} color={Colors.black} />
             </BackgroundItemView>
-            <BackgroundItemView width={'48%'} backgroundColor={Colors.white}>
-              <Text style={styles.txtBg}>Imposible is nothing</Text>
+            <BackgroundItemView width={'52%'} backgroundColor={Colors.white}>
+              <Text style={styles.txtBg}>Freshly Baked Everyday</Text>
             </BackgroundItemView>
-            <BackgroundItemView width={'80%'} backgroundColor={Colors.white}>
+            <BackgroundItemView width={'76%'} backgroundColor={Colors.white}>
               <Text style={styles.txtBg01}>
-                Leo is ready for World Cup 2022, what about you?
+                Offering a variety of bakery goods passionately
               </Text>
             </BackgroundItemView>
           </View>
@@ -127,7 +138,7 @@ const ShopScreen: FC = () => {
             </TouchableOpacity>
           </View>
           <FlatList
-            data={dummyData1}
+            data={newProduct}
             renderItem={ProductItem}
             horizontal
             showsHorizontalScrollIndicator={false}

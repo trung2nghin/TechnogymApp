@@ -20,7 +20,7 @@ const LoginHeader: FC<LoginHeaderProps> = ({ navigation, textContent }) => {
       </TouchableOpacity>
       <View style={styles.textWrapper}>
         <Text style={styles.headerText}>{textContent}</Text>
-        <Text style={styles.text}>Let's write down your email...</Text>
+        <Text style={styles.text}>Let's write down your infomation...</Text>
       </View>
     </View>
   );

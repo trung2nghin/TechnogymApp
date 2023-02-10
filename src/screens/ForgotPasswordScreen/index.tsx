@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Keyboard, StyleSheet, View } from 'react-native';
 import { useForm } from 'react-hook-form';
 
 import {
@@ -11,15 +11,12 @@ import {
 } from '../components';
 import { Colors, Metrics } from '@src/assets';
 import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
-import { loginThunk } from '@src/redux/auth/authThunk';
-import { loginType } from '@src/types/auth-type';
+import { forgotPasswordThunk } from '@src/redux/auth/authThunk';
+import { forgotPasswordType } from '@src/types/auth-type';
 import { setReload } from '@src/redux/auth/authSlice';
-import { useNavigation } from '@react-navigation/native';
-import { LoginStackNavigationProp } from '@src/navigation/Stacks/login-stack';
 
-const LoginInputScreen: FC<any> = ({ navigation }) => {
+const ForgotPasswordScreen: FC<any> = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const nav = useNavigation<LoginStackNavigationProp>();
   const { loading, error } = useAppSelector(state => state.auth);
 
   useEffect(() => {
@@ -37,18 +34,20 @@ const LoginInputScreen: FC<any> = ({ navigation }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      username: 'testuser',
-      password: '123456789',
+      username: '',
+      email: '',
     },
   });
 
-  const onSubmit = useCallback(async (data: loginType) => {
-    await dispatch(loginThunk(data));
+  const onSubmit = useCallback(async (data: forgotPasswordType) => {
+    Keyboard.dismiss();
+    await dispatch(forgotPasswordThunk(data));
+    navigation.goBack();
   }, []);
 
   return (
     <Container header bodyColor={Colors.white}>
-      <LoginHeader navigation={navigation} textContent={'SIGN IN'} />
+      <LoginHeader navigation={navigation} textContent={'FORGOT PASSWORD'} />
       <View style={styles.body}>
         <View style={styles.email}>
           <InputForm
@@ -68,22 +67,26 @@ const LoginInputScreen: FC<any> = ({ navigation }) => {
           />
           <InputForm
             control={control}
-            secureTextEntry={true}
+            secureTextEntry={false}
             rules={{
               maxLength: {
-                value: 20,
+                value: 200,
                 message: 'Exceeded allowed characters',
               },
               required: { value: true, message: 'Required Information' },
+              pattern: {
+                value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+                message: 'Invalid mail format',
+              },
             }}
-            name={'password'}
-            error={errors?.password?.message}
-            placeholder={'PASSWORD'}
+            name={'email'}
+            error={errors?.email?.message}
+            placeholder={'EMAIL'}
           />
         </View>
         <View style={styles.btn}>
           <LoginButton
-            textContent={'SIGN IN'}
+            textContent={'GET NEW PASSWORD'}
             backgroundColor={loading ? Colors.greyBlack : Colors.black}
             textColor={Colors.white}
             disabled={loading}
@@ -91,14 +94,6 @@ const LoginInputScreen: FC<any> = ({ navigation }) => {
             form={true}
             submit={handleSubmit(onSubmit)}
             loading={loading}
-          />
-          <LoginButton
-            textContent={'FORGOT PASSWORD'}
-            backgroundColor={Colors.white}
-            textColor={Colors.black}
-            disabled={loading}
-            icon={true}
-            navigation={() => navigation.navigate('FORGOT_PASSWORD')}
           />
         </View>
       </View>
@@ -112,7 +107,7 @@ const LoginInputScreen: FC<any> = ({ navigation }) => {
   );
 };
 
-export default LoginInputScreen;
+export default ForgotPasswordScreen;
 
 const styles = StyleSheet.create({
   body: {

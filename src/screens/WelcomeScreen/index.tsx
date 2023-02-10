@@ -47,20 +47,21 @@ const WelcomeScreen: FC<LoginStackNavigationProp> = ({ navigation }) => {
           <View style={styles.textWrap}>
             <Text style={styles.textHeaderSheet}>MEMBERS GET REWARDED</Text>
             <Text style={styles.textBodySheet}>
-              Join our adiClub membership programme to earn points, level up and
-              unlock special rewards
+              Join our BakeHouse membership programme to earn points, level up
+              and unlock special rewards
             </Text>
           </View>
           <View style={styles.textWrap}>
-            <Text style={styles.textHeaderSheet}>JOIN ADICLUB</Text>
+            <Text style={styles.textHeaderSheet}>JOIN BAKEHOUSE</Text>
             <Text style={styles.textBodySheet}>
-              Inside adiClub, there's something for everyone - from acecess to
-              limited edition sneaker drops to special event invitations and
-              more. Join for free and get immediate access to limited edition
-              sneaker drops to special event invitations and more. Join for free
-              and get immediate access to all Level 1 rewards. To unlock new
-              levels and rewards, earn points by making purchases, leaving
-              reviews, sharing photos, running and more. {'\n'}{'\n'}
+              Inside BakeHouseMember, there's something for everyone - from
+              acecess to limited edition bake drops to special event invitations
+              and more. Join for free and get immediate access to limited
+              edition bake drops to special event invitations and more. Join for
+              free and get immediate access to all Level 1 rewards. To unlock
+              new levels and rewards, earn points by making purchases, leaving
+              reviews, sharing photos, eating and more. {'\n'}
+              {'\n'}
               Already a member? Log in to check your status and get points when
               using the app.
             </Text>
@@ -78,7 +79,7 @@ const WelcomeScreen: FC<LoginStackNavigationProp> = ({ navigation }) => {
           loading={false}
         />
         <LoginButton
-          textContent={'JOIN THE CLUB'}
+          textContent={'JOIN BAKEHOUSE'}
           backgroundColor={Colors.black}
           textColor={Colors.white}
           navigation={() => navigation.navigate('REGISTER_INPUT')}

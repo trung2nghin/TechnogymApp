@@ -7,6 +7,14 @@ export const productSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
+    increaseQuantity: (state, action: PayloadAction<string>) => {
+      const product = state.findIndex(e => e.productID === action.payload);
+      state[product].quantity += 1;
+    },
+    decreaseQuantity: (state, action: PayloadAction<string>) => {
+      const product = state.findIndex(e => e.productID === action.payload);
+      state[product].quantity -= 1;
+    },
     setCart: (state, action: PayloadAction<ItemCart>) => {
       state = [...state, action.payload];
       let myState = JSON.parse(JSON.stringify(state));
@@ -34,6 +42,12 @@ export const productSlice = createSlice({
   },
 });
 
-export const { setCart, deleteCart, removeItemCart } = productSlice.actions;
+export const {
+  setCart,
+  deleteCart,
+  removeItemCart,
+  increaseQuantity,
+  decreaseQuantity,
+} = productSlice.actions;
 
 export default productSlice.reducer;

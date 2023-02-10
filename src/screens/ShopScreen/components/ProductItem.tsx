@@ -15,14 +15,14 @@ const ProductItem = ({ item, index }: { item: any; index: number }) => (
     }>
     <View style={styles.viewProduct}>
       <View style={styles.viewImage}>
-        <Image style={styles.imgProduct} source={{ uri: item.image }} />
+        <Image style={styles.imgProduct} source={{ uri: item?.img }} />
       </View>
       <View style={styles.viewInfoProduct}>
         <View style={styles.viewCost}>
-          <Text style={styles.txtCost}>{`$${item.cost}`}</Text>
+          <Text style={styles.txtCost}>{`$${item?.price}`}</Text>
         </View>
-        <Text style={styles.txtTitle}>{item.name}</Text>
-        <Text style={styles.txtType}>{item.type}</Text>
+        <Text style={styles.txtTitle}>{item?.title}</Text>
+        <Text style={styles.txtType}>{item?.categories?.[0]}</Text>
       </View>
     </View>
   </TouchableOpacity>

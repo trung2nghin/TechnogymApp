@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { userInfo } from '@src/types';
+import Toast from 'react-native-toast-message';
 import { updatePasswordThunk, updateUserThunk } from './userThunk';
 
 type UserState = {
@@ -27,9 +28,19 @@ export const userSlice = createSlice({
         state.loading = true;
       })
       .addCase(updateUserThunk.fulfilled, (state, action) => {
+        Toast.show({
+          type: 'success',
+          text1: 'Notification',
+          text2: 'Update successfully!',
+        });
         state.loading = false;
       })
       .addCase(updateUserThunk.rejected, (state, action) => {
+        Toast.show({
+          type: 'error',
+          text1: 'Notification',
+          text2: 'Update failed!',
+        });
         state.loading = false;
         state.error = action.payload;
       });

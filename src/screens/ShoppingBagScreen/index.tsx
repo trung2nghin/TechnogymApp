@@ -1,6 +1,7 @@
-import React, { FC, useCallback, useEffect, useMemo } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import {
   FlatList,
+  Image,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -9,14 +10,18 @@ import {
 import { StackScreenProps } from '@react-navigation/stack';
 import { CompositeScreenProps, useNavigation } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 
 import ProductCount from '../components/ProductCount';
 import ProductList from './components/ProductList';
 import { Colors, Metrics } from '@src/assets';
-import { useAppSelector } from '@src/hooks/useRedux';
-import { Container, Footer } from '../components';
+import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
+import { BackgroundItemView, Container, Footer } from '../components';
 import { CartStackParamList } from '@src/navigation/Stacks/cart-stack';
 import { FavoriteStackParamList } from '@src/navigation/Stacks/favorite-stack';
+import { decreaseQuantity, increaseQuantity } from '@src/redux/cart/cartSlice';
+
+const ITEM_HEIGHT = Metrics.screen.height / 5.6;
 
 export type ShoppingBagScreenProp = CompositeScreenProps<
   StackScreenProps<CartStackParamList, 'SHOPPING_BAG'>,
@@ -29,10 +34,7 @@ const ShoppingBagScreen: FC = () => {
   const navigation = useNavigation<ShoppingBagNavigationProp>();
   const user = useAppSelector(state => state.auth.userInfo);
   const cart = useAppSelector(state => state.cart);
-
-  const onNavWishList = useCallback(() => {
-    navigation.navigate('FAVORITE');
-  }, []);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     // try {
@@ -40,6 +42,10 @@ const ShoppingBagScreen: FC = () => {
     // } catch (error) {
     //   console.log('get user cart error', error);
     // }
+  }, []);
+
+  const onNavWishList = useCallback(() => {
+    navigation.navigate('FAVORITE');
   }, []);
 
   let totalPrice = useMemo(() => {
@@ -55,6 +61,59 @@ const ShoppingBagScreen: FC = () => {
       totalPrice,
     });
   }, [totalPrice]);
+
+  const ProductList = ({ item }: { item: any }) => {
+    const [quantityChange, setQuantityChange] = useState<number>(
+      item?.quantity,
+    );
+
+    const onIncrease = (productID: string) => {
+      dispatch(increaseQuantity(productID));
+    };
+
+    const onDecrease = (productID: string) => {
+      dispatch(decreaseQuantity(productID));
+    };
+
+    return (
+      <View style={styles.renderItemContainer}>
+        <View style={styles.renderItemChildContainer}>
+          <Image source={{ uri: item.img }} style={styles.img} />
+          <View style={styles.viewMainList}>
+            <Text style={styles.txtExistTitle}>{item.title}</Text>
+            <View style={{ flexDirection: 'row' }}>
+              <BackgroundItemView backgroundColor={Colors.black}>
+                <Text style={{ color: Colors.white }}>${item.price}</Text>
+              </BackgroundItemView>
+              <Text style={styles.txtQuantity}>Quantity: {quantityChange}</Text>
+            </View>
+            {/* <CartButton textButton="Save Item" /> */}
+            <View style={styles.viewQuantityChange}>
+              <TouchableOpacity
+                onPress={() => onDecrease(item?.productID)}
+                disabled={!!(item?.quantity === 1)}
+                style={styles.btnQuantity}>
+                <FeatherIcon name="minus" size={20} color={Colors.white} />
+              </TouchableOpacity>
+              <Text style={styles.txtQuantityChange}>{item?.quantity}</Text>
+              <TouchableOpacity
+                onPress={() => onIncrease(item?.productID)}
+                style={[styles.btnQuantity, { backgroundColor: Colors.white }]}>
+                <FeatherIcon name="plus" size={20} color={Colors.black} />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <TouchableOpacity style={{ alignSelf: 'center' }}>
+            <Ionicons
+              name={'ellipsis-vertical'}
+              size={24}
+              color={Colors.black}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  };
 
   return (
     <Container
@@ -94,7 +153,7 @@ const ShoppingBagScreen: FC = () => {
           <ProductCount productCount={cart.length} />
           <FlatList
             data={cart}
-            renderItem={ProductList}
+            renderItem={(props: any) => <ProductList {...props} />}
             showsVerticalScrollIndicator={false}
           />
         </View>
@@ -153,5 +212,70 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     left: 38,
+  },
+  renderItemContainer: {
+    width: Metrics.screen.width,
+    height: ITEM_HEIGHT,
+    backgroundColor: Colors.whiteSmoke,
+    borderBottomWidth: 2.5,
+    borderBottomColor: Colors.white,
+    justifyContent: 'center',
+    padding: 6,
+  },
+  viewMainList: {
+    flex: 1,
+    padding: 10,
+    justifyContent: 'space-between',
+  },
+  viewQuantityChange: {
+    width: '42%',
+    height: '32%',
+    top: 4,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 4,
+    backgroundColor: Colors.greyBlack,
+  },
+  btnQuantity: {
+    width: 24,
+    height: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.nobelGrey,
+  },
+  renderItemChildContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    // alignItems: 'center',
+    paddingRight: 10,
+  },
+  txtExistTitle: {
+    fontFamily: 'NotoSans-SemiBold',
+    fontSize: 14,
+    color: Colors.black,
+    textTransform: 'uppercase',
+    flexWrap: 'wrap',
+    width: '86%',
+    bottom: 4,
+  },
+  txtQuantity: {
+    fontFamily: 'NotoSans-Regular',
+    fontSize: 13,
+    color: Colors.grey,
+    flexWrap: 'wrap',
+    bottom: 4,
+    marginLeft: 14,
+  },
+  txtQuantityChange: {
+    fontFamily: 'NotoSans-Bold',
+    fontSize: 14,
+    color: Colors.neroGrey,
+    bottom: 2,
+  },
+  img: {
+    height: '100%',
+    width: ITEM_HEIGHT - 12,
   },
 });

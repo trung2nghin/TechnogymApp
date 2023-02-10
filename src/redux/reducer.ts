@@ -2,6 +2,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 
 import authReducer from './auth/authSlice';
 import productReducer from './product/productSlice';
+import productNewReducer from './product/productNewSlice';
 import categoryProductReducer from './product/categoryProductSlice';
 import recentReducer from './recent/recentSlice';
 import favoriteReducer from './favorite/favoriteSlice';
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   user: userReducer,
   product: productReducer,
+  product_new: productNewReducer,
   category_product: categoryProductReducer,
   favorite: favoriteReducer,
   recent: recentReducer,

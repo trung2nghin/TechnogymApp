@@ -11,7 +11,7 @@ const ProductCount: FC<Props> = ({ productCount, isOrder }) => {
   return (
     <View style={styles.viewProduct}>
       <Text style={styles.txtProduct}>
-        {productCount} {isOrder ? 'Order' : 'product'}
+        {productCount} {isOrder ? 'Orders' : 'product'}
       </Text>
     </View>
   );

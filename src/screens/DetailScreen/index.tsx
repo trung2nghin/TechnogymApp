@@ -35,6 +35,7 @@ import { DetailStackParamList } from '@src/navigation/Stacks/detail-stack';
 import ListImage from './components/ListImage';
 import Loading from '../components/Loading';
 import { getProductCommentThunk } from '@src/redux/comment/commentThunk';
+import { getUserIdFavorite } from '@src/redux/favorite/favoriteSlice';
 
 export type DetailScreenProp = CompositeScreenProps<
   StackScreenProps<DetailStackParamList, 'DETAIL'>,
@@ -104,6 +105,7 @@ const DetailScreen: FC = () => {
     };
     await dispatch(favoriteProductThunk(payload));
     await dispatch(getAllFavoriteProductThunk(user));
+    dispatch(getUserIdFavorite(user?.myInfo?._id));
   }, []);
 
   const onAddToBag = useCallback(() => {
@@ -128,14 +130,17 @@ const DetailScreen: FC = () => {
   }, []);
 
   return (
-    <Container header>
+    <Container header bodyColor={Colors.white}>
       <ListImage image={route?.params?.item?.img} />
       <TouchableOpacity onPress={onNavGoBack} style={styles.btnClose}>
         <Ionicons name={'close'} size={32} color={Colors.black} />
       </TouchableOpacity>
       <BottomSheet
         index={0}
-        backgroundStyle={{ backgroundColor: Colors.white, borderRadius: 0 }}
+        backgroundStyle={{
+          backgroundColor: Colors.greyZircon,
+          borderRadius: 0,
+        }}
         snapPoints={[
           Metrics.screen.height - ITEM_HEIGHT,
           Metrics.screen.height - 60,
@@ -268,7 +273,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   btmScrollView: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.greyZircon,
   },
   viewBtm: {
     width: Metrics.screen.width,

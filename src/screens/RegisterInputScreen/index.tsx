@@ -36,9 +36,9 @@ const RegisterInputScreen: FC<any> = ({ navigation }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      username: 'testuser1',
-      email: 'testuser1@gmail.com',
-      password: '123456',
+      username: '',
+      email: '',
+      password: '',
     },
   });
 
@@ -63,7 +63,7 @@ const RegisterInputScreen: FC<any> = ({ navigation }) => {
             }}
             name={'username'}
             error={errors?.username?.message}
-            placeholder={'NAME'}
+            placeholder={'USERNAME'}
             autofocus={true}
           />
           <InputForm

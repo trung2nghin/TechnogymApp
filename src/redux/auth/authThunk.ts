@@ -1,7 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import AuthAPI from '@src/api/AuthAPI';
-import { loginType, registerType } from '@src/types/auth-type';
+import {
+  forgotPasswordType,
+  loginType,
+  registerType,
+} from '@src/types/auth-type';
 import { userInfo } from '@src/types';
 
 export const loginThunk = createAsyncThunk(
@@ -30,6 +34,19 @@ export const registerThunk = createAsyncThunk(
   },
 );
 
+export const forgotPasswordThunk = createAsyncThunk(
+  'forgotPassword/postForgotPassword',
+  async (payload: forgotPasswordType, thunkApi) => {
+    try {
+      const response = await AuthAPI.requestForgotPassword(payload);
+      return response.data;
+    } catch (error: any) {
+      const message = error.message;
+      return thunkApi.rejectWithValue(message);
+    }
+  },
+);
+
 export const logoutThunk = createAsyncThunk(
   'logout/postLogout',
   async (payload: userInfo | null, thunkApi) => {
@@ -38,6 +55,8 @@ export const logoutThunk = createAsyncThunk(
       return response.data;
     } catch (error: any) {
       const message = error.message;
+      console.log('message', error.config.headers['token']);
+
       return thunkApi.rejectWithValue(message);
     }
   },

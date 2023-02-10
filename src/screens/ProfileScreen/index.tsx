@@ -18,6 +18,7 @@ import { userInfo } from '@src/types';
 import { ProfileDummy } from './ProfileDummy';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ProfileStackParamList } from '@src/navigation/Stacks/profile-stack';
+import { deleteCart } from '@src/redux/cart/cartSlice';
 
 type ProfileScreenProp = StackNavigationProp<
   ProfileStackParamList,
@@ -34,6 +35,7 @@ const ProfileScreen: FC = () => {
 
   const onNavSignout = useCallback(async () => {
     try {
+      dispatch(deleteCart());
       await dispatch(logoutThunk(user));
     } catch (error: any) {
       const data = String(error.config.headers['token'].slice(7));
@@ -42,6 +44,7 @@ const ProfileScreen: FC = () => {
         accessToken: data,
       };
       user = newUser;
+      dispatch(deleteCart());
       await dispatch(logoutThunk(user));
     }
   }, [dispatch]);

@@ -1,8 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { userInfo } from '@src/types';
+import Toast from 'react-native-toast-message';
 import { getUserThunk } from '../user/userThunk';
-import { loginThunk, logoutThunk, registerThunk } from './authThunk';
+import {
+  forgotPasswordThunk,
+  loginThunk,
+  logoutThunk,
+  registerThunk,
+} from './authThunk';
 
 type LoginState = {
   loading?: boolean;
@@ -70,11 +76,46 @@ export const authSlice = createSlice({
       .addCase(
         registerThunk.fulfilled,
         (state, action: PayloadAction<userInfo>) => {
+          Toast.show({
+            type: 'success',
+            text1: 'Notification',
+            text2: 'Register successfully now you can login!',
+          });
           state.loading = false;
           state.userInfo = action.payload;
         },
       )
       .addCase(registerThunk.rejected, (state, action) => {
+        Toast.show({
+          type: 'error',
+          text1: 'Notification',
+          text2: 'Fail to register!',
+        });
+        state.loading = false;
+        state.error = action.payload;
+      });
+    builder
+      .addCase(forgotPasswordThunk.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(
+        forgotPasswordThunk.fulfilled,
+        (state, action: PayloadAction<userInfo>) => {
+          Toast.show({
+            type: 'success',
+            text1: 'Notification',
+            text2: 'Please check the new password in email',
+          });
+          state.loading = false;
+          state.userInfo = action.payload;
+        },
+      )
+      .addCase(forgotPasswordThunk.rejected, (state, action) => {
+        Toast.show({
+          type: 'error',
+          text1: 'Notification',
+          text2: 'Fail reset password!',
+        });
         state.loading = false;
         state.error = action.payload;
       });

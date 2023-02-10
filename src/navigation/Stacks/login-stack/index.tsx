@@ -7,11 +7,13 @@ import {
   LoginInputScreen,
   RegisterInputScreen,
   WelcomeScreen,
+  ForgotPasswordScreen,
 } from '@src/screens';
 
 export type LoginStackParamList = {
   WELCOME: undefined;
   LOGIN_INPUT: undefined;
+  FORGOT_PASSWORD: undefined;
   REGISTER_INPUT: undefined;
 };
 
@@ -26,6 +28,7 @@ const LoginStack = () => (
     }}>
     <Stack.Screen component={WelcomeScreen} name={'WELCOME'} />
     <Stack.Screen component={LoginInputScreen} name={'LOGIN_INPUT'} />
+    <Stack.Screen component={ForgotPasswordScreen} name={'FORGOT_PASSWORD'} />
     <Stack.Screen component={RegisterInputScreen} name={'REGISTER_INPUT'} />
   </Stack.Navigator>
 );

@@ -2,6 +2,7 @@
 export { default as WelcomeScreen } from './WelcomeScreen';
 export { default as LoginInputScreen } from './LoginInputScreen';
 export { default as RegisterInputScreen } from './RegisterInputScreen';
+export { default as ForgotPasswordScreen } from './ForgotPasswordScreen';
 
 /*##### BOTTOM TAB STACK #####*/
 
@@ -11,8 +12,6 @@ export { default as ChatListScreen } from './ChatListScreen';
 export { default as ChatScreen } from './ChatScreen';
 export { default as NewScreen } from './NewScreen';
 
-export { default as NewScreen } from './NewScreen'
- 
 /*##### BAG STACK #####*/
 export { default as ShoppingBagScreen } from './ShoppingBagScreen';
 export { default as ModalPaymentScreen } from './ShoppingBagScreen/components/ModalPayment';

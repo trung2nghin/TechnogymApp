@@ -8,3 +8,8 @@ export interface registerType {
   password: string;
   email: string;
 }
+
+export interface forgotPasswordType {
+  username: string;
+  email: string;
+}

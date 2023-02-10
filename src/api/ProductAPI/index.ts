@@ -12,6 +12,15 @@ const ProductAPI = {
     });
   },
 
+  async requestGetAllNewProduct(payload: userInfo | null) {
+    return await AxiosClient(`product?new=true`, {
+      method: 'GET',
+      headers: {
+        token: `Bearer ${payload?.accessToken}`,
+      },
+    });
+  },
+
   async requestGetProduct({
     user,
     category,

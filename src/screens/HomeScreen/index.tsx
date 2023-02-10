@@ -8,7 +8,7 @@ import {
   Text,
   View,
   TouchableOpacity,
-  RefreshControl
+  RefreshControl,
 } from 'react-native';
 import {
   CompositeScreenProps,
@@ -24,9 +24,7 @@ import NextButton from './components/NextButton';
 import { BackgroundItemView, Container, SearchBar } from '../components';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
-import {
-  getAllChatThunk,
-} from '@src/redux/chat/chatThunk';
+import { getAllChatThunk } from '@src/redux/chat/chatThunk';
 import ChatAPI from '@src/api/ChatAPI';
 import { homeThunk } from '@src/redux/home/homeThunk';
 import { setNewDataReload } from '@src/redux/home/homeSlice';
@@ -87,7 +85,6 @@ const HomeScreen: FC = () => {
     setRefreshing(false);
   }, []);
 
-
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -97,7 +94,7 @@ const HomeScreen: FC = () => {
       ),
     });
   }, [navigation]);
-  
+
   useEffect(() => {
     dispatch(getAllChatThunk({ user }));
   }, [focus]);
@@ -119,7 +116,7 @@ const HomeScreen: FC = () => {
     ) {
       const newConversation = {
         senderId: user?.myInfo?._id,
-        receiverId: '638ba0847fc306f5e82b1074',
+        receiverId: '631aeee995ef8367484c3f27',
       };
       const conversationResponse = await ChatAPI.requestPostConversation({
         user: user,

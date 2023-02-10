@@ -8,7 +8,7 @@ export const homeThunk = createAsyncThunk(
     try {
       const response = await HomeAPI.requestGetAllNew();
       return response.data;
-    } catch (error:any) {
+    } catch (error: any) {
       const message = error.message;
       return thunkApi.rejectWithValue(message);
     }

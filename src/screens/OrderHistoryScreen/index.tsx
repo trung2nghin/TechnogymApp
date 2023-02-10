@@ -1,6 +1,13 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import React, { useEffect } from 'react';
-import { Container, Header } from '../components';
+import { Container, Header, ProductCount } from '../components';
 import { Colors, Metrics } from '@src/assets';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
@@ -12,9 +19,8 @@ const OrderHistoryScreen = () => {
   const user = useAppSelector(state => state.auth.userInfo);
   const order = useAppSelector(state => state.order.orderData);
   const dispatch = useAppDispatch();
-  
-  const orderReverse  = [...order].reverse()
 
+  const orderReverse = [...order].reverse();
 
   useEffect(() => {
     dispatch(getUserOrderThunk({ user }));
@@ -23,23 +29,42 @@ const OrderHistoryScreen = () => {
   const renderItem = ({ item }: { item: any }) => {
     return (
       <TouchableOpacity style={styles.card}>
+        <View style={{ flexDirection: 'row' }}>
+          {item?.products.map((e: any) => (
+            <Image
+              key={e?._id}
+              source={{ uri: e?.productID?.img }}
+              style={{ width: 40, height: 40, marginRight: 6 }}
+            />
+          ))}
+        </View>
         <View style={styles.item}>
-          <Text style={styles.text01} numberOfLines={1}>
+          {/* <Text style={styles.text01} numberOfLines={1}>
             Tracking ID: ALN{item?._id}
-          </Text>
+          </Text> */}
           <View style={styles.wrap}>
-            <Text style={styles.text02}>
-              Ordered: {new Date(item?.createdAt).toISOString().split('T')[0]}
-            </Text>
-
-            <Text style={styles.text02}>
-              {' |'} {item?.products.length} ITEMS
-            </Text>
-            <Text style={styles.text02}>
-              {' | '} $ {item?.amount}
+            <View style={[styles.viewWrap, { marginRight: 6 }]}>
+              <Text style={styles.text02}>
+                {new Date(item?.createdAt).toISOString().split('T')[0]}
+              </Text>
+            </View>
+            <View style={styles.viewWrap}>
+              <Text style={styles.text02}>${item?.amount}</Text>
+            </View>
+          </View>
+          <View style={[styles.viewWrap, styles.viewWrapSE]}>
+            <Text
+              style={[
+                styles.text02,
+                {
+                  color: Colors.black,
+                  textTransform: 'uppercase',
+                  fontFamily: 'NotoSans-SemiBold',
+                },
+              ]}>
+              PAYMENT {item?.status}
             </Text>
           </View>
-          <Text style={styles.text02}>Payment Status: {item?.status}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -50,12 +75,13 @@ const OrderHistoryScreen = () => {
       header={
         <Header
           icon="arrow-back-outline"
-          textIcon={`Total order: ${order?.length}`}
+          textIcon={`Order history`}
           iconSize={24}
           icColor={Colors.black}
         />
       }
       bodyColor={Colors.white}>
+      <ProductCount isOrder productCount={order?.length} />
       <FlatList
         data={orderReverse}
         renderItem={renderItem}
@@ -115,13 +141,16 @@ const styles = StyleSheet.create({
     marginBottom: Metrics.screen.height / 90,
   },
   card: {
-    width: '92%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderBottomWidth: 1,
+    width: '100%',
+    height: Metrics.screen.height / 5.6,
+    backgroundColor: Colors.greyZircon,
+    justifyContent: 'space-around',
     alignSelf: 'center',
-    borderColor: Colors.black,
-    padding: 10,
+    borderBottomWidth: 0.5,
+    borderColor: Colors.white,
+    paddingHorizontal: 24,
+    paddingVertical: 10,
+    marginBottom: 1,
   },
   item: {
     width: '95%',
@@ -131,14 +160,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   text01: {
-    fontFamily: 'NotoSans-Bold',
+    fontFamily: 'NotoSans-SemiBold',
     color: Colors.black,
     fontSize: 20,
     width: Metrics.screen.width / 1.8,
   },
   text02: {
-    color: Colors.black,
-    fontSize: 16,
+    color: Colors.white,
     fontFamily: 'NotoSans-SemiBold',
   },
   text04: {
@@ -168,6 +196,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 10,
     marginTop: Metrics.screen.height / 50,
+  },
+  viewWrap: {
+    backgroundColor: Colors.black,
+    paddingHorizontal: 6,
+    paddingBottom: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  viewWrapSE: {
+    backgroundColor: Colors.white,
+    marginTop: 6,
+    width: '52%',
+    borderWidth: 1,
+    borderColor: Colors.black,
   },
   oval: {
     width: Metrics.screen.height / 22,

@@ -20,7 +20,7 @@ const NewScreen: FC<NewScreenProps> = ({ navigation }) => {
   const data = params.item;
 
   return (
-    <Container header>
+    <Container header bodyColor={Colors.white}>
       <ScrollView>
         <Image
           style={styles.headerImage}

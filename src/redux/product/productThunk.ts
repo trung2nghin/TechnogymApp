@@ -16,6 +16,19 @@ export const getAllProductThunk = createAsyncThunk(
   },
 );
 
+export const getAllNewProductThunk = createAsyncThunk(
+  'allNewProduct/getAllNewProduct',
+  async (payload: userInfo | null, thunkApi) => {
+    try {
+      const response = await ProductAPI.requestGetAllNewProduct(payload);
+      return response.data;
+    } catch (error: any) {
+      const message = error.message;
+      return thunkApi.rejectWithValue(message);
+    }
+  },
+);
+
 export const getProductThunk = createAsyncThunk(
   'product/getProduct',
   async (

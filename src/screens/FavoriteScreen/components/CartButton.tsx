@@ -35,7 +35,7 @@ const CartButton: FC<Props> = ({ textButton, onPress, item }) => {
       productID: item._id,
       user: user,
     };
-    await dispatch(favoriteProductThunk(payload));
+    // await dispatch(favoriteProductThunk(payload));
     dispatch(setCart(bagState));
     await dispatch(getAllFavoriteProductThunk(user));
     dispatch(getUserIdFavorite(user?.myInfo?._id));
