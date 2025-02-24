@@ -6,16 +6,15 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Container, Header, ProductCount } from '../components';
 import { Colors, Metrics } from '@src/assets';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
 import { useAppDispatch, useAppSelector } from '@src/hooks/useRedux';
 import { getUserOrderThunk } from '@src/redux/order/orderThunk';
-import { orderBy } from 'lodash';
 
-const OrderHistoryScreen = () => {
+const OrderHistoryScreen: FC = () => {
   const user = useAppSelector(state => state.auth.userInfo);
   const order = useAppSelector(state => state.order.orderData);
   const dispatch = useAppDispatch();

@@ -2,7 +2,7 @@ import axios from 'axios';
 import queryString from 'query-string';
 
 const AxiosClient = axios.create({
-  baseURL: 'http://172.20.10.7:8000/v1/',
+  baseURL: 'http://192.168.1.44:8000/v1/',
   responseType: 'json',
   timeout: 5000,
   paramsSerializer: params => queryString.stringify(params),

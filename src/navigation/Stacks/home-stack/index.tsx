@@ -15,7 +15,7 @@ export type HomeStackParamList = {
   // CHAT: {
   //   user: myInfo;
   // };
-  NEW: {item: homeType};
+  // NEW: {item: homeType};
 };
 
 export type HomeStackNavigationProp = StackScreenProps<HomeStackParamList>;
